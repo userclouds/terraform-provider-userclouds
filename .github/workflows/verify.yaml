@@ -1,0 +1,30 @@
+name: Verify
+on:
+  push:
+    branches:
+      - master
+  pull_request: {}
+concurrency:
+      group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+      cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+      - name: Setup Go environment
+        uses: ./.github/actions/go-setup
+      - name: Codegen
+        run: |
+          make codegen
+          RES=$(git status --porcelain)
+          if [ -n "$RES" ]; then
+            echo "ERROR: running codegen changed something"
+            echo "$RES"
+            exit 1
+          fi
+      - name: Build
+        run: |
+          make build

@@ -1,0 +1,2078 @@
+openapi: 3.0.3
+info:
+  description: User Store OpenAPI Spec
+  title: User Store
+  version: 1.0.0
+paths:
+  /userstore/api/accessors:
+    post:
+      description: This endpoint executes a specified accessor (custom read API).
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdpExecuteAccessorRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpExecuteAccessorResponse'
+          description: OK
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      summary: Execute Accessor
+      tags:
+      - Accessors
+  /userstore/api/mutators:
+    post:
+      description: This endpoint executes a specified mutator (custom write API).
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdpExecuteMutatorRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpExecuteMutatorResponse'
+          description: OK
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      summary: Execute Mutator
+      tags:
+      - Mutators
+  /userstore/config/accessors:
+    get:
+      description: This endpoint lists all accessors in a tenant.
+      parameters:
+      - description: A cursor value after which the returned list will start
+        in: query
+        name: starting_after
+        schema:
+          description: A cursor value after which the returned list will start
+          nullable: true
+          type: string
+      - description: A cursor value before which the returned list will end
+        in: query
+        name: ending_before
+        schema:
+          description: A cursor value before which the returned list will end
+          nullable: true
+          type: string
+      - description: The maximum number of results to be returned per page
+        in: query
+        name: limit
+        schema:
+          description: The maximum number of results to be returned per page
+          nullable: true
+          type: string
+      - description: A filter clause to use in the pagination query
+        in: query
+        name: filter
+        schema:
+          description: A filter clause to use in the pagination query
+          nullable: true
+          type: string
+      - description: The field(s) used to sort the results
+        in: query
+        name: sort_key
+        schema:
+          description: The field(s) used to sort the results
+          nullable: true
+          type: string
+      - description: The sort order for each field (ascending or descending)
+        in: query
+        name: sort_order
+        schema:
+          description: The sort order for each field (ascending or descending)
+          nullable: true
+          type: string
+      - description: The version of the API to be called
+        in: query
+        name: version
+        schema:
+          description: The version of the API to be called
+          nullable: true
+          type: string
+      - description: Optional - if versioned is true, endpoint will return all versions
+          of each accessor in the response. Otherwise, only the latest version of
+          each accessor will be returned.
+        in: query
+        name: versioned
+        schema:
+          description: Optional - if versioned is true, endpoint will return all versions
+            of each accessor in the response. Otherwise, only the latest version of
+            each accessor will be returned.
+          nullable: true
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpListAccessorsResponse'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: List Accessors
+      tags:
+      - Accessors
+    post:
+      description: This endpoint creates an accessor - a custom read API.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdpCreateAccessorRequest'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserstoreAccessor'
+          description: Created
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create Accessor
+      tags:
+      - Accessors
+  /userstore/config/accessors/{id}:
+    delete:
+      description: This endpoint deletes an accessor by ID.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "204":
+          description: No Content
+        "500":
+          description: Internal Server Error
+      summary: Delete Accessor
+      tags:
+      - Accessors
+    get:
+      description: This endpoint gets an existing accessor's configuration by ID.
+      parameters:
+      - description: Optional - if not specified, the latest accessor will be returned
+        in: query
+        name: accessor_version
+        schema:
+          description: Optional - if not specified, the latest accessor will be returned
+          nullable: true
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserstoreAccessor'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get Accessor
+      tags:
+      - Accessors
+    put:
+      description: This endpoint updates a specified accessor.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreUpdateAccessorRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserstoreAccessor'
+          description: OK
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+        "500":
+          description: Internal Server Error
+      summary: Update Accessor
+      tags:
+      - Accessors
+  /userstore/config/columns:
+    get:
+      description: This endpoint returns a paginated list of all columns in a tenant.
+      parameters:
+      - description: A cursor value after which the returned list will start
+        in: query
+        name: starting_after
+        schema:
+          description: A cursor value after which the returned list will start
+          nullable: true
+          type: string
+      - description: A cursor value before which the returned list will end
+        in: query
+        name: ending_before
+        schema:
+          description: A cursor value before which the returned list will end
+          nullable: true
+          type: string
+      - description: The maximum number of results to be returned per page
+        in: query
+        name: limit
+        schema:
+          description: The maximum number of results to be returned per page
+          nullable: true
+          type: string
+      - description: A filter clause to use in the pagination query
+        in: query
+        name: filter
+        schema:
+          description: A filter clause to use in the pagination query
+          nullable: true
+          type: string
+      - description: The field(s) used to sort the results
+        in: query
+        name: sort_key
+        schema:
+          description: The field(s) used to sort the results
+          nullable: true
+          type: string
+      - description: The sort order for each field (ascending or descending)
+        in: query
+        name: sort_order
+        schema:
+          description: The sort order for each field (ascending or descending)
+          nullable: true
+          type: string
+      - description: The version of the API to be called
+        in: query
+        name: version
+        schema:
+          description: The version of the API to be called
+          nullable: true
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpListColumnsResponse'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: List Columns
+      tags:
+      - Columns
+    post:
+      description: This endpoint creates a new column.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdpCreateColumnRequest'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserstoreColumn'
+          description: Created
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create Column
+      tags:
+      - Columns
+  /userstore/config/columns/{id}:
+    delete:
+      description: This endpoint deletes a column by ID. Note that deleting the column
+        doesn't result in data deletion - it just results in the data being immediately
+        unavailable. To delete the data stored in the column, you need to trigger
+        the garbage collection process on the column which will remove the data after
+        a configurable retention period.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "204":
+          description: No Content
+        "500":
+          description: Internal Server Error
+      summary: Delete Column
+      tags:
+      - Columns
+    get:
+      description: This endpoint gets a column's configuration by ID.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserstoreColumn'
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: Get Column
+      tags:
+      - Columns
+    put:
+      description: This endpoint updates a specified column. Some column characteristics
+        cannot be changed in an Update operation, once the column contains data. A
+        column update may invalidate the accessors defined for it.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreUpdateColumnRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserstoreColumn'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Update Column
+      tags:
+      - Columns
+  /userstore/config/columns/{id}/postdeleteretentiondurations:
+    get:
+      description: This endpoint gets the default PostDelete ColumnRetentionDurations
+        for a tenant column.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDurationsResponse'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+        "501":
+          description: Not Implemented
+      summary: Get PostDelete ColumnRetentionDurations for Column
+      tags:
+      - ColumnRetentionDurations
+    post:
+      description: This endpoint updates all specified PostDelete ColumnRetentionDurations
+        for a tenant column.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreUpdateColumnRetentionDurationsRequest'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDurationsResponse'
+          description: Created
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+        "501":
+          description: Not Implemented
+      summary: Update PostDelete ColumnRetentionDurations for Column
+      tags:
+      - ColumnRetentionDurations
+  /userstore/config/columns/{id}/postdeleteretentiondurations/{id2}:
+    delete:
+      description: This endpoint deletes a specific PostDelete ColumnRetentionDuration
+        for a tenant column.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      - in: path
+        name: id2
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Delete PostDelete ColumnRetentionDuration for Column
+      tags:
+      - ColumnRetentionDurations
+    get:
+      description: This endpoint gets a specific PostDelete ColumnRetentionDuration
+        for a tenant column.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      - in: path
+        name: id2
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Get PostDelete ColumnRetentionDuration for Column
+      tags:
+      - ColumnRetentionDurations
+    put:
+      description: This endpoint updates a specific PostDelete ColumnRetentionDuration
+        for a tenant column.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      - in: path
+        name: id2
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreColumnRetentionDuration'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Update PostDelete ColumnRetentionDuration for Column
+      tags:
+      - ColumnRetentionDurations
+  /userstore/config/columns/{id}/predeleteretentiondurations:
+    get:
+      description: This endpoint gets the default PreDelete ColumnRetentionDurations
+        for a tenant column.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDurationsResponse'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+        "501":
+          description: Not Implemented
+      summary: Get Default PreDelete ColumnRetentionDurations for Column
+      tags:
+      - ColumnRetentionDurations
+    post:
+      description: This endpoint updates all specified PreDelete ColumnRetentionDurations
+        for a tenant column.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreUpdateColumnRetentionDurationsRequestType2'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDurationsResponse'
+          description: Created
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+        "501":
+          description: Not Implemented
+      summary: Update PreDelete ColumnRetentionDurations for Column
+      tags:
+      - ColumnRetentionDurations
+  /userstore/config/columns/{id}/predeleteretentiondurations/{id2}:
+    delete:
+      description: This endpoint deletes a specific PreDelete ColumnRetentionDuration
+        for a tenant column.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      - in: path
+        name: id2
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Delete PreDelete ColumnRetentionDuration for Column
+      tags:
+      - ColumnRetentionDurations
+    get:
+      description: This endpoint gets a specific PreDelete ColumnRetentionDuration
+        for a tenant column.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      - in: path
+        name: id2
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Get PreDelete ColumnRetentionDuration for Column
+      tags:
+      - ColumnRetentionDurations
+    put:
+      description: This endpoint updates a specific PreDelete ColumnRetentionDuration
+        for a tenant column.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      - in: path
+        name: id2
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreColumnRetentionDurationType2'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Update PreDelete ColumnRetentionDuration for Column
+      tags:
+      - ColumnRetentionDurations
+  /userstore/config/mutators:
+    get:
+      description: This endpoint lists all mutators in a tenant.
+      parameters:
+      - description: A cursor value after which the returned list will start
+        in: query
+        name: starting_after
+        schema:
+          description: A cursor value after which the returned list will start
+          nullable: true
+          type: string
+      - description: A cursor value before which the returned list will end
+        in: query
+        name: ending_before
+        schema:
+          description: A cursor value before which the returned list will end
+          nullable: true
+          type: string
+      - description: The maximum number of results to be returned per page
+        in: query
+        name: limit
+        schema:
+          description: The maximum number of results to be returned per page
+          nullable: true
+          type: string
+      - description: A filter clause to use in the pagination query
+        in: query
+        name: filter
+        schema:
+          description: A filter clause to use in the pagination query
+          nullable: true
+          type: string
+      - description: The field(s) used to sort the results
+        in: query
+        name: sort_key
+        schema:
+          description: The field(s) used to sort the results
+          nullable: true
+          type: string
+      - description: The sort order for each field (ascending or descending)
+        in: query
+        name: sort_order
+        schema:
+          description: The sort order for each field (ascending or descending)
+          nullable: true
+          type: string
+      - description: The version of the API to be called
+        in: query
+        name: version
+        schema:
+          description: The version of the API to be called
+          nullable: true
+          type: string
+      - description: Optional - if versioned is true, endpoint will return all versions
+          of each mutator in the response. Otherwise, only the latest version of each
+          mutator will be returned.
+        in: query
+        name: versioned
+        schema:
+          description: Optional - if versioned is true, endpoint will return all versions
+            of each mutator in the response. Otherwise, only the latest version of
+            each mutator will be returned.
+          nullable: true
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpListMutatorsResponse'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: List Mutators
+      tags:
+      - Mutators
+    post:
+      description: This endpoint creates a mutator.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdpCreateMutatorRequest'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserstoreMutator'
+          description: Created
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create Mutator
+      tags:
+      - Mutators
+  /userstore/config/mutators/{id}:
+    delete:
+      description: This endpoint deletes a mutator by ID.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Delete Mutator
+      tags:
+      - Mutators
+    get:
+      description: This endpoint gets a mutator by ID.
+      parameters:
+      - description: Optional - if not specified, the latest mutator will be returned
+        in: query
+        name: mutator_version
+        schema:
+          description: Optional - if not specified, the latest mutator will be returned
+          nullable: true
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserstoreMutator'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get Mutator
+      tags:
+      - Mutators
+    put:
+      description: This endpoint updates a specified mutator.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreUpdateMutatorRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserstoreMutator'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Update Mutator
+      tags:
+      - Mutators
+  /userstore/config/postdeleteretentiondurations:
+    get:
+      description: This endpoint gets the default PostDelete ColumnRetentionDuration
+        for a tenant.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Get Default PreDelete ColumnRetentionDuration for Tenant
+      tags:
+      - ColumnRetentionDurations
+    post:
+      description: This endpoint creates a PostDelete ColumnRetentionDuration for
+        a tenant.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdpColumnRetentionDuration'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Create PostDelete ColumnRetentionDuration for Tenant
+      tags:
+      - ColumnRetentionDurations
+  /userstore/config/postdeleteretentiondurations/{id}:
+    delete:
+      description: This endpoint deletes a specific PostDelete ColumnRetentionDuration
+        for a tenant.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Delete PreDelete ColumnRetentionDuration for Tenant
+      tags:
+      - ColumnRetentionDurations
+    get:
+      description: This endpoint gets a specific PostDelete ColumnRetentionDuration
+        for a tenant.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Get PreDelete ColumnRetentionDuration for Tenant
+      tags:
+      - ColumnRetentionDurations
+    put:
+      description: This endpoint updates a specific PostDelete ColumnRetentionDuration
+        for a tenant.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreColumnRetentionDurationType3'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Update PostDelete ColumnRetentionDuration for Tenant
+      tags:
+      - ColumnRetentionDurations
+  /userstore/config/predeleteretentiondurations:
+    get:
+      description: This endpoint gets the default PreDelete ColumnRetentionDuration
+        for a tenant.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Get Default PreDelete ColumnRetentionDuration for Tenant
+      tags:
+      - ColumnRetentionDurations
+    post:
+      description: This endpoint creates a PreDelete ColumnRetentionDuration for a
+        tenant.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdpColumnRetentionDuration'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Create PreDelete ColumnRetentionDuration for Tenant
+      tags:
+      - ColumnRetentionDurations
+  /userstore/config/predeleteretentiondurations/{id}:
+    delete:
+      description: This endpoint deletes a specific PreDelete ColumnRetentionDuration
+        for a tenant.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Delete PreDelete ColumnRetentionDuration for Tenant
+      tags:
+      - ColumnRetentionDurations
+    get:
+      description: This endpoint gets a specific PreDelete ColumnRetentionDuration
+        for a tenant.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Get PreDelete ColumnRetentionDuration for Tenant
+      tags:
+      - ColumnRetentionDurations
+    put:
+      description: This endpoint updates a specific PreDelete ColumnRetentionDuration
+        for a tenant.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreColumnRetentionDurationType4'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Update PreDelete ColumnRetentionDuration for Tenant
+      tags:
+      - ColumnRetentionDurations
+  /userstore/config/purposes:
+    get:
+      description: This endpoint returns a paginated list of all purposes in a tenant.
+      parameters:
+      - description: A cursor value after which the returned list will start
+        in: query
+        name: starting_after
+        schema:
+          description: A cursor value after which the returned list will start
+          nullable: true
+          type: string
+      - description: A cursor value before which the returned list will end
+        in: query
+        name: ending_before
+        schema:
+          description: A cursor value before which the returned list will end
+          nullable: true
+          type: string
+      - description: The maximum number of results to be returned per page
+        in: query
+        name: limit
+        schema:
+          description: The maximum number of results to be returned per page
+          nullable: true
+          type: string
+      - description: A filter clause to use in the pagination query
+        in: query
+        name: filter
+        schema:
+          description: A filter clause to use in the pagination query
+          nullable: true
+          type: string
+      - description: The field(s) used to sort the results
+        in: query
+        name: sort_key
+        schema:
+          description: The field(s) used to sort the results
+          nullable: true
+          type: string
+      - description: The sort order for each field (ascending or descending)
+        in: query
+        name: sort_order
+        schema:
+          description: The sort order for each field (ascending or descending)
+          nullable: true
+          type: string
+      - description: The version of the API to be called
+        in: query
+        name: version
+        schema:
+          description: The version of the API to be called
+          nullable: true
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpListPurposesResponse'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: List Purposes
+      tags:
+      - Purposes
+    post:
+      description: This endpoint creates a purpose.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdpCreatePurposeRequest'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserstorePurpose'
+          description: Created
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+        "500":
+          description: Internal Server Error
+      summary: Create Purpose
+      tags:
+      - Purposes
+  /userstore/config/purposes/{id}:
+    delete:
+      description: This endpoint deletes a purpose by ID.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Delete Purpose
+      tags:
+      - Purposes
+    get:
+      description: This endpoint gets a purpose by ID.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserstorePurpose'
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: Get Purpose
+      tags:
+      - Purposes
+    put:
+      description: This endpoint updates a specified purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreUpdatePurposeRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserstorePurpose'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Update Purpose
+      tags:
+      - Purposes
+  /userstore/config/purposes/{id}/postdeleteretentiondurations:
+    get:
+      description: This endpoint gets the default PostDelete ColumnRetentionDuration
+        for a tenant purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Get Default PostDelete ColumnRetentionDuration for Purpose
+      tags:
+      - ColumnRetentionDurations
+    post:
+      description: This endpoint creates a PostDelete ColumnRetentionDuration for
+        a tenant purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreColumnRetentionDurationType5'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Create PostDelete ColumnRetentionDuration for Purpose
+      tags:
+      - ColumnRetentionDurations
+  /userstore/config/purposes/{id}/postdeleteretentiondurations/{id2}:
+    delete:
+      description: This endpoint deletes a specific PostDelete ColumnRetentionDuration
+        for a tenant purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      - in: path
+        name: id2
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Delete PostDelete ColumnRetentionDuration for Purpose
+      tags:
+      - ColumnRetentionDurations
+    get:
+      description: This endpoint gets a specific PostDelete ColumnRetentionDuration
+        for a tenant purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      - in: path
+        name: id2
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Get PostDelete ColumnRetentionDuration for Purpose
+      tags:
+      - ColumnRetentionDurations
+    put:
+      description: This endpoint updates a specific PostDelete ColumnRetentionDuration
+        for a tenant purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      - in: path
+        name: id2
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreColumnRetentionDurationType6'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Update PostDelete ColumnRetentionDuration for Purpose
+      tags:
+      - ColumnRetentionDurations
+  /userstore/config/purposes/{id}/predeleteretentiondurations:
+    get:
+      description: This endpoint gets the default PreDelete ColumnRetentionDuration
+        for a tenant purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Get Default PreDelete ColumnRetentionDuration for Purpose
+      tags:
+      - ColumnRetentionDurations
+    post:
+      description: This endpoint creates a PreDelete ColumnRetentionDuration for a
+        tenant purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreColumnRetentionDurationType7'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Create PreDelete ColumnRetentionDuration for Purpose
+      tags:
+      - ColumnRetentionDurations
+  /userstore/config/purposes/{id}/predeleteretentiondurations/{id2}:
+    delete:
+      description: This endpoint deletes a specific PreDelete ColumnRetentionDuration
+        for a tenant purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      - in: path
+        name: id2
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Delete PreDelete ColumnRetentionDuration for Purpose
+      tags:
+      - ColumnRetentionDurations
+    get:
+      description: This endpoint gets a specific PreDelete ColumnRetentionDuration
+        for a tenant purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      - in: path
+        name: id2
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Get PreDelete ColumnRetentionDuration for Purpose
+      tags:
+      - ColumnRetentionDurations
+    put:
+      description: This endpoint updates a specific PreDelete ColumnRetentionDuration
+        for a tenant purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      - in: path
+        name: id2
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreColumnRetentionDurationType8'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          description: OK
+        "501":
+          description: Not Implemented
+      summary: Update PreDelete ColumnRetentionDuration for Purpose
+      tags:
+      - ColumnRetentionDurations
+  /userstore/consentedpurposes:
+    post:
+      description: This endpoint lists all consented purposes for a specified user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdpGetConsentedPurposesForUserRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpGetConsentedPurposesForUserResponse'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: List Purposes for User
+      tags:
+      - Purposes
+components:
+  schemas:
+    IdpColumnConsentedPurposes:
+      properties:
+        column:
+          $ref: '#/components/schemas/UserstoreResourceID'
+        consented_purposes:
+          items:
+            $ref: '#/components/schemas/UserstoreResourceID'
+          nullable: true
+          type: array
+      type: object
+    IdpColumnRetentionDuration:
+      properties:
+        column_id:
+          $ref: '#/components/schemas/UuidUUID'
+        default_duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration_type:
+          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
+        id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_name:
+          type: string
+        type:
+          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
+        use_default:
+          type: boolean
+        version:
+          type: integer
+      type: object
+    IdpColumnRetentionDurationType:
+      enum:
+      - column
+      - purpose
+      - specific
+      - tenant
+      type: string
+    IdpColumnRetentionDurationsResponse:
+      properties:
+        max_duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        retention_durations:
+          items:
+            $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          nullable: true
+          type: array
+      type: object
+    IdpCreateAccessorRequest:
+      properties:
+        accessor:
+          $ref: '#/components/schemas/UserstoreAccessor'
+      type: object
+    IdpCreateColumnRequest:
+      properties:
+        column:
+          $ref: '#/components/schemas/UserstoreColumn'
+      type: object
+    IdpCreateMutatorRequest:
+      properties:
+        mutator:
+          $ref: '#/components/schemas/UserstoreMutator'
+      type: object
+    IdpCreatePurposeRequest:
+      properties:
+        purpose:
+          $ref: '#/components/schemas/UserstorePurpose'
+      type: object
+    IdpDurationUnit:
+      enum:
+      - day
+      - hour
+      - indefinite
+      - month
+      - week
+      - year
+      type: string
+    IdpExecuteAccessorRequest:
+      properties:
+        accessor_id:
+          $ref: '#/components/schemas/UuidUUID'
+        context:
+          $ref: '#/components/schemas/PolicyClientContext'
+        selector_values:
+          $ref: '#/components/schemas/UserstoreUserSelectorValues'
+      type: object
+    IdpExecuteAccessorResponse:
+      properties:
+        data:
+          items:
+            type: string
+          nullable: true
+          type: array
+      type: object
+    IdpExecuteMutatorRequest:
+      properties:
+        context:
+          $ref: '#/components/schemas/PolicyClientContext'
+        mutator_id:
+          $ref: '#/components/schemas/UuidUUID'
+        row_data:
+          additionalProperties:
+            $ref: '#/components/schemas/IdpValueAndPurposes'
+          nullable: true
+          type: object
+        selector_values:
+          $ref: '#/components/schemas/UserstoreUserSelectorValues'
+      type: object
+    IdpExecuteMutatorResponse:
+      properties:
+        user_ids:
+          items:
+            $ref: '#/components/schemas/UuidUUID'
+          nullable: true
+          type: array
+      type: object
+    IdpGetConsentedPurposesForUserRequest:
+      properties:
+        columns:
+          items:
+            $ref: '#/components/schemas/UserstoreResourceID'
+          nullable: true
+          type: array
+        user_id:
+          $ref: '#/components/schemas/UuidUUID'
+      type: object
+    IdpGetConsentedPurposesForUserResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/IdpColumnConsentedPurposes'
+          nullable: true
+          type: array
+      type: object
+    IdpListAccessorsResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/UserstoreAccessor'
+          nullable: true
+          type: array
+        has_next:
+          type: boolean
+        has_prev:
+          type: boolean
+        next:
+          type: string
+        prev:
+          $ref: '#/components/schemas/PaginationCursor'
+      type: object
+    IdpListColumnsResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/UserstoreColumn'
+          nullable: true
+          type: array
+        has_next:
+          type: boolean
+        has_prev:
+          type: boolean
+        next:
+          type: string
+        prev:
+          $ref: '#/components/schemas/PaginationCursor'
+      type: object
+    IdpListMutatorsResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/UserstoreMutator'
+          nullable: true
+          type: array
+        has_next:
+          type: boolean
+        has_prev:
+          type: boolean
+        next:
+          type: string
+        prev:
+          $ref: '#/components/schemas/PaginationCursor'
+      type: object
+    IdpListPurposesResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/UserstorePurpose'
+          nullable: true
+          type: array
+        has_next:
+          type: boolean
+        has_prev:
+          type: boolean
+        next:
+          type: string
+        prev:
+          $ref: '#/components/schemas/PaginationCursor'
+      type: object
+    IdpRetentionDuration:
+      properties:
+        duration:
+          type: integer
+        unit:
+          $ref: '#/components/schemas/IdpDurationUnit'
+      type: object
+    IdpValueAndPurposes:
+      properties:
+        purpose_additions:
+          items:
+            $ref: '#/components/schemas/UserstoreResourceID'
+          nullable: true
+          type: array
+        purpose_deletions:
+          items:
+            $ref: '#/components/schemas/UserstoreResourceID'
+          nullable: true
+          type: array
+        value: {}
+      type: object
+    PaginationCursor: {}
+    PolicyClientContext:
+      additionalProperties: {}
+      type: object
+    UserstoreAccessor:
+      properties:
+        access_policy:
+          $ref: '#/components/schemas/UserstoreResourceID'
+        columns:
+          items:
+            $ref: '#/components/schemas/UserstoreColumnOutputConfig'
+          nullable: true
+          type: array
+        data_life_cycle_state:
+          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
+        description:
+          type: string
+        id:
+          $ref: '#/components/schemas/UuidUUID'
+        is_system:
+          description: Whether this accessor is a system accessor. System accessors
+            cannot be deleted or modified. This property cannot be changed.
+          type: boolean
+        name:
+          type: string
+        purposes:
+          items:
+            $ref: '#/components/schemas/UserstoreResourceID'
+          nullable: true
+          type: array
+        selector_config:
+          $ref: '#/components/schemas/UserstoreUserSelectorConfig'
+        token_access_policy:
+          $ref: '#/components/schemas/UserstoreResourceID'
+        version:
+          type: integer
+      required:
+      - name
+      - selector_config
+      - purposes
+      - columns
+      - access_policy
+      type: object
+    UserstoreColumn:
+      properties:
+        default_value:
+          type: string
+        id:
+          $ref: '#/components/schemas/UuidUUID'
+        index_type:
+          $ref: '#/components/schemas/UserstoreColumnIndexType'
+        is_array:
+          type: boolean
+        is_system:
+          description: Whether this column is a system column. System columns cannot
+            be deleted or modified. This property cannot be changed.
+          type: boolean
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/UserstoreDataType'
+      required:
+      - name
+      - type
+      - is_array
+      - index_type
+      type: object
+    UserstoreColumnIndexType:
+      enum:
+      - indexed
+      - none
+      - unique
+      type: string
+    UserstoreColumnInputConfig:
+      properties:
+        column:
+          $ref: '#/components/schemas/UserstoreResourceID'
+        validator:
+          $ref: '#/components/schemas/UserstoreResourceID'
+      type: object
+    UserstoreColumnOutputConfig:
+      properties:
+        column:
+          $ref: '#/components/schemas/UserstoreResourceID'
+        transformer:
+          $ref: '#/components/schemas/UserstoreResourceID'
+      type: object
+    UserstoreColumnRetentionDuration:
+      properties:
+        column_id:
+          $ref: '#/components/schemas/UuidUUID'
+        default_duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration_type:
+          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
+        id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_name:
+          type: string
+        type:
+          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
+        use_default:
+          type: boolean
+        version:
+          type: integer
+      type: object
+    UserstoreColumnRetentionDurationType2:
+      properties:
+        column_id:
+          $ref: '#/components/schemas/UuidUUID'
+        default_duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration_type:
+          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
+        id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_name:
+          type: string
+        type:
+          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
+        use_default:
+          type: boolean
+        version:
+          type: integer
+      type: object
+    UserstoreColumnRetentionDurationType3:
+      properties:
+        column_id:
+          $ref: '#/components/schemas/UuidUUID'
+        default_duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration_type:
+          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
+        id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_name:
+          type: string
+        type:
+          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
+        use_default:
+          type: boolean
+        version:
+          type: integer
+      type: object
+    UserstoreColumnRetentionDurationType4:
+      properties:
+        column_id:
+          $ref: '#/components/schemas/UuidUUID'
+        default_duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration_type:
+          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
+        id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_name:
+          type: string
+        type:
+          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
+        use_default:
+          type: boolean
+        version:
+          type: integer
+      type: object
+    UserstoreColumnRetentionDurationType5:
+      properties:
+        column_id:
+          $ref: '#/components/schemas/UuidUUID'
+        default_duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration_type:
+          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
+        id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_name:
+          type: string
+        type:
+          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
+        use_default:
+          type: boolean
+        version:
+          type: integer
+      type: object
+    UserstoreColumnRetentionDurationType6:
+      properties:
+        column_id:
+          $ref: '#/components/schemas/UuidUUID'
+        default_duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration_type:
+          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
+        id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_name:
+          type: string
+        type:
+          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
+        use_default:
+          type: boolean
+        version:
+          type: integer
+      type: object
+    UserstoreColumnRetentionDurationType7:
+      properties:
+        column_id:
+          $ref: '#/components/schemas/UuidUUID'
+        default_duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration_type:
+          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
+        id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_name:
+          type: string
+        type:
+          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
+        use_default:
+          type: boolean
+        version:
+          type: integer
+      type: object
+    UserstoreColumnRetentionDurationType8:
+      properties:
+        column_id:
+          $ref: '#/components/schemas/UuidUUID'
+        default_duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        duration_type:
+          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
+        id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_id:
+          $ref: '#/components/schemas/UuidUUID'
+        purpose_name:
+          type: string
+        type:
+          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
+        use_default:
+          type: boolean
+        version:
+          type: integer
+      type: object
+    UserstoreDataLifeCycleState:
+      enum:
+      - ""
+      - postdelete
+      - predelete
+      type: string
+    UserstoreDataType:
+      enum:
+      - address
+      - boolean
+      - integer
+      - string
+      - timestamp
+      - uuid
+      type: string
+    UserstoreMutator:
+      properties:
+        access_policy:
+          $ref: '#/components/schemas/UserstoreResourceID'
+        columns:
+          items:
+            $ref: '#/components/schemas/UserstoreColumnInputConfig'
+          nullable: true
+          type: array
+        description:
+          type: string
+        id:
+          $ref: '#/components/schemas/UuidUUID'
+        is_system:
+          description: Whether this mutator is a system mutator. System mutators cannot
+            be deleted or modified. This property cannot be changed.
+          type: boolean
+        name:
+          type: string
+        selector_config:
+          $ref: '#/components/schemas/UserstoreUserSelectorConfig'
+        version:
+          type: integer
+      required:
+      - name
+      - selector_config
+      - columns
+      - access_policy
+      type: object
+    UserstorePurpose:
+      properties:
+        description:
+          type: string
+        id:
+          $ref: '#/components/schemas/UuidUUID'
+        is_system:
+          description: Whether this purpose is a system purpose. System purposes cannot
+            be deleted or modified. This property cannot be changed.
+          type: boolean
+        name:
+          type: string
+      required:
+      - name
+      type: object
+    UserstoreResourceID:
+      properties:
+        id:
+          $ref: '#/components/schemas/UuidUUID'
+        name:
+          type: string
+      type: object
+    UserstoreUpdateAccessorRequest:
+      properties:
+        accessor:
+          $ref: '#/components/schemas/UserstoreAccessor'
+      type: object
+    UserstoreUpdateColumnRequest:
+      properties:
+        column:
+          $ref: '#/components/schemas/UserstoreColumn'
+      type: object
+    UserstoreUpdateColumnRetentionDurationsRequest:
+      properties:
+        retention_durations:
+          items:
+            $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          nullable: true
+          type: array
+      type: object
+    UserstoreUpdateColumnRetentionDurationsRequestType2:
+      properties:
+        retention_durations:
+          items:
+            $ref: '#/components/schemas/IdpColumnRetentionDuration'
+          nullable: true
+          type: array
+      type: object
+    UserstoreUpdateMutatorRequest:
+      properties:
+        mutator:
+          $ref: '#/components/schemas/UserstoreMutator'
+      type: object
+    UserstoreUpdatePurposeRequest:
+      properties:
+        purpose:
+          $ref: '#/components/schemas/UserstorePurpose'
+      type: object
+    UserstoreUserSelectorConfig:
+      properties:
+        where_clause:
+          example: '{id} = ANY (?)'
+          type: string
+      type: object
+    UserstoreUserSelectorValues:
+      items: {}
+      nullable: true
+      type: array
+    UuidUUID:
+      example: 248df4b7-aa70-47b8-a036-33ac447e668d
+      format: uuid
+      type: string
+servers:
+- url: https://your-tenant-name.tenant.userclouds.com
+x-readme:
+  explorer-enabled: false
