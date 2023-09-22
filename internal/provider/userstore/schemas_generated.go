@@ -49,6 +49,8 @@ var IdpColumnConsentedPurposesAttrTypes = map[string]attr.Type{
 // IdpColumnConsentedPurposesAttributes defines the Terraform attributes schema.
 var IdpColumnConsentedPurposesAttributes = map[string]schema.Attribute{
 	"column": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -59,9 +61,11 @@ var IdpColumnConsentedPurposesAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"consented_purposes": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		Description:         "",
+		MarkdownDescription: "",
+		ElementType:         types.StringType,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -231,6 +235,8 @@ var IdpColumnRetentionDurationAttrTypes = map[string]attr.Type{
 // IdpColumnRetentionDurationAttributes defines the Terraform attributes schema.
 var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 	"column_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -241,16 +247,22 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
@@ -258,6 +270,8 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -271,6 +285,8 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 		},
 	},
 	"purpose_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -281,10 +297,14 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
@@ -292,12 +312,16 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -612,11 +636,15 @@ var IdpColumnRetentionDurationsResponseAttrTypes = map[string]attr.Type{
 // IdpColumnRetentionDurationsResponseAttributes defines the Terraform attributes schema.
 var IdpColumnRetentionDurationsResponseAttributes = map[string]schema.Attribute{
 	"max_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"retention_durations": schema.ListNestedAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: IdpColumnRetentionDurationAttributes,
 		},
@@ -790,9 +818,11 @@ var IdpCreateAccessorRequestAttrTypes = map[string]attr.Type{
 // IdpCreateAccessorRequestAttributes defines the Terraform attributes schema.
 var IdpCreateAccessorRequestAttributes = map[string]schema.Attribute{
 	"accessor": schema.SingleNestedAttribute{
-		Attributes: UserstoreAccessorAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          UserstoreAccessorAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -879,9 +909,11 @@ var IdpCreateColumnRequestAttrTypes = map[string]attr.Type{
 // IdpCreateColumnRequestAttributes defines the Terraform attributes schema.
 var IdpCreateColumnRequestAttributes = map[string]schema.Attribute{
 	"column": schema.SingleNestedAttribute{
-		Attributes: UserstoreColumnAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          UserstoreColumnAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -968,9 +1000,11 @@ var IdpCreateMutatorRequestAttrTypes = map[string]attr.Type{
 // IdpCreateMutatorRequestAttributes defines the Terraform attributes schema.
 var IdpCreateMutatorRequestAttributes = map[string]schema.Attribute{
 	"mutator": schema.SingleNestedAttribute{
-		Attributes: UserstoreMutatorAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          UserstoreMutatorAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -1057,9 +1091,11 @@ var IdpCreatePurposeRequestAttrTypes = map[string]attr.Type{
 // IdpCreatePurposeRequestAttributes defines the Terraform attributes schema.
 var IdpCreatePurposeRequestAttributes = map[string]schema.Attribute{
 	"purpose": schema.SingleNestedAttribute{
-		Attributes: UserstorePurposeAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          UserstorePurposeAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -1172,9 +1208,11 @@ var IdpExecuteAccessorResponseAttrTypes = map[string]attr.Type{
 // IdpExecuteAccessorResponseAttributes defines the Terraform attributes schema.
 var IdpExecuteAccessorResponseAttributes = map[string]schema.Attribute{
 	"data": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		Description:         "",
+		MarkdownDescription: "",
+		ElementType:         types.StringType,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -1259,9 +1297,11 @@ var IdpExecuteMutatorResponseAttrTypes = map[string]attr.Type{
 // IdpExecuteMutatorResponseAttributes defines the Terraform attributes schema.
 var IdpExecuteMutatorResponseAttributes = map[string]schema.Attribute{
 	"user_ids": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		Description:         "",
+		MarkdownDescription: "",
+		ElementType:         types.StringType,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -1355,11 +1395,15 @@ var IdpGetConsentedPurposesForUserRequestAttrTypes = map[string]attr.Type{
 // IdpGetConsentedPurposesForUserRequestAttributes defines the Terraform attributes schema.
 var IdpGetConsentedPurposesForUserRequestAttributes = map[string]schema.Attribute{
 	"columns": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		Description:         "",
+		MarkdownDescription: "",
+		ElementType:         types.StringType,
+		Computed:            true,
+		Optional:            true,
 	},
 	"user_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -1496,6 +1540,8 @@ var IdpGetConsentedPurposesForUserResponseAttrTypes = map[string]attr.Type{
 // IdpGetConsentedPurposesForUserResponseAttributes defines the Terraform attributes schema.
 var IdpGetConsentedPurposesForUserResponseAttributes = map[string]schema.Attribute{
 	"data": schema.ListNestedAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: IdpColumnConsentedPurposesAttributes,
 		},
@@ -1621,10 +1667,14 @@ var IdpRetentionDurationAttrTypes = map[string]attr.Type{
 // IdpRetentionDurationAttributes defines the Terraform attributes schema.
 var IdpRetentionDurationAttributes = map[string]schema.Attribute{
 	"duration": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"unit": schema.StringAttribute{
+		Description:         "Valid values: `day`, `hour`, `indefinite`, `month`, `week`, `year`",
+		MarkdownDescription: "Valid values: `day`, `hour`, `indefinite`, `month`, `week`, `year`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"day", "hour", "indefinite", "month", "week", "year"}...),
 		},
@@ -1784,6 +1834,8 @@ var UserstoreAccessorAttrTypes = map[string]attr.Type{
 // UserstoreAccessorAttributes defines the Terraform attributes schema.
 var UserstoreAccessorAttributes = map[string]schema.Attribute{
 	"access_policy": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -1793,12 +1845,16 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 		Required: true,
 	},
 	"columns": schema.ListNestedAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: UserstoreColumnOutputConfigAttributes,
 		},
 		Required: true,
 	},
 	"data_life_cycle_state": schema.StringAttribute{
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
@@ -1806,10 +1862,14 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"description": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -1823,17 +1883,25 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 		},
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"purposes": schema.ListAttribute{
-		ElementType: types.StringType,
-		Required:    true,
+		Description:         "",
+		MarkdownDescription: "",
+		ElementType:         types.StringType,
+		Required:            true,
 	},
 	"selector_config": schema.SingleNestedAttribute{
-		Attributes: UserstoreUserSelectorConfigAttributes,
-		Required:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          UserstoreUserSelectorConfigAttributes,
+		Required:            true,
 	},
 	"token_access_policy": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -1844,8 +1912,10 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -2252,10 +2322,14 @@ var UserstoreColumnAttrTypes = map[string]attr.Type{
 // UserstoreColumnAttributes defines the Terraform attributes schema.
 var UserstoreColumnAttributes = map[string]schema.Attribute{
 	"default_value": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -2269,18 +2343,26 @@ var UserstoreColumnAttributes = map[string]schema.Attribute{
 		},
 	},
 	"index_type": schema.StringAttribute{
+		Description:         "Valid values: `indexed`, `none`, `unique`",
+		MarkdownDescription: "Valid values: `indexed`, `none`, `unique`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"indexed", "none", "unique"}...),
 		},
 		Required: true,
 	},
 	"is_array": schema.BoolAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"type": schema.StringAttribute{
+		Description:         "Valid values: `address`, `boolean`, `integer`, `string`, `timestamp`, `uuid`",
+		MarkdownDescription: "Valid values: `address`, `boolean`, `integer`, `string`, `timestamp`, `uuid`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"address", "boolean", "integer", "string", "timestamp", "uuid"}...),
 		},
@@ -2451,6 +2533,8 @@ var UserstoreColumnInputConfigAttrTypes = map[string]attr.Type{
 // UserstoreColumnInputConfigAttributes defines the Terraform attributes schema.
 var UserstoreColumnInputConfigAttributes = map[string]schema.Attribute{
 	"column": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -2461,6 +2545,8 @@ var UserstoreColumnInputConfigAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"validator": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -2579,6 +2665,8 @@ var UserstoreColumnOutputConfigAttrTypes = map[string]attr.Type{
 // UserstoreColumnOutputConfigAttributes defines the Terraform attributes schema.
 var UserstoreColumnOutputConfigAttributes = map[string]schema.Attribute{
 	"column": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -2589,6 +2677,8 @@ var UserstoreColumnOutputConfigAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"transformer": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -2735,6 +2825,8 @@ var UserstoreColumnRetentionDurationAttrTypes = map[string]attr.Type{
 // UserstoreColumnRetentionDurationAttributes defines the Terraform attributes schema.
 var UserstoreColumnRetentionDurationAttributes = map[string]schema.Attribute{
 	"column_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -2745,16 +2837,22 @@ var UserstoreColumnRetentionDurationAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
@@ -2762,6 +2860,8 @@ var UserstoreColumnRetentionDurationAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -2775,6 +2875,8 @@ var UserstoreColumnRetentionDurationAttributes = map[string]schema.Attribute{
 		},
 	},
 	"purpose_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -2785,10 +2887,14 @@ var UserstoreColumnRetentionDurationAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
@@ -2796,12 +2902,16 @@ var UserstoreColumnRetentionDurationAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -3112,6 +3222,8 @@ var UserstoreColumnRetentionDurationType2AttrTypes = map[string]attr.Type{
 // UserstoreColumnRetentionDurationType2Attributes defines the Terraform attributes schema.
 var UserstoreColumnRetentionDurationType2Attributes = map[string]schema.Attribute{
 	"column_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -3122,16 +3234,22 @@ var UserstoreColumnRetentionDurationType2Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
@@ -3139,6 +3257,8 @@ var UserstoreColumnRetentionDurationType2Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -3152,6 +3272,8 @@ var UserstoreColumnRetentionDurationType2Attributes = map[string]schema.Attribut
 		},
 	},
 	"purpose_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -3162,10 +3284,14 @@ var UserstoreColumnRetentionDurationType2Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
@@ -3173,12 +3299,16 @@ var UserstoreColumnRetentionDurationType2Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -3489,6 +3619,8 @@ var UserstoreColumnRetentionDurationType3AttrTypes = map[string]attr.Type{
 // UserstoreColumnRetentionDurationType3Attributes defines the Terraform attributes schema.
 var UserstoreColumnRetentionDurationType3Attributes = map[string]schema.Attribute{
 	"column_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -3499,16 +3631,22 @@ var UserstoreColumnRetentionDurationType3Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
@@ -3516,6 +3654,8 @@ var UserstoreColumnRetentionDurationType3Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -3529,6 +3669,8 @@ var UserstoreColumnRetentionDurationType3Attributes = map[string]schema.Attribut
 		},
 	},
 	"purpose_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -3539,10 +3681,14 @@ var UserstoreColumnRetentionDurationType3Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
@@ -3550,12 +3696,16 @@ var UserstoreColumnRetentionDurationType3Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -3866,6 +4016,8 @@ var UserstoreColumnRetentionDurationType4AttrTypes = map[string]attr.Type{
 // UserstoreColumnRetentionDurationType4Attributes defines the Terraform attributes schema.
 var UserstoreColumnRetentionDurationType4Attributes = map[string]schema.Attribute{
 	"column_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -3876,16 +4028,22 @@ var UserstoreColumnRetentionDurationType4Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
@@ -3893,6 +4051,8 @@ var UserstoreColumnRetentionDurationType4Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -3906,6 +4066,8 @@ var UserstoreColumnRetentionDurationType4Attributes = map[string]schema.Attribut
 		},
 	},
 	"purpose_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -3916,10 +4078,14 @@ var UserstoreColumnRetentionDurationType4Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
@@ -3927,12 +4093,16 @@ var UserstoreColumnRetentionDurationType4Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -4243,6 +4413,8 @@ var UserstoreColumnRetentionDurationType5AttrTypes = map[string]attr.Type{
 // UserstoreColumnRetentionDurationType5Attributes defines the Terraform attributes schema.
 var UserstoreColumnRetentionDurationType5Attributes = map[string]schema.Attribute{
 	"column_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -4253,16 +4425,22 @@ var UserstoreColumnRetentionDurationType5Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
@@ -4270,6 +4448,8 @@ var UserstoreColumnRetentionDurationType5Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -4283,6 +4463,8 @@ var UserstoreColumnRetentionDurationType5Attributes = map[string]schema.Attribut
 		},
 	},
 	"purpose_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -4293,10 +4475,14 @@ var UserstoreColumnRetentionDurationType5Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
@@ -4304,12 +4490,16 @@ var UserstoreColumnRetentionDurationType5Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -4620,6 +4810,8 @@ var UserstoreColumnRetentionDurationType6AttrTypes = map[string]attr.Type{
 // UserstoreColumnRetentionDurationType6Attributes defines the Terraform attributes schema.
 var UserstoreColumnRetentionDurationType6Attributes = map[string]schema.Attribute{
 	"column_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -4630,16 +4822,22 @@ var UserstoreColumnRetentionDurationType6Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
@@ -4647,6 +4845,8 @@ var UserstoreColumnRetentionDurationType6Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -4660,6 +4860,8 @@ var UserstoreColumnRetentionDurationType6Attributes = map[string]schema.Attribut
 		},
 	},
 	"purpose_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -4670,10 +4872,14 @@ var UserstoreColumnRetentionDurationType6Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
@@ -4681,12 +4887,16 @@ var UserstoreColumnRetentionDurationType6Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -4997,6 +5207,8 @@ var UserstoreColumnRetentionDurationType7AttrTypes = map[string]attr.Type{
 // UserstoreColumnRetentionDurationType7Attributes defines the Terraform attributes schema.
 var UserstoreColumnRetentionDurationType7Attributes = map[string]schema.Attribute{
 	"column_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -5007,16 +5219,22 @@ var UserstoreColumnRetentionDurationType7Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
@@ -5024,6 +5242,8 @@ var UserstoreColumnRetentionDurationType7Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -5037,6 +5257,8 @@ var UserstoreColumnRetentionDurationType7Attributes = map[string]schema.Attribut
 		},
 	},
 	"purpose_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -5047,10 +5269,14 @@ var UserstoreColumnRetentionDurationType7Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
@@ -5058,12 +5284,16 @@ var UserstoreColumnRetentionDurationType7Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -5374,6 +5604,8 @@ var UserstoreColumnRetentionDurationType8AttrTypes = map[string]attr.Type{
 // UserstoreColumnRetentionDurationType8Attributes defines the Terraform attributes schema.
 var UserstoreColumnRetentionDurationType8Attributes = map[string]schema.Attribute{
 	"column_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -5384,16 +5616,22 @@ var UserstoreColumnRetentionDurationType8Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
@@ -5401,6 +5639,8 @@ var UserstoreColumnRetentionDurationType8Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -5414,6 +5654,8 @@ var UserstoreColumnRetentionDurationType8Attributes = map[string]schema.Attribut
 		},
 	},
 	"purpose_id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -5424,10 +5666,14 @@ var UserstoreColumnRetentionDurationType8Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
@@ -5435,12 +5681,16 @@ var UserstoreColumnRetentionDurationType8Attributes = map[string]schema.Attribut
 		Optional: true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -5796,6 +6046,8 @@ var UserstoreMutatorAttrTypes = map[string]attr.Type{
 // UserstoreMutatorAttributes defines the Terraform attributes schema.
 var UserstoreMutatorAttributes = map[string]schema.Attribute{
 	"access_policy": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -5805,16 +6057,22 @@ var UserstoreMutatorAttributes = map[string]schema.Attribute{
 		Required: true,
 	},
 	"columns": schema.ListNestedAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: UserstoreColumnInputConfigAttributes,
 		},
 		Required: true,
 	},
 	"description": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -5828,15 +6086,21 @@ var UserstoreMutatorAttributes = map[string]schema.Attribute{
 		},
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"selector_config": schema.SingleNestedAttribute{
-		Attributes: UserstoreUserSelectorConfigAttributes,
-		Required:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          UserstoreUserSelectorConfigAttributes,
+		Required:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -6115,10 +6379,14 @@ var UserstorePurposeAttrTypes = map[string]attr.Type{
 // UserstorePurposeAttributes defines the Terraform attributes schema.
 var UserstorePurposeAttributes = map[string]schema.Attribute{
 	"description": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -6132,7 +6400,9 @@ var UserstorePurposeAttributes = map[string]schema.Attribute{
 		},
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 }
 
@@ -6225,6 +6495,8 @@ var UserstoreResourceIDAttrTypes = map[string]attr.Type{
 // UserstoreResourceIDAttributes defines the Terraform attributes schema.
 var UserstoreResourceIDAttributes = map[string]schema.Attribute{
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -6238,8 +6510,10 @@ var UserstoreResourceIDAttributes = map[string]schema.Attribute{
 		},
 	},
 	"name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -6315,9 +6589,11 @@ var UserstoreUpdateAccessorRequestAttrTypes = map[string]attr.Type{
 // UserstoreUpdateAccessorRequestAttributes defines the Terraform attributes schema.
 var UserstoreUpdateAccessorRequestAttributes = map[string]schema.Attribute{
 	"accessor": schema.SingleNestedAttribute{
-		Attributes: UserstoreAccessorAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          UserstoreAccessorAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -6404,9 +6680,11 @@ var UserstoreUpdateColumnRequestAttrTypes = map[string]attr.Type{
 // UserstoreUpdateColumnRequestAttributes defines the Terraform attributes schema.
 var UserstoreUpdateColumnRequestAttributes = map[string]schema.Attribute{
 	"column": schema.SingleNestedAttribute{
-		Attributes: UserstoreColumnAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          UserstoreColumnAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -6495,6 +6773,8 @@ var UserstoreUpdateColumnRetentionDurationsRequestAttrTypes = map[string]attr.Ty
 // UserstoreUpdateColumnRetentionDurationsRequestAttributes defines the Terraform attributes schema.
 var UserstoreUpdateColumnRetentionDurationsRequestAttributes = map[string]schema.Attribute{
 	"retention_durations": schema.ListNestedAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: IdpColumnRetentionDurationAttributes,
 		},
@@ -6621,6 +6901,8 @@ var UserstoreUpdateColumnRetentionDurationsRequestType2AttrTypes = map[string]at
 // UserstoreUpdateColumnRetentionDurationsRequestType2Attributes defines the Terraform attributes schema.
 var UserstoreUpdateColumnRetentionDurationsRequestType2Attributes = map[string]schema.Attribute{
 	"retention_durations": schema.ListNestedAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: IdpColumnRetentionDurationAttributes,
 		},
@@ -6745,9 +7027,11 @@ var UserstoreUpdateMutatorRequestAttrTypes = map[string]attr.Type{
 // UserstoreUpdateMutatorRequestAttributes defines the Terraform attributes schema.
 var UserstoreUpdateMutatorRequestAttributes = map[string]schema.Attribute{
 	"mutator": schema.SingleNestedAttribute{
-		Attributes: UserstoreMutatorAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          UserstoreMutatorAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -6834,9 +7118,11 @@ var UserstoreUpdatePurposeRequestAttrTypes = map[string]attr.Type{
 // UserstoreUpdatePurposeRequestAttributes defines the Terraform attributes schema.
 var UserstoreUpdatePurposeRequestAttributes = map[string]schema.Attribute{
 	"purpose": schema.SingleNestedAttribute{
-		Attributes: UserstorePurposeAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          UserstorePurposeAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -6921,8 +7207,10 @@ var UserstoreUserSelectorConfigAttrTypes = map[string]attr.Type{
 // UserstoreUserSelectorConfigAttributes defines the Terraform attributes schema.
 var UserstoreUserSelectorConfigAttributes = map[string]schema.Attribute{
 	"where_clause": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 

@@ -94,6 +94,8 @@ var PolicyAccessPolicyAttrTypes = map[string]attr.Type{
 // PolicyAccessPolicyAttributes defines the Terraform attributes schema.
 var PolicyAccessPolicyAttributes = map[string]schema.Attribute{
 	"components": schema.ListNestedAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: PolicyAccessPolicyComponentAttributes,
 		},
@@ -101,10 +103,14 @@ var PolicyAccessPolicyAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"description": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -118,22 +124,30 @@ var PolicyAccessPolicyAttributes = map[string]schema.Attribute{
 		},
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"policy_type": schema.StringAttribute{
+		Description:         "Valid values: `compositeintersection`, `compositeunion`",
+		MarkdownDescription: "Valid values: `compositeintersection`, `compositeunion`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"compositeintersection", "compositeunion"}...),
 		},
 		Required: true,
 	},
 	"tag_ids": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		Description:         "",
+		MarkdownDescription: "",
+		ElementType:         types.StringType,
+		Computed:            true,
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -396,6 +410,8 @@ var PolicyAccessPolicyComponentAttrTypes = map[string]attr.Type{
 // PolicyAccessPolicyComponentAttributes defines the Terraform attributes schema.
 var PolicyAccessPolicyComponentAttributes = map[string]schema.Attribute{
 	"policy": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -406,6 +422,8 @@ var PolicyAccessPolicyComponentAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"template": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -416,8 +434,10 @@ var PolicyAccessPolicyComponentAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"template_parameters": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -562,21 +582,31 @@ var PolicyAccessPolicyTemplateAttrTypes = map[string]attr.Type{
 // PolicyAccessPolicyTemplateAttributes defines the Terraform attributes schema.
 var PolicyAccessPolicyTemplateAttributes = map[string]schema.Attribute{
 	"created": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"deleted": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"description": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"function": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -590,15 +620,21 @@ var PolicyAccessPolicyTemplateAttributes = map[string]schema.Attribute{
 		},
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"updated": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -869,13 +905,19 @@ var PolicyTransformerAttrTypes = map[string]attr.Type{
 // PolicyTransformerAttributes defines the Terraform attributes schema.
 var PolicyTransformerAttributes = map[string]schema.Attribute{
 	"description": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"function": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -889,24 +931,34 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 		},
 	},
 	"input_type": schema.StringAttribute{
+		Description:         "Valid values: `address`, `boolean`, `integer`, `string`, `timestamp`, `uuid`",
+		MarkdownDescription: "Valid values: `address`, `boolean`, `integer`, `string`, `timestamp`, `uuid`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"address", "boolean", "integer", "string", "timestamp", "uuid"}...),
 		},
 		Required: true,
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"parameters": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"tag_ids": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		Description:         "",
+		MarkdownDescription: "",
+		ElementType:         types.StringType,
+		Computed:            true,
+		Optional:            true,
 	},
 	"transform_type": schema.StringAttribute{
+		Description:         "Valid values: `passthrough`, `tokenizebyreference`, `tokenizebyvalue`, `transform`",
+		MarkdownDescription: "Valid values: `passthrough`, `tokenizebyreference`, `tokenizebyvalue`, `transform`",
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"passthrough", "tokenizebyreference", "tokenizebyvalue", "transform"}...),
 		},
@@ -1119,9 +1171,11 @@ var TokenizerCreateAccessPolicyRequestAttrTypes = map[string]attr.Type{
 // TokenizerCreateAccessPolicyRequestAttributes defines the Terraform attributes schema.
 var TokenizerCreateAccessPolicyRequestAttributes = map[string]schema.Attribute{
 	"access_policy": schema.SingleNestedAttribute{
-		Attributes: PolicyAccessPolicyAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          PolicyAccessPolicyAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -1208,9 +1262,11 @@ var TokenizerCreateAccessPolicyTemplateRequestAttrTypes = map[string]attr.Type{
 // TokenizerCreateAccessPolicyTemplateRequestAttributes defines the Terraform attributes schema.
 var TokenizerCreateAccessPolicyTemplateRequestAttributes = map[string]schema.Attribute{
 	"access_policy_template": schema.SingleNestedAttribute{
-		Attributes: PolicyAccessPolicyTemplateAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          PolicyAccessPolicyTemplateAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -1301,6 +1357,8 @@ var TokenizerCreateTokenRequestAttrTypes = map[string]attr.Type{
 // TokenizerCreateTokenRequestAttributes defines the Terraform attributes schema.
 var TokenizerCreateTokenRequestAttributes = map[string]schema.Attribute{
 	"access_policy_rid": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -1311,10 +1369,14 @@ var TokenizerCreateTokenRequestAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"data": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"transformer_rid": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -1446,8 +1508,10 @@ var TokenizerCreateTokenResponseAttrTypes = map[string]attr.Type{
 // TokenizerCreateTokenResponseAttributes defines the Terraform attributes schema.
 var TokenizerCreateTokenResponseAttributes = map[string]schema.Attribute{
 	"data": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -1501,9 +1565,11 @@ var TokenizerCreateTransformerRequestAttrTypes = map[string]attr.Type{
 // TokenizerCreateTransformerRequestAttributes defines the Terraform attributes schema.
 var TokenizerCreateTransformerRequestAttributes = map[string]schema.Attribute{
 	"transformer": schema.SingleNestedAttribute{
-		Attributes: PolicyTransformerAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          PolicyTransformerAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -1588,8 +1654,10 @@ var TokenizerInspectTokenRequestAttrTypes = map[string]attr.Type{
 // TokenizerInspectTokenRequestAttributes defines the Terraform attributes schema.
 var TokenizerInspectTokenRequestAttributes = map[string]schema.Attribute{
 	"token": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -1663,19 +1731,27 @@ var TokenizerInspectTokenResponseAttrTypes = map[string]attr.Type{
 // TokenizerInspectTokenResponseAttributes defines the Terraform attributes schema.
 var TokenizerInspectTokenResponseAttributes = map[string]schema.Attribute{
 	"access_policy": schema.SingleNestedAttribute{
-		Attributes: PolicyAccessPolicyAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          PolicyAccessPolicyAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"created": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"current_access_policy_version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -1689,17 +1765,23 @@ var TokenizerInspectTokenResponseAttributes = map[string]schema.Attribute{
 		},
 	},
 	"token": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"transformer": schema.SingleNestedAttribute{
-		Attributes: PolicyTransformerAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          PolicyTransformerAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 	"updated": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -1931,19 +2013,25 @@ var TokenizerLookupOrCreateTokensRequestAttrTypes = map[string]attr.Type{
 // TokenizerLookupOrCreateTokensRequestAttributes defines the Terraform attributes schema.
 var TokenizerLookupOrCreateTokensRequestAttributes = map[string]schema.Attribute{
 	"access_policy_rids": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		Description:         "",
+		MarkdownDescription: "",
+		ElementType:         types.StringType,
+		Computed:            true,
+		Optional:            true,
 	},
 	"data": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		Description:         "",
+		MarkdownDescription: "",
+		ElementType:         types.StringType,
+		Computed:            true,
+		Optional:            true,
 	},
 	"transformer_rids": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		Description:         "",
+		MarkdownDescription: "",
+		ElementType:         types.StringType,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -2162,9 +2250,11 @@ var TokenizerLookupOrCreateTokensResponseAttrTypes = map[string]attr.Type{
 // TokenizerLookupOrCreateTokensResponseAttributes defines the Terraform attributes schema.
 var TokenizerLookupOrCreateTokensResponseAttributes = map[string]schema.Attribute{
 	"tokens": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		Description:         "",
+		MarkdownDescription: "",
+		ElementType:         types.StringType,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -2253,6 +2343,8 @@ var TokenizerLookupTokensRequestAttrTypes = map[string]attr.Type{
 // TokenizerLookupTokensRequestAttributes defines the Terraform attributes schema.
 var TokenizerLookupTokensRequestAttributes = map[string]schema.Attribute{
 	"access_policy_rid": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -2263,10 +2355,14 @@ var TokenizerLookupTokensRequestAttributes = map[string]schema.Attribute{
 		Optional: true,
 	},
 	"data": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"transformer_rid": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -2400,9 +2496,11 @@ var TokenizerLookupTokensResponseAttrTypes = map[string]attr.Type{
 // TokenizerLookupTokensResponseAttributes defines the Terraform attributes schema.
 var TokenizerLookupTokensResponseAttributes = map[string]schema.Attribute{
 	"tokens": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		Description:         "",
+		MarkdownDescription: "",
+		ElementType:         types.StringType,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -2488,12 +2586,16 @@ var TokenizerResolveTokenResponseAttrTypes = map[string]attr.Type{
 // TokenizerResolveTokenResponseAttributes defines the Terraform attributes schema.
 var TokenizerResolveTokenResponseAttributes = map[string]schema.Attribute{
 	"data": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 	"token": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -2563,9 +2665,11 @@ var TokenizerUpdateAccessPolicyRequestAttrTypes = map[string]attr.Type{
 // TokenizerUpdateAccessPolicyRequestAttributes defines the Terraform attributes schema.
 var TokenizerUpdateAccessPolicyRequestAttributes = map[string]schema.Attribute{
 	"access_policy": schema.SingleNestedAttribute{
-		Attributes: PolicyAccessPolicyAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          PolicyAccessPolicyAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -2652,9 +2756,11 @@ var TokenizerUpdateAccessPolicyTemplateRequestAttrTypes = map[string]attr.Type{
 // TokenizerUpdateAccessPolicyTemplateRequestAttributes defines the Terraform attributes schema.
 var TokenizerUpdateAccessPolicyTemplateRequestAttributes = map[string]schema.Attribute{
 	"access_policy_template": schema.SingleNestedAttribute{
-		Attributes: PolicyAccessPolicyTemplateAttributes,
-		Computed:   true,
-		Optional:   true,
+		Description:         "",
+		MarkdownDescription: "",
+		Attributes:          PolicyAccessPolicyTemplateAttributes,
+		Computed:            true,
+		Optional:            true,
 	},
 }
 
@@ -2768,6 +2874,8 @@ var UserstoreResourceIDAttrTypes = map[string]attr.Type{
 // UserstoreResourceIDAttributes defines the Terraform attributes schema.
 var UserstoreResourceIDAttributes = map[string]schema.Attribute{
 	"id": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -2781,8 +2889,10 @@ var UserstoreResourceIDAttributes = map[string]schema.Attribute{
 		},
 	},
 	"name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Computed:            true,
+		Optional:            true,
 	},
 }
 

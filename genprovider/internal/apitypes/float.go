@@ -1,7 +1,11 @@
 package apitypes
 
+import "fmt"
+
 // Float represents a float value.
-type Float struct{}
+type Float struct {
+	Description *string
+}
 
 // TFModelType returns the type that should be used to represent this type in a Terraform model.
 func (t *Float) TFModelType() string {
@@ -18,6 +22,8 @@ func (t *Float) TFSchemaAttributeType() string {
 // schema attribute.
 func (t *Float) TFSchemaAttributeText(extraFields map[string]string) string {
 	return `schema.Float64Attribute{
+		Description: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
+		MarkdownDescription: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
 		` + fieldsToString(extraFields) + `
 	}`
 }

@@ -1,5 +1,7 @@
 package apitypes
 
+import "fmt"
+
 // UserstoreResourceID represents a "userstore.ResourceID" struct. This struct has an ID field and a
 // Name field, where only one field is required, so that customers making API requests can use
 // either the UUID or the Name to refer to a resource. However, in Terraform, we want to drop the
@@ -7,6 +9,7 @@ package apitypes
 // state, then e.g. if someone were to change a column name, they would get diffs everywhere that
 // references that column, even though those other resources did not change.
 type UserstoreResourceID struct {
+	Description *string
 	// JSONClientModelStructName is the name of the codegen'ed struct that stores a
 	// userstore.ResourceID value for use in sending/receiving API requests/responses
 	JSONClientModelStructName string
@@ -28,6 +31,8 @@ func (t *UserstoreResourceID) TFSchemaAttributeType() string {
 // schema attribute.
 func (t *UserstoreResourceID) TFSchemaAttributeText(extraFields map[string]string) string {
 	return `schema.StringAttribute{
+		Description: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
+		MarkdownDescription: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("` + uuidRegex + `"),

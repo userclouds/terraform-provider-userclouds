@@ -1,9 +1,13 @@
 package apitypes
 
+import "fmt"
+
 const uuidRegex = `(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$`
 
 // UUID represents a UUIDv4 string.
-type UUID struct{}
+type UUID struct {
+	Description *string
+}
 
 // TFModelType returns the type that should be used to represent this type in a Terraform model.
 func (t *UUID) TFModelType() string {
@@ -20,6 +24,8 @@ func (t *UUID) TFSchemaAttributeType() string {
 // schema attribute.
 func (t *UUID) TFSchemaAttributeText(extraFields map[string]string) string {
 	return `schema.StringAttribute{
+		Description: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
+		MarkdownDescription: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("` + uuidRegex + `"),

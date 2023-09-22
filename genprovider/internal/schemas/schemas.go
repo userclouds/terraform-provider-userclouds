@@ -145,7 +145,10 @@ func inferAPIType(spec *openapi3.Spec, schemaName *string, schema *openapi3.Sche
 	// UserstoreResourceID references: we want to store *only* the UUID and
 	// omit the name.
 	if *schema.Type == openapi3.SchemaTypeObject && schemaName != nil && *schemaName == "UserstoreResourceID" {
-		return &apitypes.UserstoreResourceID{JSONClientModelStructName: GetJSONClientModelStructName(*schemaName)}, nil
+		return &apitypes.UserstoreResourceID{
+			Description:               schema.Description,
+			JSONClientModelStructName: GetJSONClientModelStructName(*schemaName),
+		}, nil
 	}
 	// Nested objects:
 	if *schema.Type == openapi3.SchemaTypeObject && schema.Properties != nil {
@@ -157,6 +160,7 @@ func inferAPIType(spec *openapi3.Spec, schemaName *string, schema *openapi3.Sche
 			return nil, ucerr.Errorf("this is a nested object, but is missing a schema name to refer to. we don't support nested objects with properties declared inline yet")
 		}
 		return &apitypes.Object{
+			Description:                 schema.Description,
 			TFModelStructName:           GetTFModelStructName(*schemaName),
 			TFSchemaAttributesMapName:   GetAttributesMapName(*schemaName),
 			TFSchemaAttrTypeMapName:     GetAttrTypeMapName(*schemaName),
@@ -184,7 +188,7 @@ func inferAPIType(spec *openapi3.Spec, schemaName *string, schema *openapi3.Sche
 		if err != nil {
 			return nil, ucerr.Errorf("could not infer map value type from additionalProperties: %v", err)
 		}
-		return &apitypes.Map{ValueType: valueType}, nil
+		return &apitypes.Map{Description: schema.Description, ValueType: valueType}, nil
 	}
 	// Arrays:
 	if *schema.Type == openapi3.SchemaTypeArray {
@@ -204,11 +208,11 @@ func inferAPIType(spec *openapi3.Spec, schemaName *string, schema *openapi3.Sche
 		if err != nil {
 			return nil, ucerr.Errorf("could not infer array items type from items schema: %v", err)
 		}
-		return &apitypes.Array{ChildType: itemsType}, nil
+		return &apitypes.Array{Description: schema.Description, ChildType: itemsType}, nil
 	}
 	// UUIDs (custom string type):
 	if *schema.Type == openapi3.SchemaTypeString && schema.Format != nil && *schema.Format == "uuid" {
-		return &apitypes.UUID{}, nil
+		return &apitypes.UUID{Description: schema.Description}, nil
 	}
 	// String enums:
 	if *schema.Type == openapi3.SchemaTypeString && schema.Enum != nil {
@@ -220,14 +224,14 @@ func inferAPIType(spec *openapi3.Spec, schemaName *string, schema *openapi3.Sche
 				return nil, ucerr.Errorf("schema specified type \"string\", but enum value %v is not a string", v)
 			}
 		}
-		return &apitypes.StringEnum{Values: values}, nil
+		return &apitypes.StringEnum{Description: schema.Description, Values: values}, nil
 	}
 	// Basic types:
 	basicTypesMap := map[string]apitypes.APIType{
-		"boolean": &apitypes.Bool{},
-		"integer": &apitypes.Int{},
-		"float":   &apitypes.Float{},
-		"string":  &apitypes.String{},
+		"boolean": &apitypes.Bool{Description: schema.Description},
+		"integer": &apitypes.Int{Description: schema.Description},
+		"float":   &apitypes.Float{Description: schema.Description},
+		"string":  &apitypes.String{Description: schema.Description},
 	}
 	return basicTypesMap[string(*schema.Type)], nil
 }

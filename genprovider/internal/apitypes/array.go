@@ -1,8 +1,11 @@
 package apitypes
 
+import "fmt"
+
 // Array represents an array of a single type.
 type Array struct {
-	ChildType APIType
+	Description *string
+	ChildType   APIType
 }
 
 // TFModelType returns the type that should be used to represent this type in a Terraform model.
@@ -23,6 +26,8 @@ func (t *Array) TFSchemaAttributeType() string {
 func (t *Array) TFSchemaAttributeText(extraFields map[string]string) string {
 	if child, ok := t.ChildType.(*Object); ok {
 		return `schema.ListNestedAttribute{
+			Description: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
+			MarkdownDescription: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: ` + child.TFSchemaAttributesMapName + `,
 			},
@@ -30,6 +35,8 @@ func (t *Array) TFSchemaAttributeText(extraFields map[string]string) string {
 		}`
 	}
 	return `schema.ListAttribute{
+		Description: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
+		MarkdownDescription: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
 		ElementType: ` + t.ChildType.TFSchemaAttributeType() + `,
 		` + fieldsToString(extraFields) + `
 	}`

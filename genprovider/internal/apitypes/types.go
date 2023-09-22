@@ -40,3 +40,10 @@ func fieldsToString(fields map[string]string) string {
 	}
 	return strings.TrimSpace(out)
 }
+
+func defaultDescription(description *string) string {
+	if description == nil {
+		return ""
+	}
+	return *description
+}

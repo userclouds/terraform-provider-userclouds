@@ -3,12 +3,12 @@
 page_title: "userclouds_userstore_column_post_delete_retention_duration Resource - terraform-provider-userclouds"
 subcategory: ""
 description: |-
-  Post-delete retention duration setting for a User Store column
+  Manages a post-delete retention duration setting for a User Store column. For more details, refer to the User Store documentation https://docs.userclouds.com/docs/introduction.
 ---
 
 # userclouds_userstore_column_post_delete_retention_duration (Resource)
 
-Post-delete retention duration setting for a User Store column
+Manages a post-delete retention duration setting for a User Store column. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs/introduction).
 
 
 
@@ -20,10 +20,10 @@ Post-delete retention duration setting for a User Store column
 - `column_id` (String)
 - `default_duration` (Attributes) (see [below for nested schema](#nestedatt--default_duration))
 - `duration` (Attributes) (see [below for nested schema](#nestedatt--duration))
-- `duration_type` (String)
+- `duration_type` (String) Valid values: ``, `postdelete`, `predelete`
 - `purpose_id` (String)
 - `purpose_name` (String)
-- `type` (String)
+- `type` (String) Valid values: `column`, `purpose`, `specific`, `tenant`
 - `use_default` (Boolean)
 - `version` (Number)
 
@@ -37,7 +37,7 @@ Post-delete retention duration setting for a User Store column
 Optional:
 
 - `duration` (Number)
-- `unit` (String)
+- `unit` (String) Valid values: `day`, `hour`, `indefinite`, `month`, `week`, `year`
 
 
 <a id="nestedatt--duration"></a>
@@ -46,4 +46,4 @@ Optional:
 Optional:
 
 - `duration` (Number)
-- `unit` (String)
+- `unit` (String) Valid values: `day`, `hour`, `indefinite`, `month`, `week`, `year`

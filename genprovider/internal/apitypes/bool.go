@@ -1,7 +1,11 @@
 package apitypes
 
+import "fmt"
+
 // Bool represents a boolean value.
-type Bool struct{}
+type Bool struct {
+	Description *string
+}
 
 // TFModelType returns the type that should be used to represent this type in a Terraform model.
 func (t *Bool) TFModelType() string {
@@ -18,6 +22,8 @@ func (t *Bool) TFSchemaAttributeType() string {
 // schema attribute.
 func (t *Bool) TFSchemaAttributeText(extraFields map[string]string) string {
 	return `schema.BoolAttribute{
+		Description: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
+		MarkdownDescription: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
 		` + fieldsToString(extraFields) + `
 	}`
 }

@@ -1,7 +1,11 @@
 package apitypes
 
+import "fmt"
+
 // Int represents an integer value.
-type Int struct{}
+type Int struct {
+	Description *string
+}
 
 // TFModelType returns the type that should be used to represent this type in a Terraform model.
 func (t *Int) TFModelType() string {
@@ -18,6 +22,8 @@ func (t *Int) TFSchemaAttributeType() string {
 // schema attribute.
 func (t *Int) TFSchemaAttributeText(extraFields map[string]string) string {
 	return `schema.Int64Attribute{
+		Description: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
+		MarkdownDescription: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
 		` + fieldsToString(extraFields) + `
 	}`
 }

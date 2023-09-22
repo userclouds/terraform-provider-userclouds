@@ -1,7 +1,11 @@
 package apitypes
 
+import "fmt"
+
 // String represents a string value.
-type String struct{}
+type String struct {
+	Description *string
+}
 
 // TFModelType returns the type that should be used to represent this type in a Terraform model.
 func (t *String) TFModelType() string {
@@ -18,6 +22,8 @@ func (t *String) TFSchemaAttributeType() string {
 // schema attribute.
 func (t *String) TFSchemaAttributeText(extraFields map[string]string) string {
 	return `schema.StringAttribute{
+		Description: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
+		MarkdownDescription: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
 		` + fieldsToString(extraFields) + `
 	}`
 }

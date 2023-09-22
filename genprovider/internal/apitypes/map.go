@@ -1,8 +1,11 @@
 package apitypes
 
+import "fmt"
+
 // Map represents a map from string to ValueType.
 type Map struct {
-	ValueType APIType
+	Description *string
+	ValueType   APIType
 }
 
 // TFModelType returns the type that should be used to represent this type in a Terraform model.
@@ -23,6 +26,8 @@ func (t *Map) TFSchemaAttributeType() string {
 func (t *Map) TFSchemaAttributeText(extraFields map[string]string) string {
 	if child, ok := t.ValueType.(*Object); ok {
 		return `schema.MapNestedAttribute{
+			Description: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
+			MarkdownDescription: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: ` + child.TFSchemaAttributesMapName + `,
 			},
@@ -30,6 +35,8 @@ func (t *Map) TFSchemaAttributeText(extraFields map[string]string) string {
 		}`
 	}
 	return `schema.MapAttribute{
+		Description: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
+		MarkdownDescription: ` + fmt.Sprintf("%#v", defaultDescription(t.Description)) + `,
 		ElementType: ` + t.ValueType.TFSchemaAttributeType() + `,
 		` + fieldsToString(extraFields) + `
 	}`

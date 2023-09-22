@@ -3,12 +3,12 @@
 page_title: "userclouds_access_policy Resource - terraform-provider-userclouds"
 subcategory: ""
 description: |-
-  Access policy
+  Manages a Tokenizer access policy. For more details, refer to the access policy documentation https://docs.userclouds.com/docs/token-access-policies.
 ---
 
 # userclouds_access_policy (Resource)
 
-Access policy
+Manages a Tokenizer access policy. For more details, refer to the [access policy documentation](https://docs.userclouds.com/docs/token-access-policies).
 
 
 
@@ -18,7 +18,7 @@ Access policy
 ### Required
 
 - `name` (String)
-- `policy_type` (String)
+- `policy_type` (String) Valid values: `compositeintersection`, `compositeunion`
 
 ### Optional
 
