@@ -47,8 +47,8 @@ func (r *AccessPolicyResource) Metadata(ctx context.Context, req resource.Metada
 // Schema describes the resource schema.
 func (r *AccessPolicyResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description:         "Access policy",
-		MarkdownDescription: "Access policy",
+		Description:         "Manages a Tokenizer access policy. For more details, refer to the access policy documentation: https://docs.userclouds.com/docs/token-access-policies",
+		MarkdownDescription: "Manages a Tokenizer access policy. For more details, refer to the [access policy documentation](https://docs.userclouds.com/docs/token-access-policies).",
 		Attributes:          PolicyAccessPolicyAttributes,
 	}
 }

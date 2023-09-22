@@ -42,15 +42,15 @@ func (p *UserCloudsProvider) Metadata(ctx context.Context, req provider.Metadata
 var ucSchema = schema.Schema{
 	Attributes: map[string]schema.Attribute{
 		"tenant_url": schema.StringAttribute{
-			MarkdownDescription: "URL of the UserClouds tenant",
+			MarkdownDescription: "URL of the UserClouds tenant. May also be set using the `USERCLOUDS_TENANT_URL` environment variable.",
 			Optional:            true,
 		},
 		"client_id": schema.StringAttribute{
-			MarkdownDescription: "UserClouds API Client ID",
+			MarkdownDescription: "UserClouds API Client ID. May also be set using the `USERCLOUDS_CLIENT_ID` environment variable.",
 			Optional:            true,
 		},
 		"client_secret": schema.StringAttribute{
-			MarkdownDescription: "UserClouds API Client Secret",
+			MarkdownDescription: "UserClouds API Client Secret. May also be set using the `USERCLOUDS_CLIENT_SECRET` environment variable.",
 			Optional:            true,
 			Sensitive:           true,
 		},

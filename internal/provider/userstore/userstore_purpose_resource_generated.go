@@ -47,8 +47,8 @@ func (r *UserstorePurposeResource) Metadata(ctx context.Context, req resource.Me
 // Schema describes the resource schema.
 func (r *UserstorePurposeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description:         "User Store purpose",
-		MarkdownDescription: "User Store purpose",
+		Description:         "Manages a User Store purpose. For more details, refer to the purposes documentation: https://docs.userclouds.com/docs/purpose-and-consent",
+		MarkdownDescription: "Manages a User Store purpose. For more details, refer to the [purposes documentation](https://docs.userclouds.com/docs/purpose-and-consent).",
 		Attributes:          UserstorePurposeAttributes,
 	}
 }

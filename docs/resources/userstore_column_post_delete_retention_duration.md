@@ -3,12 +3,12 @@
 page_title: "userclouds_userstore_column_post_delete_retention_duration Resource - terraform-provider-userclouds"
 subcategory: ""
 description: |-
-  Post-delete retention duration setting for a User Store column
+  Manages a post-delete retention duration setting for a User Store column. For more details, refer to the User Store documentation https://docs.userclouds.com/docs/introduction.
 ---
 
 # userclouds_userstore_column_post_delete_retention_duration (Resource)
 
-Post-delete retention duration setting for a User Store column
+Manages a post-delete retention duration setting for a User Store column. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs/introduction).
 
 
 
