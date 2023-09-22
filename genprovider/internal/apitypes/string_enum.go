@@ -1,9 +1,16 @@
 package apitypes
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+
+	"github.com/swaggest/openapi-go/openapi3"
+	"golang.org/x/exp/maps"
+)
 
 // StringEnum represents an enum of strings.
 type StringEnum struct {
+	Schema *openapi3.Schema
 	Values []string
 }
 
@@ -18,14 +25,35 @@ func (t *StringEnum) TFSchemaAttributeType() string {
 	return "types.StringType"
 }
 
+func (t *StringEnum) description() string {
+	desc := "Valid values: "
+	for i, v := range t.Values {
+		desc += "`" + v + "`"
+		if i < len(t.Values)-1 {
+			desc += ", "
+		}
+	}
+	if t.Schema.Description != nil && *t.Schema.Description != "" {
+		if !strings.HasSuffix(*t.Schema.Description, ".") {
+			desc = ". " + desc
+		}
+		desc = *t.Schema.Description + desc
+	}
+	return desc
+}
+
 // TFSchemaAttributeText returns the text of the code for instantiating this type as a Terraform
 // schema attribute.
 func (t *StringEnum) TFSchemaAttributeText(extraFields map[string]string) string {
+	fields := makeCommonFields(t.Schema)
+	fields["Description"] = fmt.Sprintf("%#v", t.description())
+	fields["MarkdownDescription"] = fmt.Sprintf("%#v", t.description())
+	maps.Copy(fields, extraFields)
 	return `schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf(` + fmt.Sprintf("%#v", t.Values) + `...),
 		},
-		` + fieldsToString(extraFields) + `
+		` + fieldsToString(fields) + `
 	}`
 }
 

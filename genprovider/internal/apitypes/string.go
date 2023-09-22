@@ -1,7 +1,14 @@
 package apitypes
 
+import (
+	"github.com/swaggest/openapi-go/openapi3"
+	"golang.org/x/exp/maps"
+)
+
 // String represents a string value.
-type String struct{}
+type String struct {
+	Schema *openapi3.Schema
+}
 
 // TFModelType returns the type that should be used to represent this type in a Terraform model.
 func (t *String) TFModelType() string {
@@ -17,8 +24,10 @@ func (t *String) TFSchemaAttributeType() string {
 // TFSchemaAttributeText returns the text of the code for instantiating this type as a Terraform
 // schema attribute.
 func (t *String) TFSchemaAttributeText(extraFields map[string]string) string {
+	fields := makeCommonFields(t.Schema)
+	maps.Copy(fields, extraFields)
 	return `schema.StringAttribute{
-		` + fieldsToString(extraFields) + `
+		` + fieldsToString(fields) + `
 	}`
 }
 

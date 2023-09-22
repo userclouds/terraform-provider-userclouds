@@ -48,8 +48,8 @@ func (r *UserstoreColumnPostDeleteRetentionDurationResource) Metadata(ctx contex
 // Schema describes the resource schema.
 func (r *UserstoreColumnPostDeleteRetentionDurationResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description:         "Post-delete retention duration setting for a User Store column",
-		MarkdownDescription: "Post-delete retention duration setting for a User Store column",
+		Description:         "Manages a post-delete retention duration setting for a User Store column. For more details, refer to the User Store documentation: https://docs.userclouds.com/docs/introduction",
+		MarkdownDescription: "Manages a post-delete retention duration setting for a User Store column. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs/introduction).",
 		Attributes:          IdpColumnRetentionDurationAttributes,
 	}
 }

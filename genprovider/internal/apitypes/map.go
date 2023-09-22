@@ -1,7 +1,13 @@
 package apitypes
 
+import (
+	"github.com/swaggest/openapi-go/openapi3"
+	"golang.org/x/exp/maps"
+)
+
 // Map represents a map from string to ValueType.
 type Map struct {
+	Schema    *openapi3.Schema
 	ValueType APIType
 }
 
@@ -21,17 +27,19 @@ func (t *Map) TFSchemaAttributeType() string {
 // TFSchemaAttributeText returns the text of the code for instantiating this type as a Terraform
 // schema attribute.
 func (t *Map) TFSchemaAttributeText(extraFields map[string]string) string {
+	fields := makeCommonFields(t.Schema)
+	maps.Copy(fields, extraFields)
 	if child, ok := t.ValueType.(*Object); ok {
 		return `schema.MapNestedAttribute{
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: ` + child.TFSchemaAttributesMapName + `,
 			},
-			` + fieldsToString(extraFields) + `
+			` + fieldsToString(fields) + `
 		}`
 	}
 	return `schema.MapAttribute{
 		ElementType: ` + t.ValueType.TFSchemaAttributeType() + `,
-		` + fieldsToString(extraFields) + `
+		` + fieldsToString(fields) + `
 	}`
 }
 

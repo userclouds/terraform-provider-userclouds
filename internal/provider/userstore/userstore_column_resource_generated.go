@@ -47,8 +47,8 @@ func (r *UserstoreColumnResource) Metadata(ctx context.Context, req resource.Met
 // Schema describes the resource schema.
 func (r *UserstoreColumnResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description:         "User Store column",
-		MarkdownDescription: "User Store column",
+		Description:         "Manages a User Store column. For more details, refer to the User Store documentation: https://docs.userclouds.com/docs/introduction",
+		MarkdownDescription: "Manages a User Store column. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs/introduction).",
 		Attributes:          UserstoreColumnAttributes,
 	}
 }

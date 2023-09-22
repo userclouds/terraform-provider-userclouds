@@ -3,12 +3,12 @@
 page_title: "userclouds_transformer Resource - terraform-provider-userclouds"
 subcategory: ""
 description: |-
-  Transformer
+  Manages a Tokenizer transformer. For more details refer to the transformer documentation https://docs.userclouds.com/docs/token-transformers.
 ---
 
 # userclouds_transformer (Resource)
 
-Transformer
+Manages a Tokenizer transformer. For more details refer to the [transformer documentation](https://docs.userclouds.com/docs/token-transformers).
 
 
 
@@ -18,9 +18,9 @@ Transformer
 ### Required
 
 - `function` (String)
-- `input_type` (String)
+- `input_type` (String) Valid values: `address`, `boolean`, `integer`, `string`, `timestamp`, `uuid`
 - `name` (String)
-- `transform_type` (String)
+- `transform_type` (String) Valid values: `passthrough`, `tokenizebyreference`, `tokenizebyvalue`, `transform`
 
 ### Optional
 

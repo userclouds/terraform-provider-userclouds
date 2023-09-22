@@ -55,13 +55,17 @@ var IdpColumnConsentedPurposesAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"consented_purposes": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -237,25 +241,33 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -264,8 +276,10 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
@@ -277,27 +291,37 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		Optional:            true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -612,16 +636,20 @@ var IdpColumnRetentionDurationsResponseAttrTypes = map[string]attr.Type{
 // IdpColumnRetentionDurationsResponseAttributes defines the Terraform attributes schema.
 var IdpColumnRetentionDurationsResponseAttributes = map[string]schema.Attribute{
 	"max_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"retention_durations": schema.ListNestedAttribute{
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: IdpColumnRetentionDurationAttributes,
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -790,9 +818,11 @@ var IdpCreateAccessorRequestAttrTypes = map[string]attr.Type{
 // IdpCreateAccessorRequestAttributes defines the Terraform attributes schema.
 var IdpCreateAccessorRequestAttributes = map[string]schema.Attribute{
 	"accessor": schema.SingleNestedAttribute{
-		Attributes: UserstoreAccessorAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstoreAccessorAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -879,9 +909,11 @@ var IdpCreateColumnRequestAttrTypes = map[string]attr.Type{
 // IdpCreateColumnRequestAttributes defines the Terraform attributes schema.
 var IdpCreateColumnRequestAttributes = map[string]schema.Attribute{
 	"column": schema.SingleNestedAttribute{
-		Attributes: UserstoreColumnAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstoreColumnAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -968,9 +1000,11 @@ var IdpCreateMutatorRequestAttrTypes = map[string]attr.Type{
 // IdpCreateMutatorRequestAttributes defines the Terraform attributes schema.
 var IdpCreateMutatorRequestAttributes = map[string]schema.Attribute{
 	"mutator": schema.SingleNestedAttribute{
-		Attributes: UserstoreMutatorAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstoreMutatorAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1057,9 +1091,11 @@ var IdpCreatePurposeRequestAttrTypes = map[string]attr.Type{
 // IdpCreatePurposeRequestAttributes defines the Terraform attributes schema.
 var IdpCreatePurposeRequestAttributes = map[string]schema.Attribute{
 	"purpose": schema.SingleNestedAttribute{
-		Attributes: UserstorePurposeAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstorePurposeAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1172,9 +1208,11 @@ var IdpExecuteAccessorResponseAttrTypes = map[string]attr.Type{
 // IdpExecuteAccessorResponseAttributes defines the Terraform attributes schema.
 var IdpExecuteAccessorResponseAttributes = map[string]schema.Attribute{
 	"data": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1259,9 +1297,11 @@ var IdpExecuteMutatorResponseAttrTypes = map[string]attr.Type{
 // IdpExecuteMutatorResponseAttributes defines the Terraform attributes schema.
 var IdpExecuteMutatorResponseAttributes = map[string]schema.Attribute{
 	"user_ids": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1355,9 +1395,11 @@ var IdpGetConsentedPurposesForUserRequestAttrTypes = map[string]attr.Type{
 // IdpGetConsentedPurposesForUserRequestAttributes defines the Terraform attributes schema.
 var IdpGetConsentedPurposesForUserRequestAttributes = map[string]schema.Attribute{
 	"columns": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"user_id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -1366,8 +1408,10 @@ var IdpGetConsentedPurposesForUserRequestAttributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1499,8 +1543,10 @@ var IdpGetConsentedPurposesForUserResponseAttributes = map[string]schema.Attribu
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: IdpColumnConsentedPurposesAttributes,
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1621,15 +1667,19 @@ var IdpRetentionDurationAttrTypes = map[string]attr.Type{
 // IdpRetentionDurationAttributes defines the Terraform attributes schema.
 var IdpRetentionDurationAttributes = map[string]schema.Attribute{
 	"duration": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"unit": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"day", "hour", "indefinite", "month", "week", "year"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: `day`, `hour`, `indefinite`, `month`, `week`, `year`",
+		MarkdownDescription: "Valid values: `day`, `hour`, `indefinite`, `month`, `week`, `year`",
+		Optional:            true,
 	},
 }
 
@@ -1790,24 +1840,32 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"columns": schema.ListNestedAttribute{
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: UserstoreColumnOutputConfigAttributes,
 		},
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"data_life_cycle_state": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
+		Optional:            true,
 	},
 	"description": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -1816,22 +1874,30 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"purposes": schema.ListAttribute{
-		ElementType: types.StringType,
-		Required:    true,
+		ElementType:         types.StringType,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"selector_config": schema.SingleNestedAttribute{
-		Attributes: UserstoreUserSelectorConfigAttributes,
-		Required:   true,
+		Attributes:          UserstoreUserSelectorConfigAttributes,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"token_access_policy": schema.StringAttribute{
 		Validators: []validator.String{
@@ -1840,12 +1906,16 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -2252,8 +2322,10 @@ var UserstoreColumnAttrTypes = map[string]attr.Type{
 // UserstoreColumnAttributes defines the Terraform attributes schema.
 var UserstoreColumnAttributes = map[string]schema.Attribute{
 	"default_value": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -2262,8 +2334,10 @@ var UserstoreColumnAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
@@ -2272,19 +2346,27 @@ var UserstoreColumnAttributes = map[string]schema.Attribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"indexed", "none", "unique"}...),
 		},
-		Required: true,
+		Description:         "Valid values: `indexed`, `none`, `unique`",
+		MarkdownDescription: "Valid values: `indexed`, `none`, `unique`",
+		Required:            true,
 	},
 	"is_array": schema.BoolAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"address", "boolean", "integer", "string", "timestamp", "uuid"}...),
 		},
-		Required: true,
+		Description:         "Valid values: `address`, `boolean`, `integer`, `string`, `timestamp`, `uuid`",
+		MarkdownDescription: "Valid values: `address`, `boolean`, `integer`, `string`, `timestamp`, `uuid`",
+		Required:            true,
 	},
 }
 
@@ -2457,8 +2539,10 @@ var UserstoreColumnInputConfigAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"validator": schema.StringAttribute{
 		Validators: []validator.String{
@@ -2467,8 +2551,10 @@ var UserstoreColumnInputConfigAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -2585,8 +2671,10 @@ var UserstoreColumnOutputConfigAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"transformer": schema.StringAttribute{
 		Validators: []validator.String{
@@ -2595,8 +2683,10 @@ var UserstoreColumnOutputConfigAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -2741,25 +2831,33 @@ var UserstoreColumnRetentionDurationAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -2768,8 +2866,10 @@ var UserstoreColumnRetentionDurationAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
@@ -2781,27 +2881,37 @@ var UserstoreColumnRetentionDurationAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		Optional:            true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -3118,25 +3228,33 @@ var UserstoreColumnRetentionDurationType2Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -3145,8 +3263,10 @@ var UserstoreColumnRetentionDurationType2Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
@@ -3158,27 +3278,37 @@ var UserstoreColumnRetentionDurationType2Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		Optional:            true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -3495,25 +3625,33 @@ var UserstoreColumnRetentionDurationType3Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -3522,8 +3660,10 @@ var UserstoreColumnRetentionDurationType3Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
@@ -3535,27 +3675,37 @@ var UserstoreColumnRetentionDurationType3Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		Optional:            true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -3872,25 +4022,33 @@ var UserstoreColumnRetentionDurationType4Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -3899,8 +4057,10 @@ var UserstoreColumnRetentionDurationType4Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
@@ -3912,27 +4072,37 @@ var UserstoreColumnRetentionDurationType4Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		Optional:            true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -4249,25 +4419,33 @@ var UserstoreColumnRetentionDurationType5Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -4276,8 +4454,10 @@ var UserstoreColumnRetentionDurationType5Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
@@ -4289,27 +4469,37 @@ var UserstoreColumnRetentionDurationType5Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		Optional:            true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -4626,25 +4816,33 @@ var UserstoreColumnRetentionDurationType6Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -4653,8 +4851,10 @@ var UserstoreColumnRetentionDurationType6Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
@@ -4666,27 +4866,37 @@ var UserstoreColumnRetentionDurationType6Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		Optional:            true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -5003,25 +5213,33 @@ var UserstoreColumnRetentionDurationType7Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -5030,8 +5248,10 @@ var UserstoreColumnRetentionDurationType7Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
@@ -5043,27 +5263,37 @@ var UserstoreColumnRetentionDurationType7Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		Optional:            true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -5380,25 +5610,33 @@ var UserstoreColumnRetentionDurationType8Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: ``, `postdelete`, `predelete`",
+		MarkdownDescription: "Valid values: ``, `postdelete`, `predelete`",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -5407,8 +5645,10 @@ var UserstoreColumnRetentionDurationType8Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
@@ -5420,27 +5660,37 @@ var UserstoreColumnRetentionDurationType8Attributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		MarkdownDescription: "Valid values: `column`, `purpose`, `specific`, `tenant`",
+		Optional:            true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -5802,17 +6052,23 @@ var UserstoreMutatorAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"columns": schema.ListNestedAttribute{
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: UserstoreColumnInputConfigAttributes,
 		},
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"description": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -5821,22 +6077,30 @@ var UserstoreMutatorAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"selector_config": schema.SingleNestedAttribute{
-		Attributes: UserstoreUserSelectorConfigAttributes,
-		Required:   true,
+		Attributes:          UserstoreUserSelectorConfigAttributes,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6115,8 +6379,10 @@ var UserstorePurposeAttrTypes = map[string]attr.Type{
 // UserstorePurposeAttributes defines the Terraform attributes schema.
 var UserstorePurposeAttributes = map[string]schema.Attribute{
 	"description": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -6125,14 +6391,18 @@ var UserstorePurposeAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 }
 
@@ -6231,15 +6501,19 @@ var UserstoreResourceIDAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6315,9 +6589,11 @@ var UserstoreUpdateAccessorRequestAttrTypes = map[string]attr.Type{
 // UserstoreUpdateAccessorRequestAttributes defines the Terraform attributes schema.
 var UserstoreUpdateAccessorRequestAttributes = map[string]schema.Attribute{
 	"accessor": schema.SingleNestedAttribute{
-		Attributes: UserstoreAccessorAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstoreAccessorAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6404,9 +6680,11 @@ var UserstoreUpdateColumnRequestAttrTypes = map[string]attr.Type{
 // UserstoreUpdateColumnRequestAttributes defines the Terraform attributes schema.
 var UserstoreUpdateColumnRequestAttributes = map[string]schema.Attribute{
 	"column": schema.SingleNestedAttribute{
-		Attributes: UserstoreColumnAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstoreColumnAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6498,8 +6776,10 @@ var UserstoreUpdateColumnRetentionDurationsRequestAttributes = map[string]schema
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: IdpColumnRetentionDurationAttributes,
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6624,8 +6904,10 @@ var UserstoreUpdateColumnRetentionDurationsRequestType2Attributes = map[string]s
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: IdpColumnRetentionDurationAttributes,
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6745,9 +7027,11 @@ var UserstoreUpdateMutatorRequestAttrTypes = map[string]attr.Type{
 // UserstoreUpdateMutatorRequestAttributes defines the Terraform attributes schema.
 var UserstoreUpdateMutatorRequestAttributes = map[string]schema.Attribute{
 	"mutator": schema.SingleNestedAttribute{
-		Attributes: UserstoreMutatorAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstoreMutatorAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6834,9 +7118,11 @@ var UserstoreUpdatePurposeRequestAttrTypes = map[string]attr.Type{
 // UserstoreUpdatePurposeRequestAttributes defines the Terraform attributes schema.
 var UserstoreUpdatePurposeRequestAttributes = map[string]schema.Attribute{
 	"purpose": schema.SingleNestedAttribute{
-		Attributes: UserstorePurposeAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstorePurposeAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6921,8 +7207,10 @@ var UserstoreUserSelectorConfigAttrTypes = map[string]attr.Type{
 // UserstoreUserSelectorConfigAttributes defines the Terraform attributes schema.
 var UserstoreUserSelectorConfigAttributes = map[string]schema.Attribute{
 	"where_clause": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
