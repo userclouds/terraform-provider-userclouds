@@ -1,9 +1,16 @@
 package apitypes
 
+import (
+	"github.com/swaggest/openapi-go/openapi3"
+	"golang.org/x/exp/maps"
+)
+
 const uuidRegex = `(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$`
 
 // UUID represents a UUIDv4 string.
-type UUID struct{}
+type UUID struct {
+	Schema *openapi3.Schema
+}
 
 // TFModelType returns the type that should be used to represent this type in a Terraform model.
 func (t *UUID) TFModelType() string {
@@ -19,6 +26,8 @@ func (t *UUID) TFSchemaAttributeType() string {
 // TFSchemaAttributeText returns the text of the code for instantiating this type as a Terraform
 // schema attribute.
 func (t *UUID) TFSchemaAttributeText(extraFields map[string]string) string {
+	fields := makeCommonFields(t.Schema)
+	maps.Copy(fields, extraFields)
 	return `schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
@@ -26,7 +35,7 @@ func (t *UUID) TFSchemaAttributeText(extraFields map[string]string) string {
 				"invalid UUIDv4 format",
 			),
 		},
-		` + fieldsToString(extraFields) + `
+		` + fieldsToString(fields) + `
 	}`
 }
 

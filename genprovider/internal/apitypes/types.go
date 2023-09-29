@@ -1,8 +1,11 @@
 package apitypes
 
 import (
+	"fmt"
 	"sort"
 	"strings"
+
+	"github.com/swaggest/openapi-go/openapi3"
 )
 
 // APIType represents a type for use with the UserClouds API. It contains methods to simplify
@@ -39,4 +42,15 @@ func fieldsToString(fields map[string]string) string {
 		out += k + ": " + fields[k] + ",\n"
 	}
 	return strings.TrimSpace(out)
+}
+
+func makeCommonFields(schema *openapi3.Schema) map[string]string {
+	var description string
+	if schema.Description != nil {
+		description = *schema.Description
+	}
+	return map[string]string{
+		"Description":         fmt.Sprintf("%#v", description),
+		"MarkdownDescription": fmt.Sprintf("%#v", description),
+	}
 }

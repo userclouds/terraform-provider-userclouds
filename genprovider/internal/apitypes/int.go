@@ -1,7 +1,14 @@
 package apitypes
 
+import (
+	"github.com/swaggest/openapi-go/openapi3"
+	"golang.org/x/exp/maps"
+)
+
 // Int represents an integer value.
-type Int struct{}
+type Int struct {
+	Schema *openapi3.Schema
+}
 
 // TFModelType returns the type that should be used to represent this type in a Terraform model.
 func (t *Int) TFModelType() string {
@@ -17,8 +24,10 @@ func (t *Int) TFSchemaAttributeType() string {
 // TFSchemaAttributeText returns the text of the code for instantiating this type as a Terraform
 // schema attribute.
 func (t *Int) TFSchemaAttributeText(extraFields map[string]string) string {
+	fields := makeCommonFields(t.Schema)
+	maps.Copy(fields, extraFields)
 	return `schema.Int64Attribute{
-		` + fieldsToString(extraFields) + `
+		` + fieldsToString(fields) + `
 	}`
 }
 

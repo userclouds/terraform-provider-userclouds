@@ -48,8 +48,8 @@ func (r *TransformerResource) Metadata(ctx context.Context, req resource.Metadat
 // Schema describes the resource schema.
 func (r *TransformerResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description:         "Transformer",
-		MarkdownDescription: "Transformer",
+		Description:         "Manages a Tokenizer transformer. For more details refer to the transformer documentation: https://docs.userclouds.com/docs/token-transformers",
+		MarkdownDescription: "Manages a Tokenizer transformer. For more details refer to the [transformer documentation](https://docs.userclouds.com/docs/token-transformers).",
 		Attributes:          PolicyTransformerAttributes,
 	}
 }
