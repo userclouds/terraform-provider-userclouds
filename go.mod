@@ -1,4 +1,4 @@
-module github.com/userclouds/userclouds/terraform-provider-userclouds
+module github.com/userclouds/terraform-provider-userclouds
 
 go 1.20
 

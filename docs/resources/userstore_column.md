@@ -3,12 +3,12 @@
 page_title: "userclouds_userstore_column Resource - terraform-provider-userclouds"
 subcategory: ""
 description: |-
-  User Store column
+  Manages a User Store column. For more details, refer to the User Store documentation https://docs.userclouds.com/docs/introduction.
 ---
 
 # userclouds_userstore_column (Resource)
 
-User Store column
+Manages a User Store column. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs/introduction).
 
 ## Example Usage
 
@@ -26,10 +26,10 @@ resource "userclouds_userstore_column" "example" {
 
 ### Required
 
-- `index_type` (String)
+- `index_type` (String) Valid values: `indexed`, `none`, `unique`
 - `is_array` (Boolean)
 - `name` (String)
-- `type` (String)
+- `type` (String) Valid values: `address`, `birthdate`, `boolean`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
 
 ### Optional
 

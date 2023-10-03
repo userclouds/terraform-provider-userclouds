@@ -1,6 +1,6 @@
 package resources
 
-import "github.com/userclouds/userclouds/terraform-provider-userclouds/genprovider/internal/stringutils"
+import "github.com/userclouds/terraform-provider-userclouds/genprovider/internal/stringutils"
 
 // TFTypeNameSuffixToResourceName returns the name of the generated resource type, e.g.
 // UserstoreColumnResource.

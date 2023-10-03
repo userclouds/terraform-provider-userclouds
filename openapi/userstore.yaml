@@ -380,10 +380,10 @@ paths:
       summary: Update Column
       tags:
       - Columns
-  /userstore/config/columns/{id}/postdeleteretentiondurations:
+  /userstore/config/columns/{id}/liveretentiondurations:
     get:
-      description: This endpoint gets the default PostDelete ColumnRetentionDurations
-        for a tenant column.
+      description: This endpoint gets the default Live ColumnRetentionDurations for
+        a tenant column.
       parameters:
       - in: path
         name: id
@@ -397,17 +397,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/IdpColumnRetentionDurationsResponse'
           description: OK
-        "400":
-          description: Bad Request
         "500":
           description: Internal Server Error
-        "501":
-          description: Not Implemented
-      summary: Get PostDelete ColumnRetentionDurations for Column
+      summary: Get Default Live ColumnRetentionDurations for Column
       tags:
       - ColumnRetentionDurations
     post:
-      description: This endpoint updates all specified PostDelete ColumnRetentionDurations
+      description: This endpoint updates all specified Live ColumnRetentionDurations
         for a tenant column.
       parameters:
       - in: path
@@ -421,25 +417,23 @@ paths:
             schema:
               $ref: '#/components/schemas/UserstoreUpdateColumnRetentionDurationsRequest'
       responses:
-        "201":
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/IdpColumnRetentionDurationsResponse'
-          description: Created
+          description: OK
         "400":
           description: Bad Request
         "500":
           description: Internal Server Error
-        "501":
-          description: Not Implemented
-      summary: Update PostDelete ColumnRetentionDurations for Column
+      summary: Update Live ColumnRetentionDurations for Column
       tags:
       - ColumnRetentionDurations
-  /userstore/config/columns/{id}/postdeleteretentiondurations/{id2}:
+  /userstore/config/columns/{id}/liveretentiondurations/{id2}:
     delete:
-      description: This endpoint deletes a specific PostDelete ColumnRetentionDuration
-        for a tenant column.
+      description: This endpoint deletes a specific Live ColumnRetentionDuration for
+        a tenant column.
       parameters:
       - in: path
         name: id
@@ -452,16 +446,18 @@ paths:
         schema:
           $ref: '#/components/schemas/UuidUUID'
       responses:
-        "200":
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Delete PostDelete ColumnRetentionDuration for Column
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Delete Live ColumnRetentionDuration for Column
       tags:
       - ColumnRetentionDurations
     get:
-      description: This endpoint gets a specific PostDelete ColumnRetentionDuration
-        for a tenant column.
+      description: This endpoint gets a specific Live ColumnRetentionDuration for
+        a tenant column.
       parameters:
       - in: path
         name: id
@@ -478,16 +474,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
           description: OK
-        "501":
-          description: Not Implemented
-      summary: Get PostDelete ColumnRetentionDuration for Column
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get Live ColumnRetentionDuration for Column
       tags:
       - ColumnRetentionDurations
     put:
-      description: This endpoint updates a specific PostDelete ColumnRetentionDuration
-        for a tenant column.
+      description: This endpoint updates a specific Live ColumnRetentionDuration for
+        a tenant column.
       parameters:
       - in: path
         name: id
@@ -503,22 +501,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserstoreColumnRetentionDuration'
+              $ref: '#/components/schemas/UserstoreUpdateColumnRetentionDurationRequest'
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
           description: OK
-        "501":
-          description: Not Implemented
-      summary: Update PostDelete ColumnRetentionDuration for Column
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Update Live ColumnRetentionDuration for Column
       tags:
       - ColumnRetentionDurations
-  /userstore/config/columns/{id}/predeleteretentiondurations:
+  /userstore/config/columns/{id}/softdeletedretentiondurations:
     get:
-      description: This endpoint gets the default PreDelete ColumnRetentionDurations
+      description: This endpoint gets the default SoftDeleted ColumnRetentionDurations
         for a tenant column.
       parameters:
       - in: path
@@ -533,17 +533,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/IdpColumnRetentionDurationsResponse'
           description: OK
-        "400":
-          description: Bad Request
         "500":
           description: Internal Server Error
-        "501":
-          description: Not Implemented
-      summary: Get Default PreDelete ColumnRetentionDurations for Column
+      summary: Get SoftDeleted ColumnRetentionDurations for Column
       tags:
       - ColumnRetentionDurations
     post:
-      description: This endpoint updates all specified PreDelete ColumnRetentionDurations
+      description: This endpoint updates all specified SoftDeleted ColumnRetentionDurations
         for a tenant column.
       parameters:
       - in: path
@@ -557,24 +553,22 @@ paths:
             schema:
               $ref: '#/components/schemas/UserstoreUpdateColumnRetentionDurationsRequestType2'
       responses:
-        "201":
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/IdpColumnRetentionDurationsResponse'
-          description: Created
+          description: OK
         "400":
           description: Bad Request
         "500":
           description: Internal Server Error
-        "501":
-          description: Not Implemented
-      summary: Update PreDelete ColumnRetentionDurations for Column
+      summary: Update SoftDeleted ColumnRetentionDurations for Column
       tags:
       - ColumnRetentionDurations
-  /userstore/config/columns/{id}/predeleteretentiondurations/{id2}:
+  /userstore/config/columns/{id}/softdeletedretentiondurations/{id2}:
     delete:
-      description: This endpoint deletes a specific PreDelete ColumnRetentionDuration
+      description: This endpoint deletes a specific SoftDeleted ColumnRetentionDuration
         for a tenant column.
       parameters:
       - in: path
@@ -588,15 +582,17 @@ paths:
         schema:
           $ref: '#/components/schemas/UuidUUID'
       responses:
-        "200":
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Delete PreDelete ColumnRetentionDuration for Column
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Delete SoftDeleted ColumnRetentionDuration for Column
       tags:
       - ColumnRetentionDurations
     get:
-      description: This endpoint gets a specific PreDelete ColumnRetentionDuration
+      description: This endpoint gets a specific SoftDeleted ColumnRetentionDuration
         for a tenant column.
       parameters:
       - in: path
@@ -614,15 +610,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
           description: OK
-        "501":
-          description: Not Implemented
-      summary: Get PreDelete ColumnRetentionDuration for Column
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get SoftDeleted ColumnRetentionDuration for Column
       tags:
       - ColumnRetentionDurations
     put:
-      description: This endpoint updates a specific PreDelete ColumnRetentionDuration
+      description: This endpoint updates a specific SoftDeleted ColumnRetentionDuration
         for a tenant column.
       parameters:
       - in: path
@@ -639,17 +637,127 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserstoreColumnRetentionDurationType2'
+              $ref: '#/components/schemas/UserstoreUpdateColumnRetentionDurationRequestType2'
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
           description: OK
-        "501":
-          description: Not Implemented
-      summary: Update PreDelete ColumnRetentionDuration for Column
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Update SoftDeleted ColumnRetentionDuration for Column
+      tags:
+      - ColumnRetentionDurations
+  /userstore/config/liveretentiondurations:
+    get:
+      description: This endpoint gets the default Live ColumnRetentionDuration for
+        a tenant.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: Get Default Live ColumnRetentionDuration for Tenant
+      tags:
+      - ColumnRetentionDurations
+    post:
+      description: This endpoint creates a Live ColumnRetentionDuration for a tenant.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdpUpdateColumnRetentionDurationRequest'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
+          description: Created
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create Live ColumnRetentionDuration for Tenant
+      tags:
+      - ColumnRetentionDurations
+  /userstore/config/liveretentiondurations/{id}:
+    delete:
+      description: This endpoint deletes a specific Live ColumnRetentionDuration for
+        a tenant.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Delete Live ColumnRetentionDuration for Tenant
+      tags:
+      - ColumnRetentionDurations
+    get:
+      description: This endpoint gets a specific Live ColumnRetentionDuration for
+        a tenant.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get Live ColumnRetentionDuration for Tenant
+      tags:
+      - ColumnRetentionDurations
+    put:
+      description: This endpoint updates a specific Live ColumnRetentionDuration for
+        a tenant.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreUpdateColumnRetentionDurationRequestType3'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Update Live ColumnRetentionDuration for Tenant
       tags:
       - ColumnRetentionDurations
   /userstore/config/mutators:
@@ -826,208 +934,6 @@ paths:
       summary: Update Mutator
       tags:
       - Mutators
-  /userstore/config/postdeleteretentiondurations:
-    get:
-      description: This endpoint gets the default PostDelete ColumnRetentionDuration
-        for a tenant.
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Get Default PreDelete ColumnRetentionDuration for Tenant
-      tags:
-      - ColumnRetentionDurations
-    post:
-      description: This endpoint creates a PostDelete ColumnRetentionDuration for
-        a tenant.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/IdpColumnRetentionDuration'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Create PostDelete ColumnRetentionDuration for Tenant
-      tags:
-      - ColumnRetentionDurations
-  /userstore/config/postdeleteretentiondurations/{id}:
-    delete:
-      description: This endpoint deletes a specific PostDelete ColumnRetentionDuration
-        for a tenant.
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          $ref: '#/components/schemas/UuidUUID'
-      responses:
-        "200":
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Delete PreDelete ColumnRetentionDuration for Tenant
-      tags:
-      - ColumnRetentionDurations
-    get:
-      description: This endpoint gets a specific PostDelete ColumnRetentionDuration
-        for a tenant.
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          $ref: '#/components/schemas/UuidUUID'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Get PreDelete ColumnRetentionDuration for Tenant
-      tags:
-      - ColumnRetentionDurations
-    put:
-      description: This endpoint updates a specific PostDelete ColumnRetentionDuration
-        for a tenant.
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          $ref: '#/components/schemas/UuidUUID'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserstoreColumnRetentionDurationType3'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Update PostDelete ColumnRetentionDuration for Tenant
-      tags:
-      - ColumnRetentionDurations
-  /userstore/config/predeleteretentiondurations:
-    get:
-      description: This endpoint gets the default PreDelete ColumnRetentionDuration
-        for a tenant.
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Get Default PreDelete ColumnRetentionDuration for Tenant
-      tags:
-      - ColumnRetentionDurations
-    post:
-      description: This endpoint creates a PreDelete ColumnRetentionDuration for a
-        tenant.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/IdpColumnRetentionDuration'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Create PreDelete ColumnRetentionDuration for Tenant
-      tags:
-      - ColumnRetentionDurations
-  /userstore/config/predeleteretentiondurations/{id}:
-    delete:
-      description: This endpoint deletes a specific PreDelete ColumnRetentionDuration
-        for a tenant.
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          $ref: '#/components/schemas/UuidUUID'
-      responses:
-        "200":
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Delete PreDelete ColumnRetentionDuration for Tenant
-      tags:
-      - ColumnRetentionDurations
-    get:
-      description: This endpoint gets a specific PreDelete ColumnRetentionDuration
-        for a tenant.
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          $ref: '#/components/schemas/UuidUUID'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Get PreDelete ColumnRetentionDuration for Tenant
-      tags:
-      - ColumnRetentionDurations
-    put:
-      description: This endpoint updates a specific PreDelete ColumnRetentionDuration
-        for a tenant.
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          $ref: '#/components/schemas/UuidUUID'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserstoreColumnRetentionDurationType4'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Update PreDelete ColumnRetentionDuration for Tenant
-      tags:
-      - ColumnRetentionDurations
   /userstore/config/purposes:
     get:
       description: This endpoint returns a paginated list of all purposes in a tenant.
@@ -1184,9 +1090,145 @@ paths:
       summary: Update Purpose
       tags:
       - Purposes
-  /userstore/config/purposes/{id}/postdeleteretentiondurations:
+  /userstore/config/purposes/{id}/liveretentiondurations:
     get:
-      description: This endpoint gets the default PostDelete ColumnRetentionDuration
+      description: This endpoint gets the default Live ColumnRetentionDuration for
+        a tenant purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: Get Default Live ColumnRetentionDuration for Purpose
+      tags:
+      - ColumnRetentionDurations
+    post:
+      description: This endpoint creates a Live ColumnRetentionDuration for a tenant
+        purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreUpdateColumnRetentionDurationRequestType4'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
+          description: Created
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create Live ColumnRetentionDuration for Purpose
+      tags:
+      - ColumnRetentionDurations
+  /userstore/config/purposes/{id}/liveretentiondurations/{id2}:
+    delete:
+      description: This endpoint deletes a specific Live ColumnRetentionDuration for
+        a tenant purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      - in: path
+        name: id2
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Delete Live ColumnRetentionDuration for Purpose
+      tags:
+      - ColumnRetentionDurations
+    get:
+      description: This endpoint gets a specific Live ColumnRetentionDuration for
+        a tenant purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      - in: path
+        name: id2
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get Live ColumnRetentionDuration for Purpose
+      tags:
+      - ColumnRetentionDurations
+    put:
+      description: This endpoint updates a specific Live ColumnRetentionDuration for
+        a tenant purpose.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      - in: path
+        name: id2
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreUpdateColumnRetentionDurationRequestType5'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Update Live ColumnRetentionDuration for Purpose
+      tags:
+      - ColumnRetentionDurations
+  /userstore/config/purposes/{id}/softdeletedretentiondurations:
+    get:
+      description: This endpoint gets the default SoftDeleted ColumnRetentionDuration
         for a tenant purpose.
       parameters:
       - in: path
@@ -1199,15 +1241,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
           description: OK
-        "501":
-          description: Not Implemented
-      summary: Get Default PostDelete ColumnRetentionDuration for Purpose
+        "500":
+          description: Internal Server Error
+      summary: Get Default SoftDeleted ColumnRetentionDuration for Purpose
       tags:
       - ColumnRetentionDurations
     post:
-      description: This endpoint creates a PostDelete ColumnRetentionDuration for
+      description: This endpoint creates a SoftDeleted ColumnRetentionDuration for
         a tenant purpose.
       parameters:
       - in: path
@@ -1219,22 +1261,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserstoreColumnRetentionDurationType5'
+              $ref: '#/components/schemas/UserstoreUpdateColumnRetentionDurationRequestType6'
       responses:
-        "200":
+        "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Create PostDelete ColumnRetentionDuration for Purpose
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
+          description: Created
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create SoftDeleted ColumnRetentionDuration for Purpose
       tags:
       - ColumnRetentionDurations
-  /userstore/config/purposes/{id}/postdeleteretentiondurations/{id2}:
+  /userstore/config/purposes/{id}/softdeletedretentiondurations/{id2}:
     delete:
-      description: This endpoint deletes a specific PostDelete ColumnRetentionDuration
+      description: This endpoint deletes a specific SoftDeleted ColumnRetentionDuration
         for a tenant purpose.
       parameters:
       - in: path
@@ -1248,15 +1292,17 @@ paths:
         schema:
           $ref: '#/components/schemas/UuidUUID'
       responses:
-        "200":
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Delete PostDelete ColumnRetentionDuration for Purpose
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Delete SoftDeleted ColumnRetentionDuration for Purpose
       tags:
       - ColumnRetentionDurations
     get:
-      description: This endpoint gets a specific PostDelete ColumnRetentionDuration
+      description: This endpoint gets a specific SoftDeleted ColumnRetentionDuration
         for a tenant purpose.
       parameters:
       - in: path
@@ -1274,15 +1320,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
           description: OK
-        "501":
-          description: Not Implemented
-      summary: Get PostDelete ColumnRetentionDuration for Purpose
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get SoftDeleted ColumnRetentionDuration for Purpose
       tags:
       - ColumnRetentionDurations
     put:
-      description: This endpoint updates a specific PostDelete ColumnRetentionDuration
+      description: This endpoint updates a specific SoftDeleted ColumnRetentionDuration
         for a tenant purpose.
       parameters:
       - in: path
@@ -1299,101 +1347,85 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserstoreColumnRetentionDurationType6'
+              $ref: '#/components/schemas/UserstoreUpdateColumnRetentionDurationRequestType7'
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
           description: OK
-        "501":
-          description: Not Implemented
-      summary: Update PostDelete ColumnRetentionDuration for Purpose
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Update SoftDeleted ColumnRetentionDuration for Purpose
       tags:
       - ColumnRetentionDurations
-  /userstore/config/purposes/{id}/predeleteretentiondurations:
+  /userstore/config/softdeletedretentiondurations:
     get:
-      description: This endpoint gets the default PreDelete ColumnRetentionDuration
-        for a tenant purpose.
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          $ref: '#/components/schemas/UuidUUID'
+      description: This endpoint gets the default SoftDeleted ColumnRetentionDuration
+        for a tenant.
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
           description: OK
-        "501":
-          description: Not Implemented
-      summary: Get Default PreDelete ColumnRetentionDuration for Purpose
+        "500":
+          description: Internal Server Error
+      summary: Get Default SoftDeleted ColumnRetentionDuration for Tenant
       tags:
       - ColumnRetentionDurations
     post:
-      description: This endpoint creates a PreDelete ColumnRetentionDuration for a
-        tenant purpose.
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          $ref: '#/components/schemas/UuidUUID'
+      description: This endpoint creates a SoftDeleted ColumnRetentionDuration for
+        a tenant.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserstoreColumnRetentionDurationType7'
+              $ref: '#/components/schemas/IdpUpdateColumnRetentionDurationRequest'
       responses:
-        "200":
+        "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Create PreDelete ColumnRetentionDuration for Purpose
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
+          description: Created
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create SoftDeleted ColumnRetentionDuration for Tenant
       tags:
       - ColumnRetentionDurations
-  /userstore/config/purposes/{id}/predeleteretentiondurations/{id2}:
+  /userstore/config/softdeletedretentiondurations/{id}:
     delete:
-      description: This endpoint deletes a specific PreDelete ColumnRetentionDuration
-        for a tenant purpose.
+      description: This endpoint deletes a specific SoftDeleted ColumnRetentionDuration
+        for a tenant.
       parameters:
       - in: path
         name: id
         required: true
         schema:
           $ref: '#/components/schemas/UuidUUID'
-      - in: path
-        name: id2
-        required: true
-        schema:
-          $ref: '#/components/schemas/UuidUUID'
       responses:
-        "200":
-          description: OK
-        "501":
-          description: Not Implemented
-      summary: Delete PreDelete ColumnRetentionDuration for Purpose
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Delete SoftDeleted ColumnRetentionDuration for Tenant
       tags:
       - ColumnRetentionDurations
     get:
-      description: This endpoint gets a specific PreDelete ColumnRetentionDuration
-        for a tenant purpose.
+      description: This endpoint gets a specific SoftDeleted ColumnRetentionDuration
+        for a tenant.
       parameters:
       - in: path
         name: id
-        required: true
-        schema:
-          $ref: '#/components/schemas/UuidUUID'
-      - in: path
-        name: id2
         required: true
         schema:
           $ref: '#/components/schemas/UuidUUID'
@@ -1402,24 +1434,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
           description: OK
-        "501":
-          description: Not Implemented
-      summary: Get PreDelete ColumnRetentionDuration for Purpose
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get SoftDeleted ColumnRetentionDuration for Tenant
       tags:
       - ColumnRetentionDurations
     put:
-      description: This endpoint updates a specific PreDelete ColumnRetentionDuration
-        for a tenant purpose.
+      description: This endpoint updates a specific SoftDeleted ColumnRetentionDuration
+        for a tenant.
       parameters:
       - in: path
         name: id
-        required: true
-        schema:
-          $ref: '#/components/schemas/UuidUUID'
-      - in: path
-        name: id2
         required: true
         schema:
           $ref: '#/components/schemas/UuidUUID'
@@ -1427,17 +1456,19 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserstoreColumnRetentionDurationType8'
+              $ref: '#/components/schemas/UserstoreUpdateColumnRetentionDurationRequestType8'
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IdpColumnRetentionDuration'
+                $ref: '#/components/schemas/IdpColumnRetentionDurationResponse'
           description: OK
-        "501":
-          description: Not Implemented
-      summary: Update PreDelete ColumnRetentionDuration for Purpose
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Update SoftDeleted ColumnRetentionDuration for Tenant
       tags:
       - ColumnRetentionDurations
   /userstore/consentedpurposes:
@@ -1489,21 +1520,20 @@ components:
         purpose_id:
           $ref: '#/components/schemas/UuidUUID'
         purpose_name:
+          nullable: true
           type: string
-        type:
-          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
         use_default:
           type: boolean
         version:
           type: integer
       type: object
-    IdpColumnRetentionDurationType:
-      enum:
-      - column
-      - purpose
-      - specific
-      - tenant
-      type: string
+    IdpColumnRetentionDurationResponse:
+      properties:
+        max_duration:
+          $ref: '#/components/schemas/IdpRetentionDuration'
+        retention_duration:
+          $ref: '#/components/schemas/IdpColumnRetentionDuration'
+      type: object
     IdpColumnRetentionDurationsResponse:
       properties:
         max_duration:
@@ -1671,6 +1701,11 @@ components:
         unit:
           $ref: '#/components/schemas/IdpDurationUnit'
       type: object
+    IdpUpdateColumnRetentionDurationRequest:
+      properties:
+        retention_duration:
+          $ref: '#/components/schemas/IdpColumnRetentionDuration'
+      type: object
     IdpValueAndPurposes:
       properties:
         purpose_additions:
@@ -1772,201 +1807,25 @@ components:
         transformer:
           $ref: '#/components/schemas/UserstoreResourceID'
       type: object
-    UserstoreColumnRetentionDuration:
-      properties:
-        column_id:
-          $ref: '#/components/schemas/UuidUUID'
-        default_duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration_type:
-          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
-        id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_name:
-          type: string
-        type:
-          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
-        use_default:
-          type: boolean
-        version:
-          type: integer
-      type: object
-    UserstoreColumnRetentionDurationType2:
-      properties:
-        column_id:
-          $ref: '#/components/schemas/UuidUUID'
-        default_duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration_type:
-          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
-        id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_name:
-          type: string
-        type:
-          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
-        use_default:
-          type: boolean
-        version:
-          type: integer
-      type: object
-    UserstoreColumnRetentionDurationType3:
-      properties:
-        column_id:
-          $ref: '#/components/schemas/UuidUUID'
-        default_duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration_type:
-          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
-        id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_name:
-          type: string
-        type:
-          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
-        use_default:
-          type: boolean
-        version:
-          type: integer
-      type: object
-    UserstoreColumnRetentionDurationType4:
-      properties:
-        column_id:
-          $ref: '#/components/schemas/UuidUUID'
-        default_duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration_type:
-          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
-        id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_name:
-          type: string
-        type:
-          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
-        use_default:
-          type: boolean
-        version:
-          type: integer
-      type: object
-    UserstoreColumnRetentionDurationType5:
-      properties:
-        column_id:
-          $ref: '#/components/schemas/UuidUUID'
-        default_duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration_type:
-          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
-        id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_name:
-          type: string
-        type:
-          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
-        use_default:
-          type: boolean
-        version:
-          type: integer
-      type: object
-    UserstoreColumnRetentionDurationType6:
-      properties:
-        column_id:
-          $ref: '#/components/schemas/UuidUUID'
-        default_duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration_type:
-          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
-        id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_name:
-          type: string
-        type:
-          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
-        use_default:
-          type: boolean
-        version:
-          type: integer
-      type: object
-    UserstoreColumnRetentionDurationType7:
-      properties:
-        column_id:
-          $ref: '#/components/schemas/UuidUUID'
-        default_duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration_type:
-          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
-        id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_name:
-          type: string
-        type:
-          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
-        use_default:
-          type: boolean
-        version:
-          type: integer
-      type: object
-    UserstoreColumnRetentionDurationType8:
-      properties:
-        column_id:
-          $ref: '#/components/schemas/UuidUUID'
-        default_duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration:
-          $ref: '#/components/schemas/IdpRetentionDuration'
-        duration_type:
-          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
-        id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_id:
-          $ref: '#/components/schemas/UuidUUID'
-        purpose_name:
-          type: string
-        type:
-          $ref: '#/components/schemas/IdpColumnRetentionDurationType'
-        use_default:
-          type: boolean
-        version:
-          type: integer
-      type: object
     UserstoreDataLifeCycleState:
       enum:
       - ""
+      - live
       - postdelete
       - predelete
+      - softdeleted
       type: string
     UserstoreDataType:
       enum:
       - address
+      - birthdate
       - boolean
+      - date
+      - e164_phonenumber
+      - email
       - integer
+      - phonenumber
+      - ssn
       - string
       - timestamp
       - uuid
@@ -2031,6 +1890,46 @@ components:
       properties:
         column:
           $ref: '#/components/schemas/UserstoreColumn'
+      type: object
+    UserstoreUpdateColumnRetentionDurationRequest:
+      properties:
+        retention_duration:
+          $ref: '#/components/schemas/IdpColumnRetentionDuration'
+      type: object
+    UserstoreUpdateColumnRetentionDurationRequestType2:
+      properties:
+        retention_duration:
+          $ref: '#/components/schemas/IdpColumnRetentionDuration'
+      type: object
+    UserstoreUpdateColumnRetentionDurationRequestType3:
+      properties:
+        retention_duration:
+          $ref: '#/components/schemas/IdpColumnRetentionDuration'
+      type: object
+    UserstoreUpdateColumnRetentionDurationRequestType4:
+      properties:
+        retention_duration:
+          $ref: '#/components/schemas/IdpColumnRetentionDuration'
+      type: object
+    UserstoreUpdateColumnRetentionDurationRequestType5:
+      properties:
+        retention_duration:
+          $ref: '#/components/schemas/IdpColumnRetentionDuration'
+      type: object
+    UserstoreUpdateColumnRetentionDurationRequestType6:
+      properties:
+        retention_duration:
+          $ref: '#/components/schemas/IdpColumnRetentionDuration'
+      type: object
+    UserstoreUpdateColumnRetentionDurationRequestType7:
+      properties:
+        retention_duration:
+          $ref: '#/components/schemas/IdpColumnRetentionDuration'
+      type: object
+    UserstoreUpdateColumnRetentionDurationRequestType8:
+      properties:
+        retention_duration:
+          $ref: '#/components/schemas/IdpColumnRetentionDuration'
       type: object
     UserstoreUpdateColumnRetentionDurationsRequest:
       properties:

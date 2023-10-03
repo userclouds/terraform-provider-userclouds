@@ -1,7 +1,13 @@
 package apitypes
 
+import (
+	"github.com/swaggest/openapi-go/openapi3"
+	"golang.org/x/exp/maps"
+)
+
 // Array represents an array of a single type.
 type Array struct {
+	Schema    *openapi3.Schema
 	ChildType APIType
 }
 
@@ -21,17 +27,19 @@ func (t *Array) TFSchemaAttributeType() string {
 // TFSchemaAttributeText returns the text of the code for instantiating this type as a Terraform
 // schema attribute.
 func (t *Array) TFSchemaAttributeText(extraFields map[string]string) string {
+	fields := makeCommonFields(t.Schema)
+	maps.Copy(fields, extraFields)
 	if child, ok := t.ChildType.(*Object); ok {
 		return `schema.ListNestedAttribute{
 			NestedObject: schema.NestedAttributeObject{
 				Attributes: ` + child.TFSchemaAttributesMapName + `,
 			},
-			` + fieldsToString(extraFields) + `
+			` + fieldsToString(fields) + `
 		}`
 	}
 	return `schema.ListAttribute{
 		ElementType: ` + t.ChildType.TFSchemaAttributeType() + `,
-		` + fieldsToString(extraFields) + `
+		` + fieldsToString(fields) + `
 	}`
 }
 
