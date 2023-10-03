@@ -1,3 +1,3 @@
 package provider
 
-//go:generate go run ../../genprovider ../../openapi-specs ../../genprovider/config.json
+//go:generate go run ../../genprovider ../../openapi ../../genprovider/config.json

@@ -48,8 +48,8 @@ func (r *UserstoreColumnPreDeleteRetentionDurationResource) Metadata(ctx context
 // Schema describes the resource schema.
 func (r *UserstoreColumnPreDeleteRetentionDurationResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description:         "Pre-delete retention duration setting for a User Store column",
-		MarkdownDescription: "Pre-delete retention duration setting for a User Store column",
+		Description:         "Manages a pre-delete retention duration setting for a User Store column. For more details, refer to the User Store documentation: https://docs.userclouds.com/docs/introduction",
+		MarkdownDescription: "Manages a pre-delete retention duration setting for a User Store column. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs/introduction).",
 		Attributes:          IdpColumnRetentionDurationAttributes,
 	}
 }

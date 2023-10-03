@@ -1,7 +1,14 @@
 package apitypes
 
+import (
+	"github.com/swaggest/openapi-go/openapi3"
+	"golang.org/x/exp/maps"
+)
+
 // Float represents a float value.
-type Float struct{}
+type Float struct {
+	Schema *openapi3.Schema
+}
 
 // TFModelType returns the type that should be used to represent this type in a Terraform model.
 func (t *Float) TFModelType() string {
@@ -17,8 +24,10 @@ func (t *Float) TFSchemaAttributeType() string {
 // TFSchemaAttributeText returns the text of the code for instantiating this type as a Terraform
 // schema attribute.
 func (t *Float) TFSchemaAttributeText(extraFields map[string]string) string {
+	fields := makeCommonFields(t.Schema)
+	maps.Copy(fields, extraFields)
 	return `schema.Float64Attribute{
-		` + fieldsToString(extraFields) + `
+		` + fieldsToString(fields) + `
 	}`
 }
 

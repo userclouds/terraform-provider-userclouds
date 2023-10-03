@@ -55,13 +55,17 @@ var IdpColumnConsentedPurposesAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"consented_purposes": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -191,7 +195,6 @@ type IdpColumnRetentionDurationTFModel struct {
 	ID              types.String `tfsdk:"id"`
 	PurposeID       types.String `tfsdk:"purpose_id"`
 	PurposeName     types.String `tfsdk:"purpose_name"`
-	Type            types.String `tfsdk:"type"`
 	UseDefault      types.Bool   `tfsdk:"use_default"`
 	Version         types.Int64  `tfsdk:"version"`
 }
@@ -205,7 +208,6 @@ type IdpColumnRetentionDurationJSONClientModel struct {
 	ID              *uuid.UUID                           `json:"id,omitempty"`
 	PurposeID       *uuid.UUID                           `json:"purpose_id,omitempty"`
 	PurposeName     *string                              `json:"purpose_name,omitempty"`
-	Type            *string                              `json:"type,omitempty"`
 	UseDefault      *bool                                `json:"use_default,omitempty"`
 	Version         *int64                               `json:"version,omitempty"`
 }
@@ -223,7 +225,6 @@ var IdpColumnRetentionDurationAttrTypes = map[string]attr.Type{
 	"id":            types.StringType,
 	"purpose_id":    types.StringType,
 	"purpose_name":  types.StringType,
-	"type":          types.StringType,
 	"use_default":   types.BoolType,
 	"version":       types.Int64Type,
 }
@@ -237,25 +238,33 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"duration_type": schema.StringAttribute{
 		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
+			stringvalidator.OneOf([]string{"", "live", "postdelete", "predelete", "softdeleted"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: ``, `live`, `postdelete`, `predelete`, `softdeleted`",
+		MarkdownDescription: "Valid values: ``, `live`, `postdelete`, `predelete`, `softdeleted`",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -264,8 +273,10 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
@@ -277,27 +288,28 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
-		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -405,16 +417,6 @@ func IdpColumnRetentionDurationTFModelToJSONClient(in *IdpColumnRetentionDuratio
 	}(&in.PurposeName)
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.Type)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
 	}
 	out.UseDefault, err = func(val *types.Bool) (*bool, error) {
 		if val.IsNull() || val.IsUnknown() {
@@ -538,12 +540,6 @@ func IdpColumnRetentionDurationJSONClientModelToTF(in *IdpColumnRetentionDuratio
 	if err != nil {
 		return IdpColumnRetentionDurationTFModel{}, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
 	}
-	out.Type, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.Type)
-	if err != nil {
-		return IdpColumnRetentionDurationTFModel{}, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
 	out.UseDefault, err = func(val *bool) (types.Bool, error) {
 		return types.BoolPointerValue(val), nil
 	}(in.UseDefault)
@@ -559,29 +555,155 @@ func IdpColumnRetentionDurationJSONClientModelToTF(in *IdpColumnRetentionDuratio
 	return out, nil
 }
 
-// IdpColumnRetentionDurationTypeTFModel is a Terraform model struct for the IdpColumnRetentionDurationTypeAttributes schema.
-type IdpColumnRetentionDurationTypeTFModel struct {
+// IdpColumnRetentionDurationResponseTFModel is a Terraform model struct for the IdpColumnRetentionDurationResponseAttributes schema.
+type IdpColumnRetentionDurationResponseTFModel struct {
+	MaxDuration       types.Object `tfsdk:"max_duration"`
+	RetentionDuration types.Object `tfsdk:"retention_duration"`
 }
 
-// IdpColumnRetentionDurationTypeJSONClientModel stores data for use with jsonclient for making API requests.
-type IdpColumnRetentionDurationTypeJSONClientModel struct {
+// IdpColumnRetentionDurationResponseJSONClientModel stores data for use with jsonclient for making API requests.
+type IdpColumnRetentionDurationResponseJSONClientModel struct {
+	MaxDuration       *IdpRetentionDurationJSONClientModel       `json:"max_duration,omitempty"`
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
 }
 
-// IdpColumnRetentionDurationTypeAttrTypes defines the attribute types for the IdpColumnRetentionDurationTypeAttributes schema.
-var IdpColumnRetentionDurationTypeAttrTypes = map[string]attr.Type{}
+// IdpColumnRetentionDurationResponseAttrTypes defines the attribute types for the IdpColumnRetentionDurationResponseAttributes schema.
+var IdpColumnRetentionDurationResponseAttrTypes = map[string]attr.Type{
+	"max_duration": types.ObjectType{
+		AttrTypes: IdpRetentionDurationAttrTypes,
+	},
+	"retention_duration": types.ObjectType{
+		AttrTypes: IdpColumnRetentionDurationAttrTypes,
+	},
+}
 
-// IdpColumnRetentionDurationTypeAttributes defines the Terraform attributes schema.
-var IdpColumnRetentionDurationTypeAttributes = map[string]schema.Attribute{}
+// IdpColumnRetentionDurationResponseAttributes defines the Terraform attributes schema.
+var IdpColumnRetentionDurationResponseAttributes = map[string]schema.Attribute{
+	"max_duration": schema.SingleNestedAttribute{
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"retention_duration": schema.SingleNestedAttribute{
+		Attributes:          IdpColumnRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
 
-// IdpColumnRetentionDurationTypeTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
-func IdpColumnRetentionDurationTypeTFModelToJSONClient(in *IdpColumnRetentionDurationTypeTFModel) (*IdpColumnRetentionDurationTypeJSONClientModel, error) {
-	out := IdpColumnRetentionDurationTypeJSONClientModel{}
+// IdpColumnRetentionDurationResponseTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func IdpColumnRetentionDurationResponseTFModelToJSONClient(in *IdpColumnRetentionDurationResponseTFModel) (*IdpColumnRetentionDurationResponseJSONClientModel, error) {
+	out := IdpColumnRetentionDurationResponseJSONClientModel{}
+	var err error
+	out.MaxDuration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := IdpRetentionDurationTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
+	}(&in.MaxDuration)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"max_duration\" field: %+v", err)
+	}
+	out.RetentionDuration, err = func(val *types.Object) (*IdpColumnRetentionDurationJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := IdpColumnRetentionDurationTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return IdpColumnRetentionDurationTFModelToJSONClient(&tfModel)
+	}(&in.RetentionDuration)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
 	return &out, nil
 }
 
-// IdpColumnRetentionDurationTypeJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
-func IdpColumnRetentionDurationTypeJSONClientModelToTF(in *IdpColumnRetentionDurationTypeJSONClientModel) (IdpColumnRetentionDurationTypeTFModel, error) {
-	out := IdpColumnRetentionDurationTypeTFModel{}
+// IdpColumnRetentionDurationResponseJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func IdpColumnRetentionDurationResponseJSONClientModelToTF(in *IdpColumnRetentionDurationResponseJSONClientModel) (IdpColumnRetentionDurationResponseTFModel, error) {
+	out := IdpColumnRetentionDurationResponseTFModel{}
+	var err error
+	out.MaxDuration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
+		attrTypes := IdpRetentionDurationAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.MaxDuration)
+	if err != nil {
+		return IdpColumnRetentionDurationResponseTFModel{}, ucerr.Errorf("failed to convert \"max_duration\" field: %+v", err)
+	}
+	out.RetentionDuration, err = func(val *IdpColumnRetentionDurationJSONClientModel) (types.Object, error) {
+		attrTypes := IdpColumnRetentionDurationAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := IdpColumnRetentionDurationJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpColumnRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.RetentionDuration)
+	if err != nil {
+		return IdpColumnRetentionDurationResponseTFModel{}, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
 	return out, nil
 }
 
@@ -612,16 +734,20 @@ var IdpColumnRetentionDurationsResponseAttrTypes = map[string]attr.Type{
 // IdpColumnRetentionDurationsResponseAttributes defines the Terraform attributes schema.
 var IdpColumnRetentionDurationsResponseAttributes = map[string]schema.Attribute{
 	"max_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          IdpRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"retention_durations": schema.ListNestedAttribute{
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: IdpColumnRetentionDurationAttributes,
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -790,9 +916,11 @@ var IdpCreateAccessorRequestAttrTypes = map[string]attr.Type{
 // IdpCreateAccessorRequestAttributes defines the Terraform attributes schema.
 var IdpCreateAccessorRequestAttributes = map[string]schema.Attribute{
 	"accessor": schema.SingleNestedAttribute{
-		Attributes: UserstoreAccessorAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstoreAccessorAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -879,9 +1007,11 @@ var IdpCreateColumnRequestAttrTypes = map[string]attr.Type{
 // IdpCreateColumnRequestAttributes defines the Terraform attributes schema.
 var IdpCreateColumnRequestAttributes = map[string]schema.Attribute{
 	"column": schema.SingleNestedAttribute{
-		Attributes: UserstoreColumnAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstoreColumnAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -968,9 +1098,11 @@ var IdpCreateMutatorRequestAttrTypes = map[string]attr.Type{
 // IdpCreateMutatorRequestAttributes defines the Terraform attributes schema.
 var IdpCreateMutatorRequestAttributes = map[string]schema.Attribute{
 	"mutator": schema.SingleNestedAttribute{
-		Attributes: UserstoreMutatorAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstoreMutatorAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1057,9 +1189,11 @@ var IdpCreatePurposeRequestAttrTypes = map[string]attr.Type{
 // IdpCreatePurposeRequestAttributes defines the Terraform attributes schema.
 var IdpCreatePurposeRequestAttributes = map[string]schema.Attribute{
 	"purpose": schema.SingleNestedAttribute{
-		Attributes: UserstorePurposeAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstorePurposeAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1172,9 +1306,11 @@ var IdpExecuteAccessorResponseAttrTypes = map[string]attr.Type{
 // IdpExecuteAccessorResponseAttributes defines the Terraform attributes schema.
 var IdpExecuteAccessorResponseAttributes = map[string]schema.Attribute{
 	"data": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1259,9 +1395,11 @@ var IdpExecuteMutatorResponseAttrTypes = map[string]attr.Type{
 // IdpExecuteMutatorResponseAttributes defines the Terraform attributes schema.
 var IdpExecuteMutatorResponseAttributes = map[string]schema.Attribute{
 	"user_ids": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1355,9 +1493,11 @@ var IdpGetConsentedPurposesForUserRequestAttrTypes = map[string]attr.Type{
 // IdpGetConsentedPurposesForUserRequestAttributes defines the Terraform attributes schema.
 var IdpGetConsentedPurposesForUserRequestAttributes = map[string]schema.Attribute{
 	"columns": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"user_id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -1366,8 +1506,10 @@ var IdpGetConsentedPurposesForUserRequestAttributes = map[string]schema.Attribut
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1499,8 +1641,10 @@ var IdpGetConsentedPurposesForUserResponseAttributes = map[string]schema.Attribu
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: IdpColumnConsentedPurposesAttributes,
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1621,15 +1765,19 @@ var IdpRetentionDurationAttrTypes = map[string]attr.Type{
 // IdpRetentionDurationAttributes defines the Terraform attributes schema.
 var IdpRetentionDurationAttributes = map[string]schema.Attribute{
 	"duration": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"unit": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"day", "hour", "indefinite", "month", "week", "year"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: `day`, `hour`, `indefinite`, `month`, `week`, `year`",
+		MarkdownDescription: "Valid values: `day`, `hour`, `indefinite`, `month`, `week`, `year`",
+		Optional:            true,
 	},
 }
 
@@ -1675,6 +1823,97 @@ func IdpRetentionDurationJSONClientModelToTF(in *IdpRetentionDurationJSONClientM
 	}(in.Unit)
 	if err != nil {
 		return IdpRetentionDurationTFModel{}, ucerr.Errorf("failed to convert \"unit\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// IdpUpdateColumnRetentionDurationRequestTFModel is a Terraform model struct for the IdpUpdateColumnRetentionDurationRequestAttributes schema.
+type IdpUpdateColumnRetentionDurationRequestTFModel struct {
+	RetentionDuration types.Object `tfsdk:"retention_duration"`
+}
+
+// IdpUpdateColumnRetentionDurationRequestJSONClientModel stores data for use with jsonclient for making API requests.
+type IdpUpdateColumnRetentionDurationRequestJSONClientModel struct {
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+}
+
+// IdpUpdateColumnRetentionDurationRequestAttrTypes defines the attribute types for the IdpUpdateColumnRetentionDurationRequestAttributes schema.
+var IdpUpdateColumnRetentionDurationRequestAttrTypes = map[string]attr.Type{
+	"retention_duration": types.ObjectType{
+		AttrTypes: IdpColumnRetentionDurationAttrTypes,
+	},
+}
+
+// IdpUpdateColumnRetentionDurationRequestAttributes defines the Terraform attributes schema.
+var IdpUpdateColumnRetentionDurationRequestAttributes = map[string]schema.Attribute{
+	"retention_duration": schema.SingleNestedAttribute{
+		Attributes:          IdpColumnRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// IdpUpdateColumnRetentionDurationRequestTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func IdpUpdateColumnRetentionDurationRequestTFModelToJSONClient(in *IdpUpdateColumnRetentionDurationRequestTFModel) (*IdpUpdateColumnRetentionDurationRequestJSONClientModel, error) {
+	out := IdpUpdateColumnRetentionDurationRequestJSONClientModel{}
+	var err error
+	out.RetentionDuration, err = func(val *types.Object) (*IdpColumnRetentionDurationJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := IdpColumnRetentionDurationTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return IdpColumnRetentionDurationTFModelToJSONClient(&tfModel)
+	}(&in.RetentionDuration)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// IdpUpdateColumnRetentionDurationRequestJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func IdpUpdateColumnRetentionDurationRequestJSONClientModelToTF(in *IdpUpdateColumnRetentionDurationRequestJSONClientModel) (IdpUpdateColumnRetentionDurationRequestTFModel, error) {
+	out := IdpUpdateColumnRetentionDurationRequestTFModel{}
+	var err error
+	out.RetentionDuration, err = func(val *IdpColumnRetentionDurationJSONClientModel) (types.Object, error) {
+		attrTypes := IdpColumnRetentionDurationAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := IdpColumnRetentionDurationJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpColumnRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.RetentionDuration)
+	if err != nil {
+		return IdpUpdateColumnRetentionDurationRequestTFModel{}, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
 	}
 	return out, nil
 }
@@ -1790,24 +2029,32 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"columns": schema.ListNestedAttribute{
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: UserstoreColumnOutputConfigAttributes,
 		},
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"data_life_cycle_state": schema.StringAttribute{
 		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
+			stringvalidator.OneOf([]string{"", "live", "postdelete", "predelete", "softdeleted"}...),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "Valid values: ``, `live`, `postdelete`, `predelete`, `softdeleted`",
+		MarkdownDescription: "Valid values: ``, `live`, `postdelete`, `predelete`, `softdeleted`",
+		Optional:            true,
 	},
 	"description": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -1816,22 +2063,30 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"purposes": schema.ListAttribute{
-		ElementType: types.StringType,
-		Required:    true,
+		ElementType:         types.StringType,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"selector_config": schema.SingleNestedAttribute{
-		Attributes: UserstoreUserSelectorConfigAttributes,
-		Required:   true,
+		Attributes:          UserstoreUserSelectorConfigAttributes,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"token_access_policy": schema.StringAttribute{
 		Validators: []validator.String{
@@ -1840,12 +2095,16 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -2252,8 +2511,10 @@ var UserstoreColumnAttrTypes = map[string]attr.Type{
 // UserstoreColumnAttributes defines the Terraform attributes schema.
 var UserstoreColumnAttributes = map[string]schema.Attribute{
 	"default_value": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -2262,8 +2523,10 @@ var UserstoreColumnAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
@@ -2272,19 +2535,27 @@ var UserstoreColumnAttributes = map[string]schema.Attribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"indexed", "none", "unique"}...),
 		},
-		Required: true,
+		Description:         "Valid values: `indexed`, `none`, `unique`",
+		MarkdownDescription: "Valid values: `indexed`, `none`, `unique`",
+		Required:            true,
 	},
 	"is_array": schema.BoolAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"type": schema.StringAttribute{
 		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"address", "boolean", "integer", "string", "timestamp", "uuid"}...),
+			stringvalidator.OneOf([]string{"address", "birthdate", "boolean", "date", "e164_phonenumber", "email", "integer", "phonenumber", "ssn", "string", "timestamp", "uuid"}...),
 		},
-		Required: true,
+		Description:         "Valid values: `address`, `birthdate`, `boolean`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
+		MarkdownDescription: "Valid values: `address`, `birthdate`, `boolean`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
+		Required:            true,
 	},
 }
 
@@ -2457,8 +2728,10 @@ var UserstoreColumnInputConfigAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"validator": schema.StringAttribute{
 		Validators: []validator.String{
@@ -2467,8 +2740,10 @@ var UserstoreColumnInputConfigAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -2585,8 +2860,10 @@ var UserstoreColumnOutputConfigAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"transformer": schema.StringAttribute{
 		Validators: []validator.String{
@@ -2595,8 +2872,10 @@ var UserstoreColumnOutputConfigAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -2682,3022 +2961,6 @@ func UserstoreColumnOutputConfigJSONClientModelToTF(in *UserstoreColumnOutputCon
 	}(in.Transformer)
 	if err != nil {
 		return UserstoreColumnOutputConfigTFModel{}, ucerr.Errorf("failed to convert \"transformer\" field: %+v", err)
-	}
-	return out, nil
-}
-
-// UserstoreColumnRetentionDurationTFModel is a Terraform model struct for the UserstoreColumnRetentionDurationAttributes schema.
-type UserstoreColumnRetentionDurationTFModel struct {
-	ColumnID        types.String `tfsdk:"column_id"`
-	DefaultDuration types.Object `tfsdk:"default_duration"`
-	Duration        types.Object `tfsdk:"duration"`
-	DurationType    types.String `tfsdk:"duration_type"`
-	ID              types.String `tfsdk:"id"`
-	PurposeID       types.String `tfsdk:"purpose_id"`
-	PurposeName     types.String `tfsdk:"purpose_name"`
-	Type            types.String `tfsdk:"type"`
-	UseDefault      types.Bool   `tfsdk:"use_default"`
-	Version         types.Int64  `tfsdk:"version"`
-}
-
-// UserstoreColumnRetentionDurationJSONClientModel stores data for use with jsonclient for making API requests.
-type UserstoreColumnRetentionDurationJSONClientModel struct {
-	ColumnID        *uuid.UUID                           `json:"column_id,omitempty"`
-	DefaultDuration *IdpRetentionDurationJSONClientModel `json:"default_duration,omitempty"`
-	Duration        *IdpRetentionDurationJSONClientModel `json:"duration,omitempty"`
-	DurationType    *string                              `json:"duration_type,omitempty"`
-	ID              *uuid.UUID                           `json:"id,omitempty"`
-	PurposeID       *uuid.UUID                           `json:"purpose_id,omitempty"`
-	PurposeName     *string                              `json:"purpose_name,omitempty"`
-	Type            *string                              `json:"type,omitempty"`
-	UseDefault      *bool                                `json:"use_default,omitempty"`
-	Version         *int64                               `json:"version,omitempty"`
-}
-
-// UserstoreColumnRetentionDurationAttrTypes defines the attribute types for the UserstoreColumnRetentionDurationAttributes schema.
-var UserstoreColumnRetentionDurationAttrTypes = map[string]attr.Type{
-	"column_id": types.StringType,
-	"default_duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration_type": types.StringType,
-	"id":            types.StringType,
-	"purpose_id":    types.StringType,
-	"purpose_name":  types.StringType,
-	"type":          types.StringType,
-	"use_default":   types.BoolType,
-	"version":       types.Int64Type,
-}
-
-// UserstoreColumnRetentionDurationAttributes defines the Terraform attributes schema.
-var UserstoreColumnRetentionDurationAttributes = map[string]schema.Attribute{
-	"column_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration_type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-		PlanModifiers: []planmodifier.String{
-			stringplanmodifier.UseStateForUnknown(),
-		},
-	},
-	"purpose_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
-	},
-}
-
-// UserstoreColumnRetentionDurationTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
-func UserstoreColumnRetentionDurationTFModelToJSONClient(in *UserstoreColumnRetentionDurationTFModel) (*UserstoreColumnRetentionDurationJSONClientModel, error) {
-	out := UserstoreColumnRetentionDurationJSONClientModel{}
-	var err error
-	out.ColumnID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ColumnID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.DefaultDuration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.Duration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.DurationType)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.PurposeID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.PurposeName)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.Type)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *types.Bool) (*bool, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueBool()
-		return &converted, nil
-	}(&in.UseDefault)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *types.Int64) (*int64, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueInt64()
-		return &converted, nil
-	}(&in.Version)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
-	}
-	return &out, nil
-}
-
-// UserstoreColumnRetentionDurationJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
-func UserstoreColumnRetentionDurationJSONClientModelToTF(in *UserstoreColumnRetentionDurationJSONClientModel) (UserstoreColumnRetentionDurationTFModel, error) {
-	out := UserstoreColumnRetentionDurationTFModel{}
-	var err error
-	out.ColumnID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ColumnID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationTFModel{}, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.DefaultDuration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationTFModel{}, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.Duration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationTFModel{}, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.DurationType)
-	if err != nil {
-		return UserstoreColumnRetentionDurationTFModel{}, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationTFModel{}, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.PurposeID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationTFModel{}, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.PurposeName)
-	if err != nil {
-		return UserstoreColumnRetentionDurationTFModel{}, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.Type)
-	if err != nil {
-		return UserstoreColumnRetentionDurationTFModel{}, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *bool) (types.Bool, error) {
-		return types.BoolPointerValue(val), nil
-	}(in.UseDefault)
-	if err != nil {
-		return UserstoreColumnRetentionDurationTFModel{}, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *int64) (types.Int64, error) {
-		return types.Int64PointerValue(val), nil
-	}(in.Version)
-	if err != nil {
-		return UserstoreColumnRetentionDurationTFModel{}, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
-	}
-	return out, nil
-}
-
-// UserstoreColumnRetentionDurationType2TFModel is a Terraform model struct for the UserstoreColumnRetentionDurationType2Attributes schema.
-type UserstoreColumnRetentionDurationType2TFModel struct {
-	ColumnID        types.String `tfsdk:"column_id"`
-	DefaultDuration types.Object `tfsdk:"default_duration"`
-	Duration        types.Object `tfsdk:"duration"`
-	DurationType    types.String `tfsdk:"duration_type"`
-	ID              types.String `tfsdk:"id"`
-	PurposeID       types.String `tfsdk:"purpose_id"`
-	PurposeName     types.String `tfsdk:"purpose_name"`
-	Type            types.String `tfsdk:"type"`
-	UseDefault      types.Bool   `tfsdk:"use_default"`
-	Version         types.Int64  `tfsdk:"version"`
-}
-
-// UserstoreColumnRetentionDurationType2JSONClientModel stores data for use with jsonclient for making API requests.
-type UserstoreColumnRetentionDurationType2JSONClientModel struct {
-	ColumnID        *uuid.UUID                           `json:"column_id,omitempty"`
-	DefaultDuration *IdpRetentionDurationJSONClientModel `json:"default_duration,omitempty"`
-	Duration        *IdpRetentionDurationJSONClientModel `json:"duration,omitempty"`
-	DurationType    *string                              `json:"duration_type,omitempty"`
-	ID              *uuid.UUID                           `json:"id,omitempty"`
-	PurposeID       *uuid.UUID                           `json:"purpose_id,omitempty"`
-	PurposeName     *string                              `json:"purpose_name,omitempty"`
-	Type            *string                              `json:"type,omitempty"`
-	UseDefault      *bool                                `json:"use_default,omitempty"`
-	Version         *int64                               `json:"version,omitempty"`
-}
-
-// UserstoreColumnRetentionDurationType2AttrTypes defines the attribute types for the UserstoreColumnRetentionDurationType2Attributes schema.
-var UserstoreColumnRetentionDurationType2AttrTypes = map[string]attr.Type{
-	"column_id": types.StringType,
-	"default_duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration_type": types.StringType,
-	"id":            types.StringType,
-	"purpose_id":    types.StringType,
-	"purpose_name":  types.StringType,
-	"type":          types.StringType,
-	"use_default":   types.BoolType,
-	"version":       types.Int64Type,
-}
-
-// UserstoreColumnRetentionDurationType2Attributes defines the Terraform attributes schema.
-var UserstoreColumnRetentionDurationType2Attributes = map[string]schema.Attribute{
-	"column_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration_type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-		PlanModifiers: []planmodifier.String{
-			stringplanmodifier.UseStateForUnknown(),
-		},
-	},
-	"purpose_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
-	},
-}
-
-// UserstoreColumnRetentionDurationType2TFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
-func UserstoreColumnRetentionDurationType2TFModelToJSONClient(in *UserstoreColumnRetentionDurationType2TFModel) (*UserstoreColumnRetentionDurationType2JSONClientModel, error) {
-	out := UserstoreColumnRetentionDurationType2JSONClientModel{}
-	var err error
-	out.ColumnID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ColumnID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.DefaultDuration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.Duration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.DurationType)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.PurposeID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.PurposeName)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.Type)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *types.Bool) (*bool, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueBool()
-		return &converted, nil
-	}(&in.UseDefault)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *types.Int64) (*int64, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueInt64()
-		return &converted, nil
-	}(&in.Version)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
-	}
-	return &out, nil
-}
-
-// UserstoreColumnRetentionDurationType2JSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
-func UserstoreColumnRetentionDurationType2JSONClientModelToTF(in *UserstoreColumnRetentionDurationType2JSONClientModel) (UserstoreColumnRetentionDurationType2TFModel, error) {
-	out := UserstoreColumnRetentionDurationType2TFModel{}
-	var err error
-	out.ColumnID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ColumnID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType2TFModel{}, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.DefaultDuration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType2TFModel{}, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.Duration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType2TFModel{}, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.DurationType)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType2TFModel{}, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType2TFModel{}, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.PurposeID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType2TFModel{}, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.PurposeName)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType2TFModel{}, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.Type)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType2TFModel{}, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *bool) (types.Bool, error) {
-		return types.BoolPointerValue(val), nil
-	}(in.UseDefault)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType2TFModel{}, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *int64) (types.Int64, error) {
-		return types.Int64PointerValue(val), nil
-	}(in.Version)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType2TFModel{}, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
-	}
-	return out, nil
-}
-
-// UserstoreColumnRetentionDurationType3TFModel is a Terraform model struct for the UserstoreColumnRetentionDurationType3Attributes schema.
-type UserstoreColumnRetentionDurationType3TFModel struct {
-	ColumnID        types.String `tfsdk:"column_id"`
-	DefaultDuration types.Object `tfsdk:"default_duration"`
-	Duration        types.Object `tfsdk:"duration"`
-	DurationType    types.String `tfsdk:"duration_type"`
-	ID              types.String `tfsdk:"id"`
-	PurposeID       types.String `tfsdk:"purpose_id"`
-	PurposeName     types.String `tfsdk:"purpose_name"`
-	Type            types.String `tfsdk:"type"`
-	UseDefault      types.Bool   `tfsdk:"use_default"`
-	Version         types.Int64  `tfsdk:"version"`
-}
-
-// UserstoreColumnRetentionDurationType3JSONClientModel stores data for use with jsonclient for making API requests.
-type UserstoreColumnRetentionDurationType3JSONClientModel struct {
-	ColumnID        *uuid.UUID                           `json:"column_id,omitempty"`
-	DefaultDuration *IdpRetentionDurationJSONClientModel `json:"default_duration,omitempty"`
-	Duration        *IdpRetentionDurationJSONClientModel `json:"duration,omitempty"`
-	DurationType    *string                              `json:"duration_type,omitempty"`
-	ID              *uuid.UUID                           `json:"id,omitempty"`
-	PurposeID       *uuid.UUID                           `json:"purpose_id,omitempty"`
-	PurposeName     *string                              `json:"purpose_name,omitempty"`
-	Type            *string                              `json:"type,omitempty"`
-	UseDefault      *bool                                `json:"use_default,omitempty"`
-	Version         *int64                               `json:"version,omitempty"`
-}
-
-// UserstoreColumnRetentionDurationType3AttrTypes defines the attribute types for the UserstoreColumnRetentionDurationType3Attributes schema.
-var UserstoreColumnRetentionDurationType3AttrTypes = map[string]attr.Type{
-	"column_id": types.StringType,
-	"default_duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration_type": types.StringType,
-	"id":            types.StringType,
-	"purpose_id":    types.StringType,
-	"purpose_name":  types.StringType,
-	"type":          types.StringType,
-	"use_default":   types.BoolType,
-	"version":       types.Int64Type,
-}
-
-// UserstoreColumnRetentionDurationType3Attributes defines the Terraform attributes schema.
-var UserstoreColumnRetentionDurationType3Attributes = map[string]schema.Attribute{
-	"column_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration_type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-		PlanModifiers: []planmodifier.String{
-			stringplanmodifier.UseStateForUnknown(),
-		},
-	},
-	"purpose_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
-	},
-}
-
-// UserstoreColumnRetentionDurationType3TFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
-func UserstoreColumnRetentionDurationType3TFModelToJSONClient(in *UserstoreColumnRetentionDurationType3TFModel) (*UserstoreColumnRetentionDurationType3JSONClientModel, error) {
-	out := UserstoreColumnRetentionDurationType3JSONClientModel{}
-	var err error
-	out.ColumnID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ColumnID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.DefaultDuration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.Duration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.DurationType)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.PurposeID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.PurposeName)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.Type)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *types.Bool) (*bool, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueBool()
-		return &converted, nil
-	}(&in.UseDefault)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *types.Int64) (*int64, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueInt64()
-		return &converted, nil
-	}(&in.Version)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
-	}
-	return &out, nil
-}
-
-// UserstoreColumnRetentionDurationType3JSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
-func UserstoreColumnRetentionDurationType3JSONClientModelToTF(in *UserstoreColumnRetentionDurationType3JSONClientModel) (UserstoreColumnRetentionDurationType3TFModel, error) {
-	out := UserstoreColumnRetentionDurationType3TFModel{}
-	var err error
-	out.ColumnID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ColumnID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType3TFModel{}, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.DefaultDuration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType3TFModel{}, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.Duration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType3TFModel{}, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.DurationType)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType3TFModel{}, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType3TFModel{}, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.PurposeID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType3TFModel{}, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.PurposeName)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType3TFModel{}, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.Type)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType3TFModel{}, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *bool) (types.Bool, error) {
-		return types.BoolPointerValue(val), nil
-	}(in.UseDefault)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType3TFModel{}, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *int64) (types.Int64, error) {
-		return types.Int64PointerValue(val), nil
-	}(in.Version)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType3TFModel{}, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
-	}
-	return out, nil
-}
-
-// UserstoreColumnRetentionDurationType4TFModel is a Terraform model struct for the UserstoreColumnRetentionDurationType4Attributes schema.
-type UserstoreColumnRetentionDurationType4TFModel struct {
-	ColumnID        types.String `tfsdk:"column_id"`
-	DefaultDuration types.Object `tfsdk:"default_duration"`
-	Duration        types.Object `tfsdk:"duration"`
-	DurationType    types.String `tfsdk:"duration_type"`
-	ID              types.String `tfsdk:"id"`
-	PurposeID       types.String `tfsdk:"purpose_id"`
-	PurposeName     types.String `tfsdk:"purpose_name"`
-	Type            types.String `tfsdk:"type"`
-	UseDefault      types.Bool   `tfsdk:"use_default"`
-	Version         types.Int64  `tfsdk:"version"`
-}
-
-// UserstoreColumnRetentionDurationType4JSONClientModel stores data for use with jsonclient for making API requests.
-type UserstoreColumnRetentionDurationType4JSONClientModel struct {
-	ColumnID        *uuid.UUID                           `json:"column_id,omitempty"`
-	DefaultDuration *IdpRetentionDurationJSONClientModel `json:"default_duration,omitempty"`
-	Duration        *IdpRetentionDurationJSONClientModel `json:"duration,omitempty"`
-	DurationType    *string                              `json:"duration_type,omitempty"`
-	ID              *uuid.UUID                           `json:"id,omitempty"`
-	PurposeID       *uuid.UUID                           `json:"purpose_id,omitempty"`
-	PurposeName     *string                              `json:"purpose_name,omitempty"`
-	Type            *string                              `json:"type,omitempty"`
-	UseDefault      *bool                                `json:"use_default,omitempty"`
-	Version         *int64                               `json:"version,omitempty"`
-}
-
-// UserstoreColumnRetentionDurationType4AttrTypes defines the attribute types for the UserstoreColumnRetentionDurationType4Attributes schema.
-var UserstoreColumnRetentionDurationType4AttrTypes = map[string]attr.Type{
-	"column_id": types.StringType,
-	"default_duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration_type": types.StringType,
-	"id":            types.StringType,
-	"purpose_id":    types.StringType,
-	"purpose_name":  types.StringType,
-	"type":          types.StringType,
-	"use_default":   types.BoolType,
-	"version":       types.Int64Type,
-}
-
-// UserstoreColumnRetentionDurationType4Attributes defines the Terraform attributes schema.
-var UserstoreColumnRetentionDurationType4Attributes = map[string]schema.Attribute{
-	"column_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration_type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-		PlanModifiers: []planmodifier.String{
-			stringplanmodifier.UseStateForUnknown(),
-		},
-	},
-	"purpose_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
-	},
-}
-
-// UserstoreColumnRetentionDurationType4TFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
-func UserstoreColumnRetentionDurationType4TFModelToJSONClient(in *UserstoreColumnRetentionDurationType4TFModel) (*UserstoreColumnRetentionDurationType4JSONClientModel, error) {
-	out := UserstoreColumnRetentionDurationType4JSONClientModel{}
-	var err error
-	out.ColumnID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ColumnID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.DefaultDuration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.Duration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.DurationType)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.PurposeID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.PurposeName)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.Type)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *types.Bool) (*bool, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueBool()
-		return &converted, nil
-	}(&in.UseDefault)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *types.Int64) (*int64, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueInt64()
-		return &converted, nil
-	}(&in.Version)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
-	}
-	return &out, nil
-}
-
-// UserstoreColumnRetentionDurationType4JSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
-func UserstoreColumnRetentionDurationType4JSONClientModelToTF(in *UserstoreColumnRetentionDurationType4JSONClientModel) (UserstoreColumnRetentionDurationType4TFModel, error) {
-	out := UserstoreColumnRetentionDurationType4TFModel{}
-	var err error
-	out.ColumnID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ColumnID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType4TFModel{}, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.DefaultDuration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType4TFModel{}, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.Duration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType4TFModel{}, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.DurationType)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType4TFModel{}, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType4TFModel{}, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.PurposeID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType4TFModel{}, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.PurposeName)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType4TFModel{}, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.Type)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType4TFModel{}, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *bool) (types.Bool, error) {
-		return types.BoolPointerValue(val), nil
-	}(in.UseDefault)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType4TFModel{}, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *int64) (types.Int64, error) {
-		return types.Int64PointerValue(val), nil
-	}(in.Version)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType4TFModel{}, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
-	}
-	return out, nil
-}
-
-// UserstoreColumnRetentionDurationType5TFModel is a Terraform model struct for the UserstoreColumnRetentionDurationType5Attributes schema.
-type UserstoreColumnRetentionDurationType5TFModel struct {
-	ColumnID        types.String `tfsdk:"column_id"`
-	DefaultDuration types.Object `tfsdk:"default_duration"`
-	Duration        types.Object `tfsdk:"duration"`
-	DurationType    types.String `tfsdk:"duration_type"`
-	ID              types.String `tfsdk:"id"`
-	PurposeID       types.String `tfsdk:"purpose_id"`
-	PurposeName     types.String `tfsdk:"purpose_name"`
-	Type            types.String `tfsdk:"type"`
-	UseDefault      types.Bool   `tfsdk:"use_default"`
-	Version         types.Int64  `tfsdk:"version"`
-}
-
-// UserstoreColumnRetentionDurationType5JSONClientModel stores data for use with jsonclient for making API requests.
-type UserstoreColumnRetentionDurationType5JSONClientModel struct {
-	ColumnID        *uuid.UUID                           `json:"column_id,omitempty"`
-	DefaultDuration *IdpRetentionDurationJSONClientModel `json:"default_duration,omitempty"`
-	Duration        *IdpRetentionDurationJSONClientModel `json:"duration,omitempty"`
-	DurationType    *string                              `json:"duration_type,omitempty"`
-	ID              *uuid.UUID                           `json:"id,omitempty"`
-	PurposeID       *uuid.UUID                           `json:"purpose_id,omitempty"`
-	PurposeName     *string                              `json:"purpose_name,omitempty"`
-	Type            *string                              `json:"type,omitempty"`
-	UseDefault      *bool                                `json:"use_default,omitempty"`
-	Version         *int64                               `json:"version,omitempty"`
-}
-
-// UserstoreColumnRetentionDurationType5AttrTypes defines the attribute types for the UserstoreColumnRetentionDurationType5Attributes schema.
-var UserstoreColumnRetentionDurationType5AttrTypes = map[string]attr.Type{
-	"column_id": types.StringType,
-	"default_duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration_type": types.StringType,
-	"id":            types.StringType,
-	"purpose_id":    types.StringType,
-	"purpose_name":  types.StringType,
-	"type":          types.StringType,
-	"use_default":   types.BoolType,
-	"version":       types.Int64Type,
-}
-
-// UserstoreColumnRetentionDurationType5Attributes defines the Terraform attributes schema.
-var UserstoreColumnRetentionDurationType5Attributes = map[string]schema.Attribute{
-	"column_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration_type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-		PlanModifiers: []planmodifier.String{
-			stringplanmodifier.UseStateForUnknown(),
-		},
-	},
-	"purpose_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
-	},
-}
-
-// UserstoreColumnRetentionDurationType5TFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
-func UserstoreColumnRetentionDurationType5TFModelToJSONClient(in *UserstoreColumnRetentionDurationType5TFModel) (*UserstoreColumnRetentionDurationType5JSONClientModel, error) {
-	out := UserstoreColumnRetentionDurationType5JSONClientModel{}
-	var err error
-	out.ColumnID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ColumnID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.DefaultDuration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.Duration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.DurationType)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.PurposeID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.PurposeName)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.Type)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *types.Bool) (*bool, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueBool()
-		return &converted, nil
-	}(&in.UseDefault)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *types.Int64) (*int64, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueInt64()
-		return &converted, nil
-	}(&in.Version)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
-	}
-	return &out, nil
-}
-
-// UserstoreColumnRetentionDurationType5JSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
-func UserstoreColumnRetentionDurationType5JSONClientModelToTF(in *UserstoreColumnRetentionDurationType5JSONClientModel) (UserstoreColumnRetentionDurationType5TFModel, error) {
-	out := UserstoreColumnRetentionDurationType5TFModel{}
-	var err error
-	out.ColumnID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ColumnID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType5TFModel{}, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.DefaultDuration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType5TFModel{}, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.Duration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType5TFModel{}, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.DurationType)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType5TFModel{}, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType5TFModel{}, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.PurposeID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType5TFModel{}, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.PurposeName)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType5TFModel{}, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.Type)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType5TFModel{}, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *bool) (types.Bool, error) {
-		return types.BoolPointerValue(val), nil
-	}(in.UseDefault)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType5TFModel{}, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *int64) (types.Int64, error) {
-		return types.Int64PointerValue(val), nil
-	}(in.Version)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType5TFModel{}, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
-	}
-	return out, nil
-}
-
-// UserstoreColumnRetentionDurationType6TFModel is a Terraform model struct for the UserstoreColumnRetentionDurationType6Attributes schema.
-type UserstoreColumnRetentionDurationType6TFModel struct {
-	ColumnID        types.String `tfsdk:"column_id"`
-	DefaultDuration types.Object `tfsdk:"default_duration"`
-	Duration        types.Object `tfsdk:"duration"`
-	DurationType    types.String `tfsdk:"duration_type"`
-	ID              types.String `tfsdk:"id"`
-	PurposeID       types.String `tfsdk:"purpose_id"`
-	PurposeName     types.String `tfsdk:"purpose_name"`
-	Type            types.String `tfsdk:"type"`
-	UseDefault      types.Bool   `tfsdk:"use_default"`
-	Version         types.Int64  `tfsdk:"version"`
-}
-
-// UserstoreColumnRetentionDurationType6JSONClientModel stores data for use with jsonclient for making API requests.
-type UserstoreColumnRetentionDurationType6JSONClientModel struct {
-	ColumnID        *uuid.UUID                           `json:"column_id,omitempty"`
-	DefaultDuration *IdpRetentionDurationJSONClientModel `json:"default_duration,omitempty"`
-	Duration        *IdpRetentionDurationJSONClientModel `json:"duration,omitempty"`
-	DurationType    *string                              `json:"duration_type,omitempty"`
-	ID              *uuid.UUID                           `json:"id,omitempty"`
-	PurposeID       *uuid.UUID                           `json:"purpose_id,omitempty"`
-	PurposeName     *string                              `json:"purpose_name,omitempty"`
-	Type            *string                              `json:"type,omitempty"`
-	UseDefault      *bool                                `json:"use_default,omitempty"`
-	Version         *int64                               `json:"version,omitempty"`
-}
-
-// UserstoreColumnRetentionDurationType6AttrTypes defines the attribute types for the UserstoreColumnRetentionDurationType6Attributes schema.
-var UserstoreColumnRetentionDurationType6AttrTypes = map[string]attr.Type{
-	"column_id": types.StringType,
-	"default_duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration_type": types.StringType,
-	"id":            types.StringType,
-	"purpose_id":    types.StringType,
-	"purpose_name":  types.StringType,
-	"type":          types.StringType,
-	"use_default":   types.BoolType,
-	"version":       types.Int64Type,
-}
-
-// UserstoreColumnRetentionDurationType6Attributes defines the Terraform attributes schema.
-var UserstoreColumnRetentionDurationType6Attributes = map[string]schema.Attribute{
-	"column_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration_type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-		PlanModifiers: []planmodifier.String{
-			stringplanmodifier.UseStateForUnknown(),
-		},
-	},
-	"purpose_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
-	},
-}
-
-// UserstoreColumnRetentionDurationType6TFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
-func UserstoreColumnRetentionDurationType6TFModelToJSONClient(in *UserstoreColumnRetentionDurationType6TFModel) (*UserstoreColumnRetentionDurationType6JSONClientModel, error) {
-	out := UserstoreColumnRetentionDurationType6JSONClientModel{}
-	var err error
-	out.ColumnID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ColumnID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.DefaultDuration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.Duration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.DurationType)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.PurposeID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.PurposeName)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.Type)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *types.Bool) (*bool, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueBool()
-		return &converted, nil
-	}(&in.UseDefault)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *types.Int64) (*int64, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueInt64()
-		return &converted, nil
-	}(&in.Version)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
-	}
-	return &out, nil
-}
-
-// UserstoreColumnRetentionDurationType6JSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
-func UserstoreColumnRetentionDurationType6JSONClientModelToTF(in *UserstoreColumnRetentionDurationType6JSONClientModel) (UserstoreColumnRetentionDurationType6TFModel, error) {
-	out := UserstoreColumnRetentionDurationType6TFModel{}
-	var err error
-	out.ColumnID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ColumnID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType6TFModel{}, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.DefaultDuration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType6TFModel{}, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.Duration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType6TFModel{}, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.DurationType)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType6TFModel{}, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType6TFModel{}, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.PurposeID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType6TFModel{}, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.PurposeName)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType6TFModel{}, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.Type)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType6TFModel{}, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *bool) (types.Bool, error) {
-		return types.BoolPointerValue(val), nil
-	}(in.UseDefault)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType6TFModel{}, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *int64) (types.Int64, error) {
-		return types.Int64PointerValue(val), nil
-	}(in.Version)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType6TFModel{}, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
-	}
-	return out, nil
-}
-
-// UserstoreColumnRetentionDurationType7TFModel is a Terraform model struct for the UserstoreColumnRetentionDurationType7Attributes schema.
-type UserstoreColumnRetentionDurationType7TFModel struct {
-	ColumnID        types.String `tfsdk:"column_id"`
-	DefaultDuration types.Object `tfsdk:"default_duration"`
-	Duration        types.Object `tfsdk:"duration"`
-	DurationType    types.String `tfsdk:"duration_type"`
-	ID              types.String `tfsdk:"id"`
-	PurposeID       types.String `tfsdk:"purpose_id"`
-	PurposeName     types.String `tfsdk:"purpose_name"`
-	Type            types.String `tfsdk:"type"`
-	UseDefault      types.Bool   `tfsdk:"use_default"`
-	Version         types.Int64  `tfsdk:"version"`
-}
-
-// UserstoreColumnRetentionDurationType7JSONClientModel stores data for use with jsonclient for making API requests.
-type UserstoreColumnRetentionDurationType7JSONClientModel struct {
-	ColumnID        *uuid.UUID                           `json:"column_id,omitempty"`
-	DefaultDuration *IdpRetentionDurationJSONClientModel `json:"default_duration,omitempty"`
-	Duration        *IdpRetentionDurationJSONClientModel `json:"duration,omitempty"`
-	DurationType    *string                              `json:"duration_type,omitempty"`
-	ID              *uuid.UUID                           `json:"id,omitempty"`
-	PurposeID       *uuid.UUID                           `json:"purpose_id,omitempty"`
-	PurposeName     *string                              `json:"purpose_name,omitempty"`
-	Type            *string                              `json:"type,omitempty"`
-	UseDefault      *bool                                `json:"use_default,omitempty"`
-	Version         *int64                               `json:"version,omitempty"`
-}
-
-// UserstoreColumnRetentionDurationType7AttrTypes defines the attribute types for the UserstoreColumnRetentionDurationType7Attributes schema.
-var UserstoreColumnRetentionDurationType7AttrTypes = map[string]attr.Type{
-	"column_id": types.StringType,
-	"default_duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration_type": types.StringType,
-	"id":            types.StringType,
-	"purpose_id":    types.StringType,
-	"purpose_name":  types.StringType,
-	"type":          types.StringType,
-	"use_default":   types.BoolType,
-	"version":       types.Int64Type,
-}
-
-// UserstoreColumnRetentionDurationType7Attributes defines the Terraform attributes schema.
-var UserstoreColumnRetentionDurationType7Attributes = map[string]schema.Attribute{
-	"column_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration_type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-		PlanModifiers: []planmodifier.String{
-			stringplanmodifier.UseStateForUnknown(),
-		},
-	},
-	"purpose_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
-	},
-}
-
-// UserstoreColumnRetentionDurationType7TFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
-func UserstoreColumnRetentionDurationType7TFModelToJSONClient(in *UserstoreColumnRetentionDurationType7TFModel) (*UserstoreColumnRetentionDurationType7JSONClientModel, error) {
-	out := UserstoreColumnRetentionDurationType7JSONClientModel{}
-	var err error
-	out.ColumnID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ColumnID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.DefaultDuration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.Duration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.DurationType)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.PurposeID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.PurposeName)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.Type)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *types.Bool) (*bool, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueBool()
-		return &converted, nil
-	}(&in.UseDefault)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *types.Int64) (*int64, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueInt64()
-		return &converted, nil
-	}(&in.Version)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
-	}
-	return &out, nil
-}
-
-// UserstoreColumnRetentionDurationType7JSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
-func UserstoreColumnRetentionDurationType7JSONClientModelToTF(in *UserstoreColumnRetentionDurationType7JSONClientModel) (UserstoreColumnRetentionDurationType7TFModel, error) {
-	out := UserstoreColumnRetentionDurationType7TFModel{}
-	var err error
-	out.ColumnID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ColumnID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType7TFModel{}, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.DefaultDuration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType7TFModel{}, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.Duration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType7TFModel{}, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.DurationType)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType7TFModel{}, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType7TFModel{}, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.PurposeID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType7TFModel{}, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.PurposeName)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType7TFModel{}, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.Type)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType7TFModel{}, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *bool) (types.Bool, error) {
-		return types.BoolPointerValue(val), nil
-	}(in.UseDefault)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType7TFModel{}, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *int64) (types.Int64, error) {
-		return types.Int64PointerValue(val), nil
-	}(in.Version)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType7TFModel{}, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
-	}
-	return out, nil
-}
-
-// UserstoreColumnRetentionDurationType8TFModel is a Terraform model struct for the UserstoreColumnRetentionDurationType8Attributes schema.
-type UserstoreColumnRetentionDurationType8TFModel struct {
-	ColumnID        types.String `tfsdk:"column_id"`
-	DefaultDuration types.Object `tfsdk:"default_duration"`
-	Duration        types.Object `tfsdk:"duration"`
-	DurationType    types.String `tfsdk:"duration_type"`
-	ID              types.String `tfsdk:"id"`
-	PurposeID       types.String `tfsdk:"purpose_id"`
-	PurposeName     types.String `tfsdk:"purpose_name"`
-	Type            types.String `tfsdk:"type"`
-	UseDefault      types.Bool   `tfsdk:"use_default"`
-	Version         types.Int64  `tfsdk:"version"`
-}
-
-// UserstoreColumnRetentionDurationType8JSONClientModel stores data for use with jsonclient for making API requests.
-type UserstoreColumnRetentionDurationType8JSONClientModel struct {
-	ColumnID        *uuid.UUID                           `json:"column_id,omitempty"`
-	DefaultDuration *IdpRetentionDurationJSONClientModel `json:"default_duration,omitempty"`
-	Duration        *IdpRetentionDurationJSONClientModel `json:"duration,omitempty"`
-	DurationType    *string                              `json:"duration_type,omitempty"`
-	ID              *uuid.UUID                           `json:"id,omitempty"`
-	PurposeID       *uuid.UUID                           `json:"purpose_id,omitempty"`
-	PurposeName     *string                              `json:"purpose_name,omitempty"`
-	Type            *string                              `json:"type,omitempty"`
-	UseDefault      *bool                                `json:"use_default,omitempty"`
-	Version         *int64                               `json:"version,omitempty"`
-}
-
-// UserstoreColumnRetentionDurationType8AttrTypes defines the attribute types for the UserstoreColumnRetentionDurationType8Attributes schema.
-var UserstoreColumnRetentionDurationType8AttrTypes = map[string]attr.Type{
-	"column_id": types.StringType,
-	"default_duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration": types.ObjectType{
-		AttrTypes: IdpRetentionDurationAttrTypes,
-	},
-	"duration_type": types.StringType,
-	"id":            types.StringType,
-	"purpose_id":    types.StringType,
-	"purpose_name":  types.StringType,
-	"type":          types.StringType,
-	"use_default":   types.BoolType,
-	"version":       types.Int64Type,
-}
-
-// UserstoreColumnRetentionDurationType8Attributes defines the Terraform attributes schema.
-var UserstoreColumnRetentionDurationType8Attributes = map[string]schema.Attribute{
-	"column_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"default_duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration": schema.SingleNestedAttribute{
-		Attributes: IdpRetentionDurationAttributes,
-		Computed:   true,
-		Optional:   true,
-	},
-	"duration_type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"", "postdelete", "predelete"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-		PlanModifiers: []planmodifier.String{
-			stringplanmodifier.UseStateForUnknown(),
-		},
-	},
-	"purpose_id": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
-			),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"purpose_name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"column", "purpose", "specific", "tenant"}...),
-		},
-		Computed: true,
-		Optional: true,
-	},
-	"use_default": schema.BoolAttribute{
-		Computed: true,
-		Optional: true,
-	},
-	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
-	},
-}
-
-// UserstoreColumnRetentionDurationType8TFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
-func UserstoreColumnRetentionDurationType8TFModelToJSONClient(in *UserstoreColumnRetentionDurationType8TFModel) (*UserstoreColumnRetentionDurationType8JSONClientModel, error) {
-	out := UserstoreColumnRetentionDurationType8JSONClientModel{}
-	var err error
-	out.ColumnID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ColumnID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.DefaultDuration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *types.Object) (*IdpRetentionDurationJSONClientModel, error) {
-		if val == nil || val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-
-		attrs := val.Attributes()
-
-		tfModel := IdpRetentionDurationTFModel{}
-		reflected := reflect.ValueOf(&tfModel)
-		tfsdkNamesToFieldNames := map[string]string{}
-		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
-			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
-		}
-		for k, v := range attrs {
-			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
-		}
-		return IdpRetentionDurationTFModelToJSONClient(&tfModel)
-	}(&in.Duration)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.DurationType)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.ID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *types.String) (*uuid.UUID, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted, err := uuid.FromString(val.ValueString())
-		if err != nil {
-			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
-		}
-		return &converted, nil
-	}(&in.PurposeID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.PurposeName)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.Type)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *types.Bool) (*bool, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueBool()
-		return &converted, nil
-	}(&in.UseDefault)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *types.Int64) (*int64, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueInt64()
-		return &converted, nil
-	}(&in.Version)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
-	}
-	return &out, nil
-}
-
-// UserstoreColumnRetentionDurationType8JSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
-func UserstoreColumnRetentionDurationType8JSONClientModelToTF(in *UserstoreColumnRetentionDurationType8JSONClientModel) (UserstoreColumnRetentionDurationType8TFModel, error) {
-	out := UserstoreColumnRetentionDurationType8TFModel{}
-	var err error
-	out.ColumnID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ColumnID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType8TFModel{}, ucerr.Errorf("failed to convert \"column_id\" field: %+v", err)
-	}
-	out.DefaultDuration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.DefaultDuration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType8TFModel{}, ucerr.Errorf("failed to convert \"default_duration\" field: %+v", err)
-	}
-	out.Duration, err = func(val *IdpRetentionDurationJSONClientModel) (types.Object, error) {
-		attrTypes := IdpRetentionDurationAttrTypes
-
-		if val == nil {
-			return types.ObjectNull(attrTypes), nil
-		}
-
-		tfModel, err := IdpRetentionDurationJSONClientModelToTF(val)
-		if err != nil {
-			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
-		}
-
-		v := reflect.ValueOf(tfModel)
-
-		attrVals := map[string]attr.Value{}
-		for i := 0; i < v.NumField(); i++ {
-			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
-		}
-
-		objVal, diag := types.ObjectValue(attrTypes, attrVals)
-		if diag.ErrorsCount() > 0 {
-			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
-		}
-		return objVal, nil
-	}(in.Duration)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType8TFModel{}, ucerr.Errorf("failed to convert \"duration\" field: %+v", err)
-	}
-	out.DurationType, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.DurationType)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType8TFModel{}, ucerr.Errorf("failed to convert \"duration_type\" field: %+v", err)
-	}
-	out.ID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.ID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType8TFModel{}, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
-	}
-	out.PurposeID, err = func(val *uuid.UUID) (types.String, error) {
-		if val == nil {
-			return types.StringNull(), nil
-		}
-		return types.StringValue(val.String()), nil
-	}(in.PurposeID)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType8TFModel{}, ucerr.Errorf("failed to convert \"purpose_id\" field: %+v", err)
-	}
-	out.PurposeName, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.PurposeName)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType8TFModel{}, ucerr.Errorf("failed to convert \"purpose_name\" field: %+v", err)
-	}
-	out.Type, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.Type)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType8TFModel{}, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
-	}
-	out.UseDefault, err = func(val *bool) (types.Bool, error) {
-		return types.BoolPointerValue(val), nil
-	}(in.UseDefault)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType8TFModel{}, ucerr.Errorf("failed to convert \"use_default\" field: %+v", err)
-	}
-	out.Version, err = func(val *int64) (types.Int64, error) {
-		return types.Int64PointerValue(val), nil
-	}(in.Version)
-	if err != nil {
-		return UserstoreColumnRetentionDurationType8TFModel{}, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
 	}
 	return out, nil
 }
@@ -5802,17 +3065,23 @@ var UserstoreMutatorAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"columns": schema.ListNestedAttribute{
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: UserstoreColumnInputConfigAttributes,
 		},
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"description": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -5821,22 +3090,30 @@ var UserstoreMutatorAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"selector_config": schema.SingleNestedAttribute{
-		Attributes: UserstoreUserSelectorConfigAttributes,
-		Required:   true,
+		Attributes:          UserstoreUserSelectorConfigAttributes,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6115,8 +3392,10 @@ var UserstorePurposeAttrTypes = map[string]attr.Type{
 // UserstorePurposeAttributes defines the Terraform attributes schema.
 var UserstorePurposeAttributes = map[string]schema.Attribute{
 	"description": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -6125,14 +3404,18 @@ var UserstorePurposeAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 }
 
@@ -6231,15 +3514,19 @@ var UserstoreResourceIDAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6315,9 +3602,11 @@ var UserstoreUpdateAccessorRequestAttrTypes = map[string]attr.Type{
 // UserstoreUpdateAccessorRequestAttributes defines the Terraform attributes schema.
 var UserstoreUpdateAccessorRequestAttributes = map[string]schema.Attribute{
 	"accessor": schema.SingleNestedAttribute{
-		Attributes: UserstoreAccessorAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstoreAccessorAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6404,9 +3693,11 @@ var UserstoreUpdateColumnRequestAttrTypes = map[string]attr.Type{
 // UserstoreUpdateColumnRequestAttributes defines the Terraform attributes schema.
 var UserstoreUpdateColumnRequestAttributes = map[string]schema.Attribute{
 	"column": schema.SingleNestedAttribute{
-		Attributes: UserstoreColumnAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstoreColumnAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6473,6 +3764,734 @@ func UserstoreUpdateColumnRequestJSONClientModelToTF(in *UserstoreUpdateColumnRe
 	return out, nil
 }
 
+// UserstoreUpdateColumnRetentionDurationRequestTFModel is a Terraform model struct for the UserstoreUpdateColumnRetentionDurationRequestAttributes schema.
+type UserstoreUpdateColumnRetentionDurationRequestTFModel struct {
+	RetentionDuration types.Object `tfsdk:"retention_duration"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestJSONClientModel stores data for use with jsonclient for making API requests.
+type UserstoreUpdateColumnRetentionDurationRequestJSONClientModel struct {
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestAttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestAttributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestAttrTypes = map[string]attr.Type{
+	"retention_duration": types.ObjectType{
+		AttrTypes: IdpColumnRetentionDurationAttrTypes,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestAttributes defines the Terraform attributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestAttributes = map[string]schema.Attribute{
+	"retention_duration": schema.SingleNestedAttribute{
+		Attributes:          IdpColumnRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func UserstoreUpdateColumnRetentionDurationRequestTFModelToJSONClient(in *UserstoreUpdateColumnRetentionDurationRequestTFModel) (*UserstoreUpdateColumnRetentionDurationRequestJSONClientModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestJSONClientModel{}
+	var err error
+	out.RetentionDuration, err = func(val *types.Object) (*IdpColumnRetentionDurationJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := IdpColumnRetentionDurationTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return IdpColumnRetentionDurationTFModelToJSONClient(&tfModel)
+	}(&in.RetentionDuration)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func UserstoreUpdateColumnRetentionDurationRequestJSONClientModelToTF(in *UserstoreUpdateColumnRetentionDurationRequestJSONClientModel) (UserstoreUpdateColumnRetentionDurationRequestTFModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestTFModel{}
+	var err error
+	out.RetentionDuration, err = func(val *IdpColumnRetentionDurationJSONClientModel) (types.Object, error) {
+		attrTypes := IdpColumnRetentionDurationAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := IdpColumnRetentionDurationJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpColumnRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.RetentionDuration)
+	if err != nil {
+		return UserstoreUpdateColumnRetentionDurationRequestTFModel{}, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType2TFModel is a Terraform model struct for the UserstoreUpdateColumnRetentionDurationRequestType2Attributes schema.
+type UserstoreUpdateColumnRetentionDurationRequestType2TFModel struct {
+	RetentionDuration types.Object `tfsdk:"retention_duration"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType2JSONClientModel stores data for use with jsonclient for making API requests.
+type UserstoreUpdateColumnRetentionDurationRequestType2JSONClientModel struct {
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType2AttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestType2Attributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestType2AttrTypes = map[string]attr.Type{
+	"retention_duration": types.ObjectType{
+		AttrTypes: IdpColumnRetentionDurationAttrTypes,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType2Attributes defines the Terraform attributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestType2Attributes = map[string]schema.Attribute{
+	"retention_duration": schema.SingleNestedAttribute{
+		Attributes:          IdpColumnRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType2TFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func UserstoreUpdateColumnRetentionDurationRequestType2TFModelToJSONClient(in *UserstoreUpdateColumnRetentionDurationRequestType2TFModel) (*UserstoreUpdateColumnRetentionDurationRequestType2JSONClientModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestType2JSONClientModel{}
+	var err error
+	out.RetentionDuration, err = func(val *types.Object) (*IdpColumnRetentionDurationJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := IdpColumnRetentionDurationTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return IdpColumnRetentionDurationTFModelToJSONClient(&tfModel)
+	}(&in.RetentionDuration)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType2JSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func UserstoreUpdateColumnRetentionDurationRequestType2JSONClientModelToTF(in *UserstoreUpdateColumnRetentionDurationRequestType2JSONClientModel) (UserstoreUpdateColumnRetentionDurationRequestType2TFModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestType2TFModel{}
+	var err error
+	out.RetentionDuration, err = func(val *IdpColumnRetentionDurationJSONClientModel) (types.Object, error) {
+		attrTypes := IdpColumnRetentionDurationAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := IdpColumnRetentionDurationJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpColumnRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.RetentionDuration)
+	if err != nil {
+		return UserstoreUpdateColumnRetentionDurationRequestType2TFModel{}, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType3TFModel is a Terraform model struct for the UserstoreUpdateColumnRetentionDurationRequestType3Attributes schema.
+type UserstoreUpdateColumnRetentionDurationRequestType3TFModel struct {
+	RetentionDuration types.Object `tfsdk:"retention_duration"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType3JSONClientModel stores data for use with jsonclient for making API requests.
+type UserstoreUpdateColumnRetentionDurationRequestType3JSONClientModel struct {
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType3AttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestType3Attributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestType3AttrTypes = map[string]attr.Type{
+	"retention_duration": types.ObjectType{
+		AttrTypes: IdpColumnRetentionDurationAttrTypes,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType3Attributes defines the Terraform attributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestType3Attributes = map[string]schema.Attribute{
+	"retention_duration": schema.SingleNestedAttribute{
+		Attributes:          IdpColumnRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType3TFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func UserstoreUpdateColumnRetentionDurationRequestType3TFModelToJSONClient(in *UserstoreUpdateColumnRetentionDurationRequestType3TFModel) (*UserstoreUpdateColumnRetentionDurationRequestType3JSONClientModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestType3JSONClientModel{}
+	var err error
+	out.RetentionDuration, err = func(val *types.Object) (*IdpColumnRetentionDurationJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := IdpColumnRetentionDurationTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return IdpColumnRetentionDurationTFModelToJSONClient(&tfModel)
+	}(&in.RetentionDuration)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType3JSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func UserstoreUpdateColumnRetentionDurationRequestType3JSONClientModelToTF(in *UserstoreUpdateColumnRetentionDurationRequestType3JSONClientModel) (UserstoreUpdateColumnRetentionDurationRequestType3TFModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestType3TFModel{}
+	var err error
+	out.RetentionDuration, err = func(val *IdpColumnRetentionDurationJSONClientModel) (types.Object, error) {
+		attrTypes := IdpColumnRetentionDurationAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := IdpColumnRetentionDurationJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpColumnRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.RetentionDuration)
+	if err != nil {
+		return UserstoreUpdateColumnRetentionDurationRequestType3TFModel{}, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType4TFModel is a Terraform model struct for the UserstoreUpdateColumnRetentionDurationRequestType4Attributes schema.
+type UserstoreUpdateColumnRetentionDurationRequestType4TFModel struct {
+	RetentionDuration types.Object `tfsdk:"retention_duration"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType4JSONClientModel stores data for use with jsonclient for making API requests.
+type UserstoreUpdateColumnRetentionDurationRequestType4JSONClientModel struct {
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType4AttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestType4Attributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestType4AttrTypes = map[string]attr.Type{
+	"retention_duration": types.ObjectType{
+		AttrTypes: IdpColumnRetentionDurationAttrTypes,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType4Attributes defines the Terraform attributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestType4Attributes = map[string]schema.Attribute{
+	"retention_duration": schema.SingleNestedAttribute{
+		Attributes:          IdpColumnRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType4TFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func UserstoreUpdateColumnRetentionDurationRequestType4TFModelToJSONClient(in *UserstoreUpdateColumnRetentionDurationRequestType4TFModel) (*UserstoreUpdateColumnRetentionDurationRequestType4JSONClientModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestType4JSONClientModel{}
+	var err error
+	out.RetentionDuration, err = func(val *types.Object) (*IdpColumnRetentionDurationJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := IdpColumnRetentionDurationTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return IdpColumnRetentionDurationTFModelToJSONClient(&tfModel)
+	}(&in.RetentionDuration)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType4JSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func UserstoreUpdateColumnRetentionDurationRequestType4JSONClientModelToTF(in *UserstoreUpdateColumnRetentionDurationRequestType4JSONClientModel) (UserstoreUpdateColumnRetentionDurationRequestType4TFModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestType4TFModel{}
+	var err error
+	out.RetentionDuration, err = func(val *IdpColumnRetentionDurationJSONClientModel) (types.Object, error) {
+		attrTypes := IdpColumnRetentionDurationAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := IdpColumnRetentionDurationJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpColumnRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.RetentionDuration)
+	if err != nil {
+		return UserstoreUpdateColumnRetentionDurationRequestType4TFModel{}, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType5TFModel is a Terraform model struct for the UserstoreUpdateColumnRetentionDurationRequestType5Attributes schema.
+type UserstoreUpdateColumnRetentionDurationRequestType5TFModel struct {
+	RetentionDuration types.Object `tfsdk:"retention_duration"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType5JSONClientModel stores data for use with jsonclient for making API requests.
+type UserstoreUpdateColumnRetentionDurationRequestType5JSONClientModel struct {
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType5AttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestType5Attributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestType5AttrTypes = map[string]attr.Type{
+	"retention_duration": types.ObjectType{
+		AttrTypes: IdpColumnRetentionDurationAttrTypes,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType5Attributes defines the Terraform attributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestType5Attributes = map[string]schema.Attribute{
+	"retention_duration": schema.SingleNestedAttribute{
+		Attributes:          IdpColumnRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType5TFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func UserstoreUpdateColumnRetentionDurationRequestType5TFModelToJSONClient(in *UserstoreUpdateColumnRetentionDurationRequestType5TFModel) (*UserstoreUpdateColumnRetentionDurationRequestType5JSONClientModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestType5JSONClientModel{}
+	var err error
+	out.RetentionDuration, err = func(val *types.Object) (*IdpColumnRetentionDurationJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := IdpColumnRetentionDurationTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return IdpColumnRetentionDurationTFModelToJSONClient(&tfModel)
+	}(&in.RetentionDuration)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType5JSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func UserstoreUpdateColumnRetentionDurationRequestType5JSONClientModelToTF(in *UserstoreUpdateColumnRetentionDurationRequestType5JSONClientModel) (UserstoreUpdateColumnRetentionDurationRequestType5TFModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestType5TFModel{}
+	var err error
+	out.RetentionDuration, err = func(val *IdpColumnRetentionDurationJSONClientModel) (types.Object, error) {
+		attrTypes := IdpColumnRetentionDurationAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := IdpColumnRetentionDurationJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpColumnRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.RetentionDuration)
+	if err != nil {
+		return UserstoreUpdateColumnRetentionDurationRequestType5TFModel{}, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType6TFModel is a Terraform model struct for the UserstoreUpdateColumnRetentionDurationRequestType6Attributes schema.
+type UserstoreUpdateColumnRetentionDurationRequestType6TFModel struct {
+	RetentionDuration types.Object `tfsdk:"retention_duration"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType6JSONClientModel stores data for use with jsonclient for making API requests.
+type UserstoreUpdateColumnRetentionDurationRequestType6JSONClientModel struct {
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType6AttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestType6Attributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestType6AttrTypes = map[string]attr.Type{
+	"retention_duration": types.ObjectType{
+		AttrTypes: IdpColumnRetentionDurationAttrTypes,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType6Attributes defines the Terraform attributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestType6Attributes = map[string]schema.Attribute{
+	"retention_duration": schema.SingleNestedAttribute{
+		Attributes:          IdpColumnRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType6TFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func UserstoreUpdateColumnRetentionDurationRequestType6TFModelToJSONClient(in *UserstoreUpdateColumnRetentionDurationRequestType6TFModel) (*UserstoreUpdateColumnRetentionDurationRequestType6JSONClientModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestType6JSONClientModel{}
+	var err error
+	out.RetentionDuration, err = func(val *types.Object) (*IdpColumnRetentionDurationJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := IdpColumnRetentionDurationTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return IdpColumnRetentionDurationTFModelToJSONClient(&tfModel)
+	}(&in.RetentionDuration)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType6JSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func UserstoreUpdateColumnRetentionDurationRequestType6JSONClientModelToTF(in *UserstoreUpdateColumnRetentionDurationRequestType6JSONClientModel) (UserstoreUpdateColumnRetentionDurationRequestType6TFModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestType6TFModel{}
+	var err error
+	out.RetentionDuration, err = func(val *IdpColumnRetentionDurationJSONClientModel) (types.Object, error) {
+		attrTypes := IdpColumnRetentionDurationAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := IdpColumnRetentionDurationJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpColumnRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.RetentionDuration)
+	if err != nil {
+		return UserstoreUpdateColumnRetentionDurationRequestType6TFModel{}, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType7TFModel is a Terraform model struct for the UserstoreUpdateColumnRetentionDurationRequestType7Attributes schema.
+type UserstoreUpdateColumnRetentionDurationRequestType7TFModel struct {
+	RetentionDuration types.Object `tfsdk:"retention_duration"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType7JSONClientModel stores data for use with jsonclient for making API requests.
+type UserstoreUpdateColumnRetentionDurationRequestType7JSONClientModel struct {
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType7AttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestType7Attributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestType7AttrTypes = map[string]attr.Type{
+	"retention_duration": types.ObjectType{
+		AttrTypes: IdpColumnRetentionDurationAttrTypes,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType7Attributes defines the Terraform attributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestType7Attributes = map[string]schema.Attribute{
+	"retention_duration": schema.SingleNestedAttribute{
+		Attributes:          IdpColumnRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType7TFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func UserstoreUpdateColumnRetentionDurationRequestType7TFModelToJSONClient(in *UserstoreUpdateColumnRetentionDurationRequestType7TFModel) (*UserstoreUpdateColumnRetentionDurationRequestType7JSONClientModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestType7JSONClientModel{}
+	var err error
+	out.RetentionDuration, err = func(val *types.Object) (*IdpColumnRetentionDurationJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := IdpColumnRetentionDurationTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return IdpColumnRetentionDurationTFModelToJSONClient(&tfModel)
+	}(&in.RetentionDuration)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType7JSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func UserstoreUpdateColumnRetentionDurationRequestType7JSONClientModelToTF(in *UserstoreUpdateColumnRetentionDurationRequestType7JSONClientModel) (UserstoreUpdateColumnRetentionDurationRequestType7TFModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestType7TFModel{}
+	var err error
+	out.RetentionDuration, err = func(val *IdpColumnRetentionDurationJSONClientModel) (types.Object, error) {
+		attrTypes := IdpColumnRetentionDurationAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := IdpColumnRetentionDurationJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpColumnRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.RetentionDuration)
+	if err != nil {
+		return UserstoreUpdateColumnRetentionDurationRequestType7TFModel{}, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType8TFModel is a Terraform model struct for the UserstoreUpdateColumnRetentionDurationRequestType8Attributes schema.
+type UserstoreUpdateColumnRetentionDurationRequestType8TFModel struct {
+	RetentionDuration types.Object `tfsdk:"retention_duration"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType8JSONClientModel stores data for use with jsonclient for making API requests.
+type UserstoreUpdateColumnRetentionDurationRequestType8JSONClientModel struct {
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType8AttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestType8Attributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestType8AttrTypes = map[string]attr.Type{
+	"retention_duration": types.ObjectType{
+		AttrTypes: IdpColumnRetentionDurationAttrTypes,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType8Attributes defines the Terraform attributes schema.
+var UserstoreUpdateColumnRetentionDurationRequestType8Attributes = map[string]schema.Attribute{
+	"retention_duration": schema.SingleNestedAttribute{
+		Attributes:          IdpColumnRetentionDurationAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType8TFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func UserstoreUpdateColumnRetentionDurationRequestType8TFModelToJSONClient(in *UserstoreUpdateColumnRetentionDurationRequestType8TFModel) (*UserstoreUpdateColumnRetentionDurationRequestType8JSONClientModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestType8JSONClientModel{}
+	var err error
+	out.RetentionDuration, err = func(val *types.Object) (*IdpColumnRetentionDurationJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := IdpColumnRetentionDurationTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return IdpColumnRetentionDurationTFModelToJSONClient(&tfModel)
+	}(&in.RetentionDuration)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// UserstoreUpdateColumnRetentionDurationRequestType8JSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func UserstoreUpdateColumnRetentionDurationRequestType8JSONClientModelToTF(in *UserstoreUpdateColumnRetentionDurationRequestType8JSONClientModel) (UserstoreUpdateColumnRetentionDurationRequestType8TFModel, error) {
+	out := UserstoreUpdateColumnRetentionDurationRequestType8TFModel{}
+	var err error
+	out.RetentionDuration, err = func(val *IdpColumnRetentionDurationJSONClientModel) (types.Object, error) {
+		attrTypes := IdpColumnRetentionDurationAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := IdpColumnRetentionDurationJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert IdpColumnRetentionDurationTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.RetentionDuration)
+	if err != nil {
+		return UserstoreUpdateColumnRetentionDurationRequestType8TFModel{}, ucerr.Errorf("failed to convert \"retention_duration\" field: %+v", err)
+	}
+	return out, nil
+}
+
 // UserstoreUpdateColumnRetentionDurationsRequestTFModel is a Terraform model struct for the UserstoreUpdateColumnRetentionDurationsRequestAttributes schema.
 type UserstoreUpdateColumnRetentionDurationsRequestTFModel struct {
 	RetentionDurations types.List `tfsdk:"retention_durations"`
@@ -6498,8 +4517,10 @@ var UserstoreUpdateColumnRetentionDurationsRequestAttributes = map[string]schema
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: IdpColumnRetentionDurationAttributes,
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6624,8 +4645,10 @@ var UserstoreUpdateColumnRetentionDurationsRequestType2Attributes = map[string]s
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: IdpColumnRetentionDurationAttributes,
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6745,9 +4768,11 @@ var UserstoreUpdateMutatorRequestAttrTypes = map[string]attr.Type{
 // UserstoreUpdateMutatorRequestAttributes defines the Terraform attributes schema.
 var UserstoreUpdateMutatorRequestAttributes = map[string]schema.Attribute{
 	"mutator": schema.SingleNestedAttribute{
-		Attributes: UserstoreMutatorAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstoreMutatorAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6834,9 +4859,11 @@ var UserstoreUpdatePurposeRequestAttrTypes = map[string]attr.Type{
 // UserstoreUpdatePurposeRequestAttributes defines the Terraform attributes schema.
 var UserstoreUpdatePurposeRequestAttributes = map[string]schema.Attribute{
 	"purpose": schema.SingleNestedAttribute{
-		Attributes: UserstorePurposeAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          UserstorePurposeAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -6921,8 +4948,10 @@ var UserstoreUserSelectorConfigAttrTypes = map[string]attr.Type{
 // UserstoreUserSelectorConfigAttributes defines the Terraform attributes schema.
 var UserstoreUserSelectorConfigAttributes = map[string]schema.Attribute{
 	"where_clause": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 

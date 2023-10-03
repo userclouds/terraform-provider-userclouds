@@ -1,5 +1,10 @@
 package apitypes
 
+import (
+	"github.com/swaggest/openapi-go/openapi3"
+	"golang.org/x/exp/maps"
+)
+
 // UserstoreResourceID represents a "userstore.ResourceID" struct. This struct has an ID field and a
 // Name field, where only one field is required, so that customers making API requests can use
 // either the UUID or the Name to refer to a resource. However, in Terraform, we want to drop the
@@ -7,6 +12,7 @@ package apitypes
 // state, then e.g. if someone were to change a column name, they would get diffs everywhere that
 // references that column, even though those other resources did not change.
 type UserstoreResourceID struct {
+	Schema *openapi3.Schema
 	// JSONClientModelStructName is the name of the codegen'ed struct that stores a
 	// userstore.ResourceID value for use in sending/receiving API requests/responses
 	JSONClientModelStructName string
@@ -27,6 +33,8 @@ func (t *UserstoreResourceID) TFSchemaAttributeType() string {
 // TFSchemaAttributeText returns the text of the code for instantiating this type as a Terraform
 // schema attribute.
 func (t *UserstoreResourceID) TFSchemaAttributeText(extraFields map[string]string) string {
+	fields := makeCommonFields(t.Schema)
+	maps.Copy(fields, extraFields)
 	return `schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
@@ -34,7 +42,7 @@ func (t *UserstoreResourceID) TFSchemaAttributeText(extraFields map[string]strin
 				"invalid UUIDv4 format",
 			),
 		},
-		` + fieldsToString(extraFields) + `
+		` + fieldsToString(fields) + `
 	}`
 }
 

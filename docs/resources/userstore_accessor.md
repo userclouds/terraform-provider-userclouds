@@ -3,12 +3,12 @@
 page_title: "userclouds_userstore_accessor Resource - terraform-provider-userclouds"
 subcategory: ""
 description: |-
-  User Store accessor
+  Manages a User Store accessor. For more details, refer to the accessors documentation https://docs.userclouds.com/docs/accessors-read-apis.
 ---
 
 # userclouds_userstore_accessor (Resource)
 
-User Store accessor
+Manages a User Store accessor. For more details, refer to the [accessors documentation](https://docs.userclouds.com/docs/accessors-read-apis).
 
 
 
@@ -25,7 +25,7 @@ User Store accessor
 
 ### Optional
 
-- `data_life_cycle_state` (String)
+- `data_life_cycle_state` (String) Valid values: ``, `live`, `postdelete`, `predelete`, `softdeleted`
 - `description` (String)
 - `token_access_policy` (String)
 - `version` (Number)

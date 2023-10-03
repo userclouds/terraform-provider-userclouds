@@ -8,10 +8,10 @@ import (
 	"path/filepath"
 
 	"github.com/swaggest/openapi-go/openapi3"
-	"github.com/userclouds/userclouds/terraform-provider-userclouds/genprovider/internal/config"
-	"github.com/userclouds/userclouds/terraform-provider-userclouds/genprovider/internal/provider"
-	"github.com/userclouds/userclouds/terraform-provider-userclouds/genprovider/internal/resources"
-	"github.com/userclouds/userclouds/terraform-provider-userclouds/genprovider/internal/schemas"
+	"github.com/userclouds/terraform-provider-userclouds/genprovider/internal/config"
+	"github.com/userclouds/terraform-provider-userclouds/genprovider/internal/provider"
+	"github.com/userclouds/terraform-provider-userclouds/genprovider/internal/resources"
+	"github.com/userclouds/terraform-provider-userclouds/genprovider/internal/schemas"
 )
 
 func handleSpec(ctx context.Context, specConfig *config.Spec, openapiDir string) {

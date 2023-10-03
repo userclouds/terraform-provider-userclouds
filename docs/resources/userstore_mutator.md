@@ -3,12 +3,12 @@
 page_title: "userclouds_userstore_mutator Resource - terraform-provider-userclouds"
 subcategory: ""
 description: |-
-  User Store mutator
+  Manages a User Store mutator. For more details, refer to the mutators documentation https://docs.userclouds.com/docs/mutators-write-apis.
 ---
 
 # userclouds_userstore_mutator (Resource)
 
-User Store mutator
+Manages a User Store mutator. For more details, refer to the [mutators documentation](https://docs.userclouds.com/docs/mutators-write-apis).
 
 
 

@@ -8,8 +8,8 @@ import (
 	"os"
 	"text/template"
 
-	"github.com/userclouds/userclouds/terraform-provider-userclouds/genprovider/internal/config"
-	"github.com/userclouds/userclouds/terraform-provider-userclouds/genprovider/internal/resources"
+	"github.com/userclouds/terraform-provider-userclouds/genprovider/internal/config"
+	"github.com/userclouds/terraform-provider-userclouds/genprovider/internal/resources"
 )
 
 type data struct {
@@ -27,7 +27,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
 	<<- range $i, $importPackage := .ImportPackages >>
-	"github.com/userclouds/userclouds/terraform-provider-userclouds/internal/provider/<< $importPackage >>"
+	"github.com/userclouds/terraform-provider-userclouds/internal/provider/<< $importPackage >>"
 	<<- end >>
 )
 

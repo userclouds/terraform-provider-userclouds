@@ -1,3 +1,4 @@
+.DS_Store
 
 # from testing
 cover.out
@@ -75,6 +76,3 @@ terragrunt_generated__*.tf
 
 # VS Code
 **__debug_bin**
-
-# Terraform provider build file (produced by "go install")
-terraform-provider-userclouds/terraform-provider-userclouds

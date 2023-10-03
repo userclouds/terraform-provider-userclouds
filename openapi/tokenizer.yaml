@@ -644,6 +644,8 @@ paths:
       - Tokens
   /tokenizer/tokens/actions/lookuporcreate:
     post:
+      description: This endpoint helps you re-use existing tokens by only creating
+        new tokens when they don't exist already.
       requestBody:
         content:
           application/json:
@@ -664,6 +666,9 @@ paths:
           description: Conflict
         "500":
           description: Internal Server Error
+      summary: Lookup Or Create Tokens
+      tags:
+      - Tokens
   /tokenizer/tokens/actions/resolve:
     post:
       description: This endpoint receives a token and returns the raw data, if the
@@ -981,8 +986,14 @@ components:
     UserstoreDataType:
       enum:
       - address
+      - birthdate
       - boolean
+      - date
+      - e164_phonenumber
+      - email
       - integer
+      - phonenumber
+      - ssn
       - string
       - timestamp
       - uuid

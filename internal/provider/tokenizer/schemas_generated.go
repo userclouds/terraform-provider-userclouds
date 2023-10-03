@@ -97,12 +97,16 @@ var PolicyAccessPolicyAttributes = map[string]schema.Attribute{
 		NestedObject: schema.NestedAttributeObject{
 			Attributes: PolicyAccessPolicyComponentAttributes,
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"description": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -111,29 +115,39 @@ var PolicyAccessPolicyAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"policy_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"compositeintersection", "compositeunion"}...),
 		},
-		Required: true,
+		Description:         "Valid values: `compositeintersection`, `compositeunion`",
+		MarkdownDescription: "Valid values: `compositeintersection`, `compositeunion`",
+		Required:            true,
 	},
 	"tag_ids": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -402,8 +416,10 @@ var PolicyAccessPolicyComponentAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"template": schema.StringAttribute{
 		Validators: []validator.String{
@@ -412,12 +428,16 @@ var PolicyAccessPolicyComponentAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"template_parameters": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -562,19 +582,27 @@ var PolicyAccessPolicyTemplateAttrTypes = map[string]attr.Type{
 // PolicyAccessPolicyTemplateAttributes defines the Terraform attributes schema.
 var PolicyAccessPolicyTemplateAttributes = map[string]schema.Attribute{
 	"created": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"deleted": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"description": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"function": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -583,22 +611,30 @@ var PolicyAccessPolicyTemplateAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"updated": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -869,11 +905,15 @@ var PolicyTransformerAttrTypes = map[string]attr.Type{
 // PolicyTransformerAttributes defines the Terraform attributes schema.
 var PolicyTransformerAttributes = map[string]schema.Attribute{
 	"description": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"function": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -882,35 +922,47 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"input_type": schema.StringAttribute{
 		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"address", "boolean", "integer", "string", "timestamp", "uuid"}...),
+			stringvalidator.OneOf([]string{"address", "birthdate", "boolean", "date", "e164_phonenumber", "email", "integer", "phonenumber", "ssn", "string", "timestamp", "uuid"}...),
 		},
-		Required: true,
+		Description:         "Valid values: `address`, `birthdate`, `boolean`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
+		MarkdownDescription: "Valid values: `address`, `birthdate`, `boolean`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
+		Required:            true,
 	},
 	"name": schema.StringAttribute{
-		Required: true,
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
 	},
 	"parameters": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"tag_ids": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"transform_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"passthrough", "tokenizebyreference", "tokenizebyvalue", "transform"}...),
 		},
-		Required: true,
+		Description:         "Valid values: `passthrough`, `tokenizebyreference`, `tokenizebyvalue`, `transform`",
+		MarkdownDescription: "Valid values: `passthrough`, `tokenizebyreference`, `tokenizebyvalue`, `transform`",
+		Required:            true,
 	},
 }
 
@@ -1119,9 +1171,11 @@ var TokenizerCreateAccessPolicyRequestAttrTypes = map[string]attr.Type{
 // TokenizerCreateAccessPolicyRequestAttributes defines the Terraform attributes schema.
 var TokenizerCreateAccessPolicyRequestAttributes = map[string]schema.Attribute{
 	"access_policy": schema.SingleNestedAttribute{
-		Attributes: PolicyAccessPolicyAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          PolicyAccessPolicyAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1208,9 +1262,11 @@ var TokenizerCreateAccessPolicyTemplateRequestAttrTypes = map[string]attr.Type{
 // TokenizerCreateAccessPolicyTemplateRequestAttributes defines the Terraform attributes schema.
 var TokenizerCreateAccessPolicyTemplateRequestAttributes = map[string]schema.Attribute{
 	"access_policy_template": schema.SingleNestedAttribute{
-		Attributes: PolicyAccessPolicyTemplateAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          PolicyAccessPolicyTemplateAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1307,12 +1363,16 @@ var TokenizerCreateTokenRequestAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"data": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"transformer_rid": schema.StringAttribute{
 		Validators: []validator.String{
@@ -1321,8 +1381,10 @@ var TokenizerCreateTokenRequestAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1446,8 +1508,10 @@ var TokenizerCreateTokenResponseAttrTypes = map[string]attr.Type{
 // TokenizerCreateTokenResponseAttributes defines the Terraform attributes schema.
 var TokenizerCreateTokenResponseAttributes = map[string]schema.Attribute{
 	"data": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1501,9 +1565,11 @@ var TokenizerCreateTransformerRequestAttrTypes = map[string]attr.Type{
 // TokenizerCreateTransformerRequestAttributes defines the Terraform attributes schema.
 var TokenizerCreateTransformerRequestAttributes = map[string]schema.Attribute{
 	"transformer": schema.SingleNestedAttribute{
-		Attributes: PolicyTransformerAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          PolicyTransformerAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1588,8 +1654,10 @@ var TokenizerInspectTokenRequestAttrTypes = map[string]attr.Type{
 // TokenizerInspectTokenRequestAttributes defines the Terraform attributes schema.
 var TokenizerInspectTokenRequestAttributes = map[string]schema.Attribute{
 	"token": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1663,17 +1731,23 @@ var TokenizerInspectTokenResponseAttrTypes = map[string]attr.Type{
 // TokenizerInspectTokenResponseAttributes defines the Terraform attributes schema.
 var TokenizerInspectTokenResponseAttributes = map[string]schema.Attribute{
 	"access_policy": schema.SingleNestedAttribute{
-		Attributes: PolicyAccessPolicyAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          PolicyAccessPolicyAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"created": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"current_access_policy_version": schema.Int64Attribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -1682,24 +1756,32 @@ var TokenizerInspectTokenResponseAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"token": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"transformer": schema.SingleNestedAttribute{
-		Attributes: PolicyTransformerAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          PolicyTransformerAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"updated": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -1931,19 +2013,25 @@ var TokenizerLookupOrCreateTokensRequestAttrTypes = map[string]attr.Type{
 // TokenizerLookupOrCreateTokensRequestAttributes defines the Terraform attributes schema.
 var TokenizerLookupOrCreateTokensRequestAttributes = map[string]schema.Attribute{
 	"access_policy_rids": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"data": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"transformer_rids": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -2162,9 +2250,11 @@ var TokenizerLookupOrCreateTokensResponseAttrTypes = map[string]attr.Type{
 // TokenizerLookupOrCreateTokensResponseAttributes defines the Terraform attributes schema.
 var TokenizerLookupOrCreateTokensResponseAttributes = map[string]schema.Attribute{
 	"tokens": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -2259,12 +2349,16 @@ var TokenizerLookupTokensRequestAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"data": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"transformer_rid": schema.StringAttribute{
 		Validators: []validator.String{
@@ -2273,8 +2367,10 @@ var TokenizerLookupTokensRequestAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -2400,9 +2496,11 @@ var TokenizerLookupTokensResponseAttrTypes = map[string]attr.Type{
 // TokenizerLookupTokensResponseAttributes defines the Terraform attributes schema.
 var TokenizerLookupTokensResponseAttributes = map[string]schema.Attribute{
 	"tokens": schema.ListAttribute{
-		ElementType: types.StringType,
-		Computed:    true,
-		Optional:    true,
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -2488,12 +2586,16 @@ var TokenizerResolveTokenResponseAttrTypes = map[string]attr.Type{
 // TokenizerResolveTokenResponseAttributes defines the Terraform attributes schema.
 var TokenizerResolveTokenResponseAttributes = map[string]schema.Attribute{
 	"data": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"token": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -2563,9 +2665,11 @@ var TokenizerUpdateAccessPolicyRequestAttrTypes = map[string]attr.Type{
 // TokenizerUpdateAccessPolicyRequestAttributes defines the Terraform attributes schema.
 var TokenizerUpdateAccessPolicyRequestAttributes = map[string]schema.Attribute{
 	"access_policy": schema.SingleNestedAttribute{
-		Attributes: PolicyAccessPolicyAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          PolicyAccessPolicyAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -2652,9 +2756,11 @@ var TokenizerUpdateAccessPolicyTemplateRequestAttrTypes = map[string]attr.Type{
 // TokenizerUpdateAccessPolicyTemplateRequestAttributes defines the Terraform attributes schema.
 var TokenizerUpdateAccessPolicyTemplateRequestAttributes = map[string]schema.Attribute{
 	"access_policy_template": schema.SingleNestedAttribute{
-		Attributes: PolicyAccessPolicyTemplateAttributes,
-		Computed:   true,
-		Optional:   true,
+		Attributes:          PolicyAccessPolicyTemplateAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 
@@ -2774,15 +2880,19 @@ var UserstoreResourceIDAttributes = map[string]schema.Attribute{
 				"invalid UUIDv4 format",
 			),
 		},
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
 	"name": schema.StringAttribute{
-		Computed: true,
-		Optional: true,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 }
 

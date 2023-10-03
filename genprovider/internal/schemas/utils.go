@@ -4,7 +4,7 @@ import (
 	"regexp"
 
 	"github.com/swaggest/openapi-go/openapi3"
-	"github.com/userclouds/userclouds/terraform-provider-userclouds/genprovider/internal/stringutils"
+	"github.com/userclouds/terraform-provider-userclouds/genprovider/internal/stringutils"
 
 	"userclouds.com/infra/ucerr"
 )

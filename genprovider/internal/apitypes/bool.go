@@ -1,7 +1,14 @@
 package apitypes
 
+import (
+	"github.com/swaggest/openapi-go/openapi3"
+	"golang.org/x/exp/maps"
+)
+
 // Bool represents a boolean value.
-type Bool struct{}
+type Bool struct {
+	Schema *openapi3.Schema
+}
 
 // TFModelType returns the type that should be used to represent this type in a Terraform model.
 func (t *Bool) TFModelType() string {
@@ -17,8 +24,10 @@ func (t *Bool) TFSchemaAttributeType() string {
 // TFSchemaAttributeText returns the text of the code for instantiating this type as a Terraform
 // schema attribute.
 func (t *Bool) TFSchemaAttributeText(extraFields map[string]string) string {
+	fields := makeCommonFields(t.Schema)
+	maps.Copy(fields, extraFields)
 	return `schema.BoolAttribute{
-		` + fieldsToString(extraFields) + `
+		` + fieldsToString(fields) + `
 	}`
 }
 
