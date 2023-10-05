@@ -6,17 +6,56 @@ description: |-
   
 ---
 
-# userclouds Provider
+# UserClouds Terraform Provider
 
+This provider allows Terraform to configure UserClouds infrastructure. See
+example below.
 
+Use the navigation to the left to read about available resources.
+
+## What is Terraform?
+
+Terraform is a declarative Infrastructure-as-Code tool that allows you to
+describe how you want your infrastructure to look; then, it compares the live
+state of your infrastructure against the vision described in your configuration,
+and it applies the necessary changes to make the live state match the desired
+state.
+
+## What if I don't want to use Terraform?
+
+We have an open-source tool called
+[ucconfig](https://github.com/userclouds/ucconfig) that is layered on top of
+this Terraform provider. It is less powerful and flexible than Terraform, but it
+makes simple use cases less accessible, and it has very little starting cost.
 
 ## Example Usage
 
 ```terraform
+terraform {
+  required_providers {
+    userclouds = {
+      source  = "registry.terraform.io/userclouds/userclouds"
+      version = ">= 0.1.0"
+    }
+  }
+}
+
+# Instantiate the provider, configuring via provider attributes
+# or via environment variables
 provider "userclouds" {
-  tenant_url = "https://mytenant.tenant.userclouds.tools"
-  # Set USERCLOUDS_CLIENT_ID and USERCLOUDS_CLIENT_SECRET environment variables to avoid hardcoding
-  # secrets. USERCLOUDS_TENANT_URL may be set in place of tenant_url as well.
+  tenant_url = "https://mytenant.tenant.userclouds.com"
+  # Set USERCLOUDS_CLIENT_ID and USERCLOUDS_CLIENT_SECRET
+  # environment variables to avoid hardcoding secrets.
+  # USERCLOUDS_TENANT_URL may be set in place of tenant_url as
+  # well.
+}
+
+# Create an example resource
+resource "userclouds_userstore_column" "sample" {
+  name       = "sample_column"
+  type       = "string"
+  index_type = "none"
+  is_array   = false
 }
 ```
 

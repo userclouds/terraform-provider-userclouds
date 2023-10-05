@@ -13,30 +13,6 @@
                     "rest_resource_path": "/userstore/config/columns/{id}"
                 },
                 {
-                    "type_name_suffix": "userstore_column_live_retention_duration",
-                    "description": "Manages a live retention duration setting for a User Store column. For more details, refer to the User Store documentation: https://docs.userclouds.com/docs/introduction",
-                    "markdown_description": "Manages a live retention duration setting for a User Store column. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs/introduction).",
-                    "openapi_schema": "IdpColumnRetentionDuration",
-                    "path_params_to_schema_property": {
-                        "id": "column_id",
-                        "id2": "id"
-                    },
-                    "rest_collection_path": "/userstore/config/columns/{id}/liveretentiondurations",
-                    "rest_resource_path": "/userstore/config/columns/{id}/liveretentiondurations/{id2}"
-                },
-                {
-                    "type_name_suffix": "userstore_column_soft_deleted_retention_duration",
-                    "description": "Manages a soft-deleted retention duration setting for a User Store column. For more details, refer to the User Store documentation: https://docs.userclouds.com/docs/introduction",
-                    "markdown_description": "Manages a soft-deleted retention duration setting for a User Store column. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs/introduction).",
-                    "openapi_schema": "IdpColumnRetentionDuration",
-                    "path_params_to_schema_property": {
-                        "id": "column_id",
-                        "id2": "id"
-                    },
-                    "rest_collection_path": "/userstore/config/columns/{id}/softdeletedretentiondurations",
-                    "rest_resource_path": "/userstore/config/columns/{id}/softdeletedretentiondurations/{id2}"
-                },
-                {
                     "type_name_suffix": "userstore_accessor",
                     "description": "Manages a User Store accessor. For more details, refer to the accessors documentation: https://docs.userclouds.com/docs/accessors-read-apis",
                     "markdown_description": "Manages a User Store accessor. For more details, refer to the [accessors documentation](https://docs.userclouds.com/docs/accessors-read-apis).",
