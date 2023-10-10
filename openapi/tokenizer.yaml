@@ -124,11 +124,13 @@ paths:
     delete:
       description: This endpoint deletes an access policy by ID.
       parameters:
-      - description: Required - specifies the version of the policy to delete
+      - description: Required - specifies the version of the policy to delete, use
+          'all' to delete all versions
         in: query
         name: policy_version
         schema:
-          description: Required - specifies the version of the policy to delete
+          description: Required - specifies the version of the policy to delete, use
+            'all' to delete all versions
           nullable: true
           type: string
       - in: path
@@ -331,11 +333,13 @@ paths:
     delete:
       description: This endpoint deletes an access policy template by ID.
       parameters:
-      - description: Required - specifies the version of the template to delete
+      - description: Required - specifies the version of the template to delete, use
+          'all' to delete all versions
         in: query
         name: template_version
         schema:
-          description: Required - specifies the version of the template to delete
+          description: Required - specifies the version of the template to delete,
+            use 'all' to delete all versions
           nullable: true
           type: string
       - in: path
@@ -350,6 +354,8 @@ paths:
           description: Bad Request
         "409":
           description: Conflict
+        "500":
+          description: Internal Server Error
       summary: Delete Access Policy Template
       tags:
       - Access Policy Templates
