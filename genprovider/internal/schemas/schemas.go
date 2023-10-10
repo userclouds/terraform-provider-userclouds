@@ -38,6 +38,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/userclouds/terraform-provider-userclouds/internal/provider/planmodifiers"
 
 	"userclouds.com/infra/ucerr"
 )
@@ -287,19 +288,30 @@ func gatherSchemaProperties(spec *openapi3.Spec, schemaName string) (schemaData,
 			Type:                   t,
 			ExtraTFAttributeFields: map[string]string{},
 		}
+
 		if schema.Required != nil && slices.Contains(schema.Required, name) {
 			fieldData.ExtraTFAttributeFields["Required"] = "true"
+		} else if name == "version" {
+			// Version is like an etag -- should be set by server, not by practitioners
+			fieldData.ExtraTFAttributeFields["Computed"] = "true"
 		} else {
 			// Computed: these values can be populated by the provider (e.g. on read) if unspecified
 			// in the terraform config
 			fieldData.ExtraTFAttributeFields["Computed"] = "true"
 			fieldData.ExtraTFAttributeFields["Optional"] = "true"
 		}
+
 		if name == "id" {
 			// IDs should be stable; if an ID is not explicitly set in
 			// Terraform, keep using the value from previous state
 			fieldData.ExtraTFAttributeFields["PlanModifiers"] = `[]planmodifier.String{
 				stringplanmodifier.UseStateForUnknown(),
+			}`
+		} else if name == "version" {
+			// When sending update requests, we need to send the
+			// last-received version number as an etag
+			fieldData.ExtraTFAttributeFields["PlanModifiers"] = `[]planmodifier.Int64{
+				planmodifiers.IncrementOnUpdate(),
 			}`
 		}
 		data.Fields = append(data.Fields, fieldData)

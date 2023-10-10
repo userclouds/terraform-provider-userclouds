@@ -170,6 +170,10 @@ func (r *UserstoreAccessorResource) Update(ctx context.Context, req resource.Upd
 	if resp.Diagnostics.HasError() {
 		return
 	}
+	// Must provide the last-known version. (The IncrementOnUpdate plan modifier
+	// has already incremented the version in the plan, but we need to provide
+	// the old version in our request to the server)
+	plan.Version = state.Version
 
 	jsonclientModel, err := UserstoreAccessorTFModelToJSONClient(plan)
 	if err != nil {

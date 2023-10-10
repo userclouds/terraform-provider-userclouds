@@ -28,11 +28,11 @@ Manages a User Store accessor. For more details, refer to the [accessors documen
 - `data_life_cycle_state` (String) Valid values: ``, `live`, `postdelete`, `predelete`, `softdeleted`
 - `description` (String)
 - `token_access_policy` (String)
-- `version` (Number)
 
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+- `version` (Number)
 
 <a id="nestedatt--columns"></a>
 ### Nested Schema for `columns`

@@ -15,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/userclouds/terraform-provider-userclouds/internal/provider/planmodifiers"
 
 	"userclouds.com/infra/ucerr"
 )
@@ -93,7 +94,7 @@ func IdpColumnConsentedPurposesTFModelToJSONClient(in *IdpColumnConsentedPurpose
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []UserstoreResourceIDJSONClientModel
+		var out = []UserstoreResourceIDJSONClientModel{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.String)
 			if !ok {
@@ -309,7 +310,9 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
-		Optional:            true,
+		PlanModifiers: []planmodifier.Int64{
+			planmodifiers.IncrementOnUpdate(),
+		},
 	},
 }
 
@@ -780,7 +783,7 @@ func IdpColumnRetentionDurationsResponseTFModelToJSONClient(in *IdpColumnRetenti
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []IdpColumnRetentionDurationJSONClientModel
+		var out = []IdpColumnRetentionDurationJSONClientModel{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.Object)
 			if !ok {
@@ -1322,7 +1325,7 @@ func IdpExecuteAccessorResponseTFModelToJSONClient(in *IdpExecuteAccessorRespons
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []string
+		var out = []string{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.String)
 			if !ok {
@@ -1411,7 +1414,7 @@ func IdpExecuteMutatorResponseTFModelToJSONClient(in *IdpExecuteMutatorResponseT
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []uuid.UUID
+		var out = []uuid.UUID{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.String)
 			if !ok {
@@ -1521,7 +1524,7 @@ func IdpGetConsentedPurposesForUserRequestTFModelToJSONClient(in *IdpGetConsente
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []UserstoreResourceIDJSONClientModel
+		var out = []UserstoreResourceIDJSONClientModel{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.String)
 			if !ok {
@@ -1656,7 +1659,7 @@ func IdpGetConsentedPurposesForUserResponseTFModelToJSONClient(in *IdpGetConsent
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []IdpColumnConsentedPurposesJSONClientModel
+		var out = []IdpColumnConsentedPurposesJSONClientModel{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.Object)
 			if !ok {
@@ -2104,7 +2107,9 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
-		Optional:            true,
+		PlanModifiers: []planmodifier.Int64{
+			planmodifiers.IncrementOnUpdate(),
+		},
 	},
 }
 
@@ -2132,7 +2137,7 @@ func UserstoreAccessorTFModelToJSONClient(in *UserstoreAccessorTFModel) (*Userst
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []UserstoreColumnOutputConfigJSONClientModel
+		var out = []UserstoreColumnOutputConfigJSONClientModel{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.Object)
 			if !ok {
@@ -2213,7 +2218,7 @@ func UserstoreAccessorTFModelToJSONClient(in *UserstoreAccessorTFModel) (*Userst
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []UserstoreResourceIDJSONClientModel
+		var out = []UserstoreResourceIDJSONClientModel{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.String)
 			if !ok {
@@ -3113,7 +3118,9 @@ var UserstoreMutatorAttributes = map[string]schema.Attribute{
 		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
-		Optional:            true,
+		PlanModifiers: []planmodifier.Int64{
+			planmodifiers.IncrementOnUpdate(),
+		},
 	},
 }
 
@@ -3141,7 +3148,7 @@ func UserstoreMutatorTFModelToJSONClient(in *UserstoreMutatorTFModel) (*Userstor
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []UserstoreColumnInputConfigJSONClientModel
+		var out = []UserstoreColumnInputConfigJSONClientModel{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.Object)
 			if !ok {
@@ -4532,7 +4539,7 @@ func UserstoreUpdateColumnRetentionDurationsRequestTFModelToJSONClient(in *Users
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []IdpColumnRetentionDurationJSONClientModel
+		var out = []IdpColumnRetentionDurationJSONClientModel{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.Object)
 			if !ok {
@@ -4660,7 +4667,7 @@ func UserstoreUpdateColumnRetentionDurationsRequestType2TFModelToJSONClient(in *
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []IdpColumnRetentionDurationJSONClientModel
+		var out = []IdpColumnRetentionDurationJSONClientModel{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.Object)
 			if !ok {
