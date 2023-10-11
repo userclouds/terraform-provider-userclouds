@@ -263,8 +263,8 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 			stringvalidator.OneOf([]string{"", "live", "postdelete", "predelete", "softdeleted"}...),
 		},
 		Computed:            true,
-		Description:         "Valid values: ``, `live`, `postdelete`, `predelete`, `softdeleted`",
-		MarkdownDescription: "Valid values: ``, `live`, `postdelete`, `predelete`, `softdeleted`",
+		Description:         "Valid values: `live`, `postdelete`, `predelete`, `softdeleted`",
+		MarkdownDescription: "Valid values: `live`, `postdelete`, `predelete`, `softdeleted`",
 		Optional:            true,
 	},
 	"id": schema.StringAttribute{
@@ -2049,8 +2049,8 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 			stringvalidator.OneOf([]string{"", "live", "postdelete", "predelete", "softdeleted"}...),
 		},
 		Computed:            true,
-		Description:         "Valid values: ``, `live`, `postdelete`, `predelete`, `softdeleted`",
-		MarkdownDescription: "Valid values: ``, `live`, `postdelete`, `predelete`, `softdeleted`",
+		Description:         "Valid values: `live`, `postdelete`, `predelete`, `softdeleted`",
+		MarkdownDescription: "Valid values: `live`, `postdelete`, `predelete`, `softdeleted`",
 		Optional:            true,
 	},
 	"description": schema.StringAttribute{
