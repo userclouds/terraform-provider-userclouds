@@ -25,7 +25,7 @@ Manages a User Store accessor. For more details, refer to the [accessors documen
 
 ### Optional
 
-- `data_life_cycle_state` (String) Valid values: ``, `live`, `postdelete`, `predelete`, `softdeleted`
+- `data_life_cycle_state` (String) Valid values: `live`, `postdelete`, `predelete`, `softdeleted`
 - `description` (String)
 - `token_access_policy` (String)
 
