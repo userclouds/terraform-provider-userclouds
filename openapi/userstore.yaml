@@ -386,8 +386,10 @@ paths:
       - Columns
   /userstore/config/columns/{id}/liveretentiondurations:
     get:
-      description: This endpoint gets the default Live ColumnRetentionDurations for
-        a tenant column.
+      description: This endpoint gets the default Live column purpose ColumnRetentionDurations
+        for a tenant column, one for each column purpose. For each retention duration,
+        if the retention duration is a user-specified value, id will be non-nil, and
+        use_default will be false.
       parameters:
       - in: path
         name: id
@@ -407,8 +409,13 @@ paths:
       tags:
       - ColumnRetentionDurations
     post:
-      description: This endpoint updates all specified Live ColumnRetentionDurations
-        for a tenant column.
+      description: This endpoint updates all specified Live column purpose ColumnRetentionDurations
+        for a tenant column. For each retention duration, if id is nil and use_default
+        is false, the retention duration will be created; if id is non-nil and use_default
+        is false, the associated retention duration will be updated; or if id is non-nil
+        and use_default is true, the associated retention duration will be deleted.
+        Each column purpose retention duration that has been deleted will fall back
+        to the associated purpose retention duration.
       parameters:
       - in: path
         name: id
@@ -436,8 +443,9 @@ paths:
       - ColumnRetentionDurations
   /userstore/config/columns/{id}/liveretentiondurations/{id2}:
     delete:
-      description: This endpoint deletes a specific Live ColumnRetentionDuration for
-        a tenant column.
+      description: This endpoint deletes a specific Live column purpose ColumnRetentionDuration
+        for a tenant column. Once the column purpose retention duration has been deleted,
+        it will fall back to the associated purpose retention duration.
       parameters:
       - in: path
         name: id
@@ -460,8 +468,8 @@ paths:
       tags:
       - ColumnRetentionDurations
     get:
-      description: This endpoint gets a specific Live ColumnRetentionDuration for
-        a tenant column.
+      description: This endpoint gets a specific Live column purpose ColumnRetentionDuration
+        for a tenant column.
       parameters:
       - in: path
         name: id
@@ -488,8 +496,8 @@ paths:
       tags:
       - ColumnRetentionDurations
     put:
-      description: This endpoint updates a specific Live ColumnRetentionDuration for
-        a tenant column.
+      description: This endpoint updates a specific Live column purpose ColumnRetentionDuration
+        for a tenant column.
       parameters:
       - in: path
         name: id
@@ -522,8 +530,11 @@ paths:
       - ColumnRetentionDurations
   /userstore/config/columns/{id}/softdeletedretentiondurations:
     get:
-      description: This endpoint gets the default SoftDeleted ColumnRetentionDurations
-        for a tenant column.
+      description: This endpoint gets the default SoftDeleted column purpose ColumnRetentionDurations
+        for a tenant column, one for each column purpose. SoftDeleted data is data
+        that has been deleted but is retained for a specified purpose and duration
+        after deletion. For each retention duration, if the retention duration is
+        a user-specified value, id will be non-nil, and use_default will be false.
       parameters:
       - in: path
         name: id
@@ -539,12 +550,19 @@ paths:
           description: OK
         "500":
           description: Internal Server Error
-      summary: Get SoftDeleted ColumnRetentionDurations for Column
+      summary: Get Default SoftDeleted ColumnRetentionDurations for Column
       tags:
       - ColumnRetentionDurations
     post:
-      description: This endpoint updates all specified SoftDeleted ColumnRetentionDurations
-        for a tenant column.
+      description: This endpoint updates all specified SoftDeleted column purpose
+        ColumnRetentionDurations for a tenant column. SoftDeleted data is data that
+        has been deleted but is retained for a specified purpose and duration after
+        deletion. For each retention duration, if id is nil and use_default is false,
+        the retention duration will be created; if id is non-nil and use_default is
+        false, the associated retention duration will be updated; or if id is non-nil
+        and use_default is true, the associated retention duration will be deleted.
+        Each column purpose retention duration that has been deleted will fall back
+        to the associated purpose retention duration.
       parameters:
       - in: path
         name: id
@@ -572,8 +590,11 @@ paths:
       - ColumnRetentionDurations
   /userstore/config/columns/{id}/softdeletedretentiondurations/{id2}:
     delete:
-      description: This endpoint deletes a specific SoftDeleted ColumnRetentionDuration
-        for a tenant column.
+      description: This endpoint deletes a specific SoftDeleted column purpose ColumnRetentionDuration
+        for a tenant column. SoftDeleted data is data that has been deleted but is
+        retained for a specified purpose and duration after deletion. Once the column
+        purpose retention duration has been deleted, it will fall back to the associated
+        purpose retention duration.
       parameters:
       - in: path
         name: id
@@ -596,8 +617,9 @@ paths:
       tags:
       - ColumnRetentionDurations
     get:
-      description: This endpoint gets a specific SoftDeleted ColumnRetentionDuration
-        for a tenant column.
+      description: This endpoint gets a specific SoftDeleted column purpose ColumnRetentionDuration
+        for a tenant column. SoftDeleted data is data that has been deleted but is
+        retained for a specified purpose and duration after deletion.
       parameters:
       - in: path
         name: id
@@ -624,8 +646,9 @@ paths:
       tags:
       - ColumnRetentionDurations
     put:
-      description: This endpoint updates a specific SoftDeleted ColumnRetentionDuration
-        for a tenant column.
+      description: This endpoint updates a specific SoftDeleted column purpose ColumnRetentionDuration
+        for a tenant column. SoftDeleted data is data that has been deleted but is
+        retained for a specified purpose and duration after deletion.
       parameters:
       - in: path
         name: id
@@ -659,7 +682,8 @@ paths:
   /userstore/config/liveretentiondurations:
     get:
       description: This endpoint gets the default Live ColumnRetentionDuration for
-        a tenant.
+        a tenant. If the retention duration is a user-specified value, id will be
+        non-nil, and use_default will be false.
       responses:
         "200":
           content:
@@ -696,7 +720,8 @@ paths:
   /userstore/config/liveretentiondurations/{id}:
     delete:
       description: This endpoint deletes a specific Live ColumnRetentionDuration for
-        a tenant.
+        a tenant. Once the tenant default retention duration has been deleted, it
+        will fall back to the system default to retain Live data indefinitely.
       parameters:
       - in: path
         name: id
@@ -1097,7 +1122,8 @@ paths:
   /userstore/config/purposes/{id}/liveretentiondurations:
     get:
       description: This endpoint gets the default Live ColumnRetentionDuration for
-        a tenant purpose.
+        a tenant purpose. If the retention duration is a user-specified value, id
+        will be non-nil, and use_default will be false.
       parameters:
       - in: path
         name: id
@@ -1147,7 +1173,8 @@ paths:
   /userstore/config/purposes/{id}/liveretentiondurations/{id2}:
     delete:
       description: This endpoint deletes a specific Live ColumnRetentionDuration for
-        a tenant purpose.
+        a tenant purpose. If the purpose default retention duration has been deleted,
+        it will fall back to the tenant retention duration.
       parameters:
       - in: path
         name: id
@@ -1233,7 +1260,10 @@ paths:
   /userstore/config/purposes/{id}/softdeletedretentiondurations:
     get:
       description: This endpoint gets the default SoftDeleted ColumnRetentionDuration
-        for a tenant purpose.
+        for a tenant purpose. SoftDeleted data is data that has been deleted but is
+        retained for a specified purpose and duration after deletion. If the retention
+        duration is a user-specified value, id will be non-nil, and use_default will
+        be false.
       parameters:
       - in: path
         name: id
@@ -1254,7 +1284,8 @@ paths:
       - ColumnRetentionDurations
     post:
       description: This endpoint creates a SoftDeleted ColumnRetentionDuration for
-        a tenant purpose.
+        a tenant purpose. SoftDeleted data is data that has been deleted but is retained
+        for a specified purpose and duration after deletion.
       parameters:
       - in: path
         name: id
@@ -1283,7 +1314,10 @@ paths:
   /userstore/config/purposes/{id}/softdeletedretentiondurations/{id2}:
     delete:
       description: This endpoint deletes a specific SoftDeleted ColumnRetentionDuration
-        for a tenant purpose.
+        for a tenant purpose. SoftDeleted data is data that has been deleted but is
+        retained for a specified purpose and duration after deletion. Once the purpose
+        default retention duration has been deleted, it will fall back to the tenant
+        retention duration.
       parameters:
       - in: path
         name: id
@@ -1307,7 +1341,8 @@ paths:
       - ColumnRetentionDurations
     get:
       description: This endpoint gets a specific SoftDeleted ColumnRetentionDuration
-        for a tenant purpose.
+        for a tenant purpose. SoftDeleted data is data that has been deleted but is
+        retained for a specified purpose and duration after deletion.
       parameters:
       - in: path
         name: id
@@ -1335,7 +1370,8 @@ paths:
       - ColumnRetentionDurations
     put:
       description: This endpoint updates a specific SoftDeleted ColumnRetentionDuration
-        for a tenant purpose.
+        for a tenant purpose. SoftDeleted data is data that has been deleted but is
+        retained for a specified purpose and duration after deletion.
       parameters:
       - in: path
         name: id
@@ -1369,7 +1405,9 @@ paths:
   /userstore/config/softdeletedretentiondurations:
     get:
       description: This endpoint gets the default SoftDeleted ColumnRetentionDuration
-        for a tenant.
+        for a tenant. SoftDeleted data is data that has been deleted but is retained
+        for a specified purpose and duration after deletion. If the retention duration
+        is a user-specified value, id will be non-nil, and use_default will be false.
       responses:
         "200":
           content:
@@ -1384,7 +1422,8 @@ paths:
       - ColumnRetentionDurations
     post:
       description: This endpoint creates a SoftDeleted ColumnRetentionDuration for
-        a tenant.
+        a tenant. SoftDeleted data is data that has been deleted but is retained for
+        a specified purpose and duration after deletion.
       requestBody:
         content:
           application/json:
@@ -1407,7 +1446,10 @@ paths:
   /userstore/config/softdeletedretentiondurations/{id}:
     delete:
       description: This endpoint deletes a specific SoftDeleted ColumnRetentionDuration
-        for a tenant.
+        for a tenant. SoftDeleted data is data that has been deleted but is retained
+        for a specified purpose and duration after deletion. Once the tenant default
+        retention duration has been deleted, it will fall back to the system default
+        to not retain deleted data.
       parameters:
       - in: path
         name: id
@@ -1426,7 +1468,8 @@ paths:
       - ColumnRetentionDurations
     get:
       description: This endpoint gets a specific SoftDeleted ColumnRetentionDuration
-        for a tenant.
+        for a tenant. SoftDeleted data is data that has been deleted but is retained
+        for a specified purpose and duration after deletion.
       parameters:
       - in: path
         name: id
@@ -1449,7 +1492,8 @@ paths:
       - ColumnRetentionDurations
     put:
       description: This endpoint updates a specific SoftDeleted ColumnRetentionDuration
-        for a tenant.
+        for a tenant. SoftDeleted data is data that has been deleted but is retained
+        for a specified purpose and duration after deletion.
       parameters:
       - in: path
         name: id
