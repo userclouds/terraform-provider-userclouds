@@ -26,8 +26,8 @@ Manages a Tokenizer access policy template. For more details, refer to the [Toke
 - `deleted` (String)
 - `description` (String)
 - `updated` (String)
-- `version` (Number)
 
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+- `version` (Number)

@@ -25,11 +25,11 @@ Manages a Tokenizer access policy. For more details, refer to the [access policy
 - `components` (Attributes List) (see [below for nested schema](#nestedatt--components))
 - `description` (String)
 - `tag_ids` (List of String)
-- `version` (Number)
 
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+- `version` (Number)
 
 <a id="nestedatt--components"></a>
 ### Nested Schema for `components`
