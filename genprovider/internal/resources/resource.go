@@ -43,6 +43,9 @@ type data struct {
 	// Map from path param name to the name of the TF model struct field whose value should be used
 	// for that path param. (Model field names should be UpperCamelCase)
 	PathParamsToModelFields map[string]string
+	// Whether the resource body has a "version" field functioning like an etag
+	// (on update, must specify the last known version of the resource)
+	IsVersionedResource bool
 
 	// Name of model struct for creation request (e.g. IdpCreateColumnRequestJSONClientModel)
 	CreateRequestModel string
@@ -58,6 +61,11 @@ type data struct {
 	UpdateRequestDataPropertyName string
 	// Whether the UpdateRequestDataPropertyName property is an array
 	UpdateBodyUsesArray bool
+
+	// The name of the query param that should be used to specify the version of
+	// the resource to delete, e.g. "policy_version", if required. (empty string
+	// if the delete endpoint does not require specifying a version)
+	DeleteVersionQueryParam string
 }
 
 var temp = `// NOTE: automatically generated file -- DO NOT EDIT
@@ -249,6 +257,13 @@ func (r *<< .StructName >>) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 
+	<<- if .IsVersionedResource >>
+	// Must provide the last-known version. (The IncrementOnUpdate plan modifier
+	// has already incremented the version in the plan, but we need to provide
+	// the old version in our request to the server)
+	plan.Version = state.Version
+	<<- end >>
+
 	jsonclientModel, err := << .TFModelToJSONClientFuncName >>(plan)
 	if err != nil {
 		resp.Diagnostics.AddError("Error converting userclouds_<< .TypeNameSuffix >> to JSON", err.Error())
@@ -304,6 +319,9 @@ func (r *<< .StructName >>) Delete(ctx context.Context, req resource.DeleteReque
 	}
 
 	url := "<< .ResourcePath >>"
+	<<- if not (eq .DeleteVersionQueryParam "") >>
+	url += "?<< .DeleteVersionQueryParam >>=all"
+	<<- end >>
 	<<- range $pathParam, $attr := .PathParamsToModelFields >>
 	url = strings.ReplaceAll(url, "{<< $pathParam >>}", data.<< $attr >>.ValueString())
 	<<- end >>
@@ -424,7 +442,8 @@ func GenResource(ctx context.Context, outDir string, outFilePackage string, spec
 	if !ok {
 		log.Fatalf("Could not find schema %s for resource %s", resource.OpenapiSchema, resource.TypeNameSuffix)
 	}
-	if _, err := schemas.ResolveSchema(spec, &schemaOrRef); err != nil {
+	schema, err := schemas.ResolveSchema(spec, &schemaOrRef)
+	if err != nil {
 		log.Fatalf("Could not resolve schema %s for resource %s: %v", resource.OpenapiSchema, resource.TypeNameSuffix, err)
 	}
 
@@ -433,6 +452,11 @@ func GenResource(ctx context.Context, outDir string, outFilePackage string, spec
 	}
 	if resource.RestResourcePath == "" {
 		log.Fatalf("Resource %s is missing rest_resource_path", resource.TypeNameSuffix)
+	}
+
+	isVersionedResource := false
+	if _, ok := schema.Properties["version"]; ok {
+		isVersionedResource = true
 	}
 
 	createBodySchemaRef, err := getRequestBodySchemaRef(spec, resource.RestCollectionPath, "post")
@@ -457,6 +481,14 @@ func GenResource(ctx context.Context, outDir string, outFilePackage string, spec
 			updateSupported = false
 		} else {
 			updateRequestModel = schemas.GetJSONClientModelStructName(schemas.SchemaNameFromRef(updateBodySchemaRef.Ref))
+		}
+	}
+
+	deleteVersionQueryParam := ""
+	for _, param := range spec.Paths.MapOfPathItemValues[resource.RestResourcePath].MapOfOperationValues["delete"].Parameters {
+		if strings.HasSuffix(param.Parameter.Name, "_version") {
+			deleteVersionQueryParam = param.Parameter.Name
+			break
 		}
 	}
 
@@ -485,6 +517,7 @@ func GenResource(ctx context.Context, outDir string, outFilePackage string, spec
 		CollectionPath:          resource.RestCollectionPath,
 		ResourcePath:            resource.RestResourcePath,
 		PathParamsToModelFields: pathParamsToModelFields,
+		IsVersionedResource:     isVersionedResource,
 
 		CreateRequestModel:            schemas.GetJSONClientModelStructName(schemas.SchemaNameFromRef(createBodySchemaRef.Ref)),
 		CreateRequestDataPropertyName: stringutils.ToUpperCamel(createBodySchemaKey),
@@ -494,6 +527,8 @@ func GenResource(ctx context.Context, outDir string, outFilePackage string, spec
 		UpdateRequestModel:            updateRequestModel,
 		UpdateRequestDataPropertyName: stringutils.ToUpperCamel(updateBodySchemaKey),
 		UpdateBodyUsesArray:           updateBodyUsesArray,
+
+		DeleteVersionQueryParam: deleteVersionQueryParam,
 	}
 
 	temp := template.Must(template.New("resourceTemplate").Delims("<<", ">>").Parse(temp))

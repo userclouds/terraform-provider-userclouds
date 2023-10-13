@@ -56,7 +56,7 @@ func (t *Array) TFModelToJSONClientFunc() string {
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out ` + t.JSONClientModelType() + `
+		var out = ` + t.JSONClientModelType() + `{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(` + t.ChildType.TFModelType() + `)
 			if !ok {

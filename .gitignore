@@ -63,6 +63,13 @@ yarn-error.log*
 
 # Python
 *.pyc
+.coverage
+.venv
+*.egg-info/
+*.egg
+__pycache__/
+.pytest_cache
+
 
 # Terraform
 .terraform

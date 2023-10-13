@@ -170,6 +170,10 @@ func (r *AccessPolicyResource) Update(ctx context.Context, req resource.UpdateRe
 	if resp.Diagnostics.HasError() {
 		return
 	}
+	// Must provide the last-known version. (The IncrementOnUpdate plan modifier
+	// has already incremented the version in the plan, but we need to provide
+	// the old version in our request to the server)
+	plan.Version = state.Version
 
 	jsonclientModel, err := PolicyAccessPolicyTFModelToJSONClient(plan)
 	if err != nil {
@@ -218,6 +222,7 @@ func (r *AccessPolicyResource) Delete(ctx context.Context, req resource.DeleteRe
 	}
 
 	url := "/tokenizer/policies/access/{id}"
+	url += "?policy_version=all"
 	url = strings.ReplaceAll(url, "{id}", data.ID.ValueString())
 	tflog.Trace(ctx, fmt.Sprintf("GET %s", url))
 	if err := r.client.Delete(ctx, url, nil); err != nil {
