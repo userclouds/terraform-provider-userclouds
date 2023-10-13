@@ -28,6 +28,14 @@ func (t *StringEnum) TFSchemaAttributeType() string {
 func (t *StringEnum) description() string {
 	desc := "Valid values: "
 	for i, v := range t.Values {
+		if len(v) == 0 {
+			// Skip empty values. Otherwise, we generate `` in the documentation
+			// markdown, which seems like it should be valid ("empty code
+			// block"), but it messes up the parsing. I'm not entirely sure how
+			// we should generate an empty code block, but let's just omit for
+			// now.
+			continue
+		}
 		desc += "`" + v + "`"
 		if i < len(t.Values)-1 {
 			desc += ", "

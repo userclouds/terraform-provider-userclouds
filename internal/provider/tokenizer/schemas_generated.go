@@ -15,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/userclouds/terraform-provider-userclouds/internal/provider/planmodifiers"
 
 	"userclouds.com/infra/ucerr"
 )
@@ -147,7 +148,9 @@ var PolicyAccessPolicyAttributes = map[string]schema.Attribute{
 		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
-		Optional:            true,
+		PlanModifiers: []planmodifier.Int64{
+			planmodifiers.IncrementOnUpdate(),
+		},
 	},
 }
 
@@ -159,7 +162,7 @@ func PolicyAccessPolicyTFModelToJSONClient(in *PolicyAccessPolicyTFModel) (*Poli
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []PolicyAccessPolicyComponentJSONClientModel
+		var out = []PolicyAccessPolicyComponentJSONClientModel{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.Object)
 			if !ok {
@@ -240,7 +243,7 @@ func PolicyAccessPolicyTFModelToJSONClient(in *PolicyAccessPolicyTFModel) (*Poli
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []uuid.UUID
+		var out = []uuid.UUID{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.String)
 			if !ok {
@@ -634,7 +637,9 @@ var PolicyAccessPolicyTemplateAttributes = map[string]schema.Attribute{
 		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
-		Optional:            true,
+		PlanModifiers: []planmodifier.Int64{
+			planmodifiers.IncrementOnUpdate(),
+		},
 	},
 }
 
@@ -1037,7 +1042,7 @@ func PolicyTransformerTFModelToJSONClient(in *PolicyTransformerTFModel) (*Policy
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []uuid.UUID
+		var out = []uuid.UUID{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.String)
 			if !ok {
@@ -2043,7 +2048,7 @@ func TokenizerLookupOrCreateTokensRequestTFModelToJSONClient(in *TokenizerLookup
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []UserstoreResourceIDJSONClientModel
+		var out = []UserstoreResourceIDJSONClientModel{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.String)
 			if !ok {
@@ -2076,7 +2081,7 @@ func TokenizerLookupOrCreateTokensRequestTFModelToJSONClient(in *TokenizerLookup
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []string
+		var out = []string{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.String)
 			if !ok {
@@ -2103,7 +2108,7 @@ func TokenizerLookupOrCreateTokensRequestTFModelToJSONClient(in *TokenizerLookup
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []UserstoreResourceIDJSONClientModel
+		var out = []UserstoreResourceIDJSONClientModel{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.String)
 			if !ok {
@@ -2266,7 +2271,7 @@ func TokenizerLookupOrCreateTokensResponseTFModelToJSONClient(in *TokenizerLooku
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []string
+		var out = []string{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.String)
 			if !ok {
@@ -2512,7 +2517,7 @@ func TokenizerLookupTokensResponseTFModelToJSONClient(in *TokenizerLookupTokensR
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
-		var out []string
+		var out = []string{}
 		for _, elem := range val.Elements() {
 			elemTyped, ok := elem.(types.String)
 			if !ok {
