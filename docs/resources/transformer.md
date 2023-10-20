@@ -20,6 +20,7 @@ Manages a Tokenizer transformer. For more details refer to the [transformer docu
 - `function` (String)
 - `input_type` (String) Valid values: `address`, `birthdate`, `boolean`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
 - `name` (String)
+- `output_type` (String) Valid values: `address`, `birthdate`, `boolean`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
 - `transform_type` (String) Valid values: `passthrough`, `tokenizebyreference`, `tokenizebyvalue`, `transform`
 
 ### Optional

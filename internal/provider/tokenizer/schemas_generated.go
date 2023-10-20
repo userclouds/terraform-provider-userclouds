@@ -876,6 +876,7 @@ type PolicyTransformerTFModel struct {
 	ID            types.String `tfsdk:"id"`
 	InputType     types.String `tfsdk:"input_type"`
 	Name          types.String `tfsdk:"name"`
+	OutputType    types.String `tfsdk:"output_type"`
 	Parameters    types.String `tfsdk:"parameters"`
 	TagIds        types.List   `tfsdk:"tag_ids"`
 	TransformType types.String `tfsdk:"transform_type"`
@@ -888,6 +889,7 @@ type PolicyTransformerJSONClientModel struct {
 	ID            *uuid.UUID   `json:"id,omitempty"`
 	InputType     *string      `json:"input_type,omitempty"`
 	Name          *string      `json:"name,omitempty"`
+	OutputType    *string      `json:"output_type,omitempty"`
 	Parameters    *string      `json:"parameters,omitempty"`
 	TagIds        *[]uuid.UUID `json:"tag_ids,omitempty"`
 	TransformType *string      `json:"transform_type,omitempty"`
@@ -900,6 +902,7 @@ var PolicyTransformerAttrTypes = map[string]attr.Type{
 	"id":          types.StringType,
 	"input_type":  types.StringType,
 	"name":        types.StringType,
+	"output_type": types.StringType,
 	"parameters":  types.StringType,
 	"tag_ids": types.ListType{
 		ElemType: types.StringType,
@@ -946,6 +949,14 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 	"name": schema.StringAttribute{
 		Description:         "",
 		MarkdownDescription: "",
+		Required:            true,
+	},
+	"output_type": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.OneOf([]string{"address", "birthdate", "boolean", "date", "e164_phonenumber", "email", "integer", "phonenumber", "ssn", "string", "timestamp", "uuid"}...),
+		},
+		Description:         "Valid values: `address`, `birthdate`, `boolean`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
+		MarkdownDescription: "Valid values: `address`, `birthdate`, `boolean`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
 		Required:            true,
 	},
 	"parameters": schema.StringAttribute{
@@ -1027,6 +1038,16 @@ func PolicyTransformerTFModelToJSONClient(in *PolicyTransformerTFModel) (*Policy
 	}(&in.Name)
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
+	}
+	out.OutputType, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.OutputType)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"output_type\" field: %+v", err)
 	}
 	out.Parameters, err = func(val *types.String) (*string, error) {
 		if val.IsNull() || val.IsUnknown() {
@@ -1117,6 +1138,12 @@ func PolicyTransformerJSONClientModelToTF(in *PolicyTransformerJSONClientModel) 
 	}(in.Name)
 	if err != nil {
 		return PolicyTransformerTFModel{}, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
+	}
+	out.OutputType, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.OutputType)
+	if err != nil {
+		return PolicyTransformerTFModel{}, ucerr.Errorf("failed to convert \"output_type\" field: %+v", err)
 	}
 	out.Parameters, err = func(val *string) (types.String, error) {
 		return types.StringPointerValue(val), nil
