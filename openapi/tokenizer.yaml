@@ -849,6 +849,8 @@ components:
           type: boolean
         name:
           type: string
+        output_type:
+          $ref: '#/components/schemas/UserstoreDataType'
         parameters:
           type: string
         tag_ids:
@@ -858,6 +860,7 @@ components:
       required:
       - name
       - input_type
+      - output_type
       - transform_type
       - function
       type: object
