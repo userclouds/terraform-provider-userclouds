@@ -7,6 +7,9 @@ runs:
       uses: actions/setup-go@v4
       with:
         go-version-file: go.mod
+    - name: Log go version
+      shell: bash
+      run: go version
     - name: Update PATH
       shell: bash
       run: |
