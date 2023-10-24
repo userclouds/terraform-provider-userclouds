@@ -871,39 +871,42 @@ func PolicyTransformTypeJSONClientModelToTF(in *PolicyTransformTypeJSONClientMod
 
 // PolicyTransformerTFModel is a Terraform model struct for the PolicyTransformerAttributes schema.
 type PolicyTransformerTFModel struct {
-	Description   types.String `tfsdk:"description"`
-	Function      types.String `tfsdk:"function"`
-	ID            types.String `tfsdk:"id"`
-	InputType     types.String `tfsdk:"input_type"`
-	Name          types.String `tfsdk:"name"`
-	OutputType    types.String `tfsdk:"output_type"`
-	Parameters    types.String `tfsdk:"parameters"`
-	TagIds        types.List   `tfsdk:"tag_ids"`
-	TransformType types.String `tfsdk:"transform_type"`
+	Description        types.String `tfsdk:"description"`
+	Function           types.String `tfsdk:"function"`
+	ID                 types.String `tfsdk:"id"`
+	InputType          types.String `tfsdk:"input_type"`
+	Name               types.String `tfsdk:"name"`
+	OutputType         types.String `tfsdk:"output_type"`
+	Parameters         types.String `tfsdk:"parameters"`
+	ReuseExistingToken types.Bool   `tfsdk:"reuse_existing_token"`
+	TagIds             types.List   `tfsdk:"tag_ids"`
+	TransformType      types.String `tfsdk:"transform_type"`
 }
 
 // PolicyTransformerJSONClientModel stores data for use with jsonclient for making API requests.
 type PolicyTransformerJSONClientModel struct {
-	Description   *string      `json:"description,omitempty"`
-	Function      *string      `json:"function,omitempty"`
-	ID            *uuid.UUID   `json:"id,omitempty"`
-	InputType     *string      `json:"input_type,omitempty"`
-	Name          *string      `json:"name,omitempty"`
-	OutputType    *string      `json:"output_type,omitempty"`
-	Parameters    *string      `json:"parameters,omitempty"`
-	TagIds        *[]uuid.UUID `json:"tag_ids,omitempty"`
-	TransformType *string      `json:"transform_type,omitempty"`
+	Description        *string      `json:"description,omitempty"`
+	Function           *string      `json:"function,omitempty"`
+	ID                 *uuid.UUID   `json:"id,omitempty"`
+	InputType          *string      `json:"input_type,omitempty"`
+	Name               *string      `json:"name,omitempty"`
+	OutputType         *string      `json:"output_type,omitempty"`
+	Parameters         *string      `json:"parameters,omitempty"`
+	ReuseExistingToken *bool        `json:"reuse_existing_token,omitempty"`
+	TagIds             *[]uuid.UUID `json:"tag_ids,omitempty"`
+	TransformType      *string      `json:"transform_type,omitempty"`
 }
 
 // PolicyTransformerAttrTypes defines the attribute types for the PolicyTransformerAttributes schema.
 var PolicyTransformerAttrTypes = map[string]attr.Type{
-	"description": types.StringType,
-	"function":    types.StringType,
-	"id":          types.StringType,
-	"input_type":  types.StringType,
-	"name":        types.StringType,
-	"output_type": types.StringType,
-	"parameters":  types.StringType,
+	"description":          types.StringType,
+	"function":             types.StringType,
+	"id":                   types.StringType,
+	"input_type":           types.StringType,
+	"name":                 types.StringType,
+	"output_type":          types.StringType,
+	"parameters":           types.StringType,
+	"reuse_existing_token": types.BoolType,
 	"tag_ids": types.ListType{
 		ElemType: types.StringType,
 	},
@@ -964,6 +967,11 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 		Description:         "",
 		MarkdownDescription: "",
 		Optional:            true,
+	},
+	"reuse_existing_token": schema.BoolAttribute{
+		Description:         "Specifies if the tokenizing transfomer should return existing token instead of creating a new one.",
+		MarkdownDescription: "Specifies if the tokenizing transfomer should return existing token instead of creating a new one.",
+		Required:            true,
 	},
 	"tag_ids": schema.ListAttribute{
 		ElementType:         types.StringType,
@@ -1059,6 +1067,16 @@ func PolicyTransformerTFModelToJSONClient(in *PolicyTransformerTFModel) (*Policy
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"parameters\" field: %+v", err)
 	}
+	out.ReuseExistingToken, err = func(val *types.Bool) (*bool, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueBool()
+		return &converted, nil
+	}(&in.ReuseExistingToken)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"reuse_existing_token\" field: %+v", err)
+	}
 	out.TagIds, err = func(val *types.List) (*[]uuid.UUID, error) {
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
@@ -1150,6 +1168,12 @@ func PolicyTransformerJSONClientModelToTF(in *PolicyTransformerJSONClientModel) 
 	}(in.Parameters)
 	if err != nil {
 		return PolicyTransformerTFModel{}, ucerr.Errorf("failed to convert \"parameters\" field: %+v", err)
+	}
+	out.ReuseExistingToken, err = func(val *bool) (types.Bool, error) {
+		return types.BoolPointerValue(val), nil
+	}(in.ReuseExistingToken)
+	if err != nil {
+		return PolicyTransformerTFModel{}, ucerr.Errorf("failed to convert \"reuse_existing_token\" field: %+v", err)
 	}
 	out.TagIds, err = func(val *[]uuid.UUID) (types.List, error) {
 		childAttrType := types.StringType

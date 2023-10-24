@@ -21,6 +21,7 @@ Manages a Tokenizer transformer. For more details refer to the [transformer docu
 - `input_type` (String) Valid values: `address`, `birthdate`, `boolean`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
 - `name` (String)
 - `output_type` (String) Valid values: `address`, `birthdate`, `boolean`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
+- `reuse_existing_token` (Boolean) Specifies if the tokenizing transfomer should return existing token instead of creating a new one.
 - `transform_type` (String) Valid values: `passthrough`, `tokenizebyreference`, `tokenizebyvalue`, `transform`
 
 ### Optional

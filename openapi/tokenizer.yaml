@@ -853,6 +853,10 @@ components:
           $ref: '#/components/schemas/UserstoreDataType'
         parameters:
           type: string
+        reuse_existing_token:
+          description: Specifies if the tokenizing transfomer should return existing
+            token instead of creating a new one.
+          type: boolean
         tag_ids:
           $ref: '#/components/schemas/UuidarrayUUIDArray'
         transform_type:
@@ -861,6 +865,7 @@ components:
       - name
       - input_type
       - output_type
+      - reuse_existing_token
       - transform_type
       - function
       type: object
