@@ -143,6 +143,8 @@ paths:
           description: No Content
         "400":
           description: Bad Request
+        "404":
+          description: Not Found
         "409":
           description: Conflict
         "500":
@@ -203,6 +205,8 @@ paths:
           description: OK
         "400":
           description: Bad Request
+        "404":
+          description: Not Found
         "409":
           description: Conflict
         "500":
@@ -352,6 +356,8 @@ paths:
           description: No Content
         "400":
           description: Bad Request
+        "404":
+          description: Not Found
         "409":
           description: Conflict
         "500":
@@ -412,6 +418,8 @@ paths:
           description: OK
         "400":
           description: Bad Request
+        "404":
+          description: Not Found
         "409":
           description: Conflict
         "500":
@@ -422,7 +430,8 @@ paths:
   /tokenizer/policies/transformation:
     get:
       description: This endpoint returns a paginated list of all transformers in a
-        tenant.
+        tenant. The list can be filtered to only include transformers with a specific
+        name.
       parameters:
       - description: A cursor value after which the returned list will start
         in: query
@@ -473,6 +482,13 @@ paths:
           description: The version of the API to be called
           nullable: true
           type: string
+      - description: Optional - allows filtering by transformer name
+        in: query
+        name: transformer_name
+        schema:
+          description: Optional - allows filtering by transformer name
+          nullable: true
+          type: string
       responses:
         "200":
           content:
@@ -482,6 +498,8 @@ paths:
           description: OK
         "400":
           description: Bad Request
+        "404":
+          description: Not Found
         "500":
           description: Internal Server Error
       summary: List Transformers
@@ -524,6 +542,8 @@ paths:
           description: No Content
         "400":
           description: Bad Request
+        "404":
+          description: Not Found
         "409":
           description: Conflict
         "500":
