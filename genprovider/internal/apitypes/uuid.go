@@ -70,3 +70,17 @@ func (t *UUID) JSONClientModelToTFFunc() string {
 		return types.StringValue(val.String()), nil
 	}`
 }
+
+// GetTFPlanModifierType returns the name of the
+// terraform-plugin-framework/resource/schema/planmodifier type for this API
+// type (e.g. String, Int64, etc.)
+func (t *UUID) GetTFPlanModifierType() string {
+	return "String"
+}
+
+// GetTFPlanModifierPackageName returns the name of the package
+// (terraform-plugin-framework/resource/schema/RETURNVALUE) containing the plan
+// modifiers for this type
+func (t *UUID) GetTFPlanModifierPackageName() string {
+	return "stringplanmodifier"
+}

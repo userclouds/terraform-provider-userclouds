@@ -35,6 +35,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
@@ -50,6 +51,9 @@ import (
 // OpenAPI spec and no one is going to be reading this generated code anyways, so we should just
 // silence the rule.
 //revive:disable:exported
+
+// boolplanmodifier is used in userstore schemas but not tokenizer
+var _ = boolplanmodifier.RequiresReplace
 `
 
 type fieldData struct {
@@ -318,6 +322,18 @@ func gatherSchemaProperties(spec *openapi3.Spec, schemaName string, overrideInfo
 				planmodifiers.IncrementOnUpdate(),
 			}`
 		}
+		if overrideInfo != nil && slices.Contains(overrideInfo.ImmutableProperties, name) {
+			if name == "id" || name == "version" {
+				// We have different PlanModifiers set for these attributes
+				// above (don't want to override), and it doesn't make sense to
+				// mark them immutable anyways
+				return schemaData{}, ucerr.Errorf("id and version properties cannot be marked immutable")
+			}
+			fieldData.ExtraTFAttributeFields["PlanModifiers"] = `[]planmodifier.` + t.GetTFPlanModifierType() + `{
+				` + t.GetTFPlanModifierPackageName() + `.RequiresReplace(),
+			}`
+		}
+
 		data.Fields = append(data.Fields, fieldData)
 	}
 	return data, nil

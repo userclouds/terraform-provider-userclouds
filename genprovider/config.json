@@ -4,6 +4,9 @@
             "file": "userstore.yaml",
             "generated_file_package": "userstore",
             "schema_overrides": {
+                "UserstoreColumn": {
+                    "immutable_properties": ["type", "is_array"]
+                },
                 "IdpColumnRetentionDuration": {
                     "readonly_properties": ["default_duration", "purpose_name", "use_default"]
                 }

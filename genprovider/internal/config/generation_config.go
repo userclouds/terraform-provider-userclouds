@@ -21,6 +21,16 @@ type SchemaOverride struct {
 	// https://usercloudsworkspace.slack.com/archives/C02A3HELPPU/p1695418020075049
 	// Furthermore, swaggest doesn't currently support a `readOnly` struct tag :(
 	ReadonlyProperties []string `json:"readonly_properties"`
+	// In addition to having read-only properties (properties whose value can
+	// never be set), we have a notion of "immutable" properties (properties
+	// that can be set upon `create`, but not upon `update`). This is a thing we
+	// invented here, NOT an OpenAPI thing. The OpenAPI way to do things is to
+	// have separate schemas for your create/update endpoints, where the update
+	// schema doesn't include the immutable properties:
+	// https://stackoverflow.com/a/60110172 However, that requires some
+	// significant changes to the way our backend code is structured, so this
+	// seems like a better solution for now.
+	ImmutableProperties []string `json:"immutable_properties"`
 }
 
 // Spec configures the generation of resources from a single OpenAPI spec.

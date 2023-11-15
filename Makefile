@@ -11,3 +11,7 @@ codegen: ## Generate provider code
 .PHONY: build
 build: codegen ## Build the provider binary
 	go install .
+
+.PHONY: test
+test: ## Run tests
+	go test ./...

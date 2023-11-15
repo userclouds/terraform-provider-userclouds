@@ -56,3 +56,17 @@ func (t *Int) JSONClientModelToTFFunc() string {
 		return types.Int64PointerValue(val), nil
 	}`
 }
+
+// GetTFPlanModifierType returns the name of the
+// terraform-plugin-framework/resource/schema/planmodifier type for this API
+// type (e.g. String, Int64, etc.)
+func (t *Int) GetTFPlanModifierType() string {
+	return "Int64"
+}
+
+// GetTFPlanModifierPackageName returns the name of the package
+// (terraform-plugin-framework/resource/schema/RETURNVALUE) containing the plan
+// modifiers for this type
+func (t *Int) GetTFPlanModifierPackageName() string {
+	return "int64planmodifier"
+}

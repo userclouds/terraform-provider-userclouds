@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -26,6 +27,9 @@ import (
 // OpenAPI spec and no one is going to be reading this generated code anyways, so we should just
 // silence the rule.
 //revive:disable:exported
+
+// boolplanmodifier is used in userstore schemas but not tokenizer
+var _ = boolplanmodifier.RequiresReplace
 
 // IdpColumnConsentedPurposesTFModel is a Terraform model struct for the IdpColumnConsentedPurposesAttributes schema.
 type IdpColumnConsentedPurposesTFModel struct {
@@ -2544,7 +2548,10 @@ var UserstoreColumnAttributes = map[string]schema.Attribute{
 	"is_array": schema.BoolAttribute{
 		Description:         "",
 		MarkdownDescription: "",
-		Required:            true,
+		PlanModifiers: []planmodifier.Bool{
+			boolplanmodifier.RequiresReplace(),
+		},
+		Required: true,
 	},
 	"name": schema.StringAttribute{
 		Description:         "",
@@ -2557,7 +2564,10 @@ var UserstoreColumnAttributes = map[string]schema.Attribute{
 		},
 		Description:         "Valid values: `address`, `birthdate`, `boolean`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
 		MarkdownDescription: "Valid values: `address`, `birthdate`, `boolean`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
-		Required:            true,
+		PlanModifiers: []planmodifier.String{
+			stringplanmodifier.RequiresReplace(),
+		},
+		Required: true,
 	},
 }
 
