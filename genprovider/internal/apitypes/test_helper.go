@@ -117,7 +117,7 @@ func runTestProgram(t *testing.T, d data) {
 		go 1.20
 		require (
 			github.com/hashicorp/terraform-plugin-framework v1.3.3
-			userclouds.com v0.7.0
+			userclouds.com v0.7.6
 		)
 		require (
 			github.com/fatih/color v1.15.0 // indirect
@@ -133,7 +133,6 @@ func runTestProgram(t *testing.T, d data) {
 			github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 			golang.org/x/sys v0.13.0 // indirect
 		)
-		replace userclouds.com => /Users/reberhardt/Documents/src/userclouds/
 	`), 0644)
 	if err != nil {
 		t.Fatalf("error writing go.mod: %v", err)
@@ -192,6 +191,8 @@ func runTestProgram(t *testing.T, d data) {
 		gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
 		gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
 		gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
+		userclouds.com v0.7.6 h1:3WkIjjsuzKkGeyPGROvnpgURyxBxurl6B8H/dAZx4Kk=
+		userclouds.com v0.7.6/go.mod h1:+PLT4agT4RqUMZaQESBR8mCnsW8IKJdi9tq96vx738c=
 	`), 0644)
 	if err != nil {
 		t.Fatalf("error writing go.mod: %v", err)
