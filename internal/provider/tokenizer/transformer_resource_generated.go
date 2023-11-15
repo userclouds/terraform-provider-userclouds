@@ -108,12 +108,12 @@ func (r *TransformerResource) Create(ctx context.Context, req resource.CreateReq
 	}
 	tflog.Trace(ctx, fmt.Sprintf("POST %s: %s", url, string(marshaled)))
 
-	var created PolicyTransformerJSONClientModel
-	if err := r.client.Post(ctx, url, body, &created); err != nil {
+	var apiResp PolicyTransformerJSONClientModel
+	if err := r.client.Post(ctx, url, body, &apiResp); err != nil {
 		resp.Diagnostics.AddError("Error creating userclouds_transformer", err.Error())
 		return
 	}
-
+	created := apiResp
 	createdTF, err := PolicyTransformerJSONClientModelToTF(&created)
 	if err != nil {
 		resp.Diagnostics.AddError("Error converting userclouds_transformer response JSON to Terraform state", err.Error())
@@ -138,8 +138,8 @@ func (r *TransformerResource) Read(ctx context.Context, req resource.ReadRequest
 	url := "/tokenizer/policies/transformation/{id}"
 	url = strings.ReplaceAll(url, "{id}", oldState.ID.ValueString())
 	tflog.Trace(ctx, fmt.Sprintf("GET %s", url))
-	var current PolicyTransformerJSONClientModel
-	if err := r.client.Get(ctx, url, &current); err != nil {
+	var apiResp PolicyTransformerJSONClientModel
+	if err := r.client.Get(ctx, url, &apiResp); err != nil {
 		var jce jsonclient.Error
 		if errors.As(err, &jce) && (jce.StatusCode == http.StatusNotFound) {
 			resp.State.RemoveResource(ctx)
@@ -149,6 +149,7 @@ func (r *TransformerResource) Read(ctx context.Context, req resource.ReadRequest
 		resp.Diagnostics.AddError("Error reading userclouds_transformer", err.Error())
 		return
 	}
+	current := apiResp
 
 	newState, err := PolicyTransformerJSONClientModelToTF(&current)
 	if err != nil {

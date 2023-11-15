@@ -11,6 +11,7 @@ import (
 
 var generatedResources = []func() resource.Resource{
 	userstore.NewUserstoreColumnResource,
+	userstore.NewUserstoreColumnSoftDeletedRetentionDurationResource,
 	userstore.NewUserstoreAccessorResource,
 	userstore.NewUserstoreMutatorResource,
 	userstore.NewUserstorePurposeResource,

@@ -14,11 +14,21 @@ type ResourceConfig struct {
 	PathParamsToSchemaProperty map[string]string `json:"path_params_to_schema_property"`
 }
 
+// SchemaOverride allows us to tweak OpenAPI schemas before we generate Terraform schemas from them.
+type SchemaOverride struct {
+	// Mark these schema properties as read-only. In theory, we should just mark everything readonly
+	// via OpenAPI, but this doesn't work with object references:
+	// https://usercloudsworkspace.slack.com/archives/C02A3HELPPU/p1695418020075049
+	// Furthermore, swaggest doesn't currently support a `readOnly` struct tag :(
+	ReadonlyProperties []string `json:"readonly_properties"`
+}
+
 // Spec configures the generation of resources from a single OpenAPI spec.
 type Spec struct {
-	File                 string           `json:"file"`
-	GeneratedFilePackage string           `json:"generated_file_package"`
-	Resources            []ResourceConfig `json:"resources"`
+	File                 string                    `json:"file"`
+	GeneratedFilePackage string                    `json:"generated_file_package"`
+	Resources            []ResourceConfig          `json:"resources"`
+	SchemaOverrides      map[string]SchemaOverride `json:"schema_overrides"`
 }
 
 // GenerationConfig configures the generation of the Terraform provider.

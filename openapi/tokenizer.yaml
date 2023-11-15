@@ -884,8 +884,6 @@ components:
       required:
       - name
       - input_type
-      - output_type
-      - reuse_existing_token
       - transform_type
       - function
       type: object

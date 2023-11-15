@@ -107,12 +107,12 @@ func (r *AccessPolicyResource) Create(ctx context.Context, req resource.CreateRe
 	}
 	tflog.Trace(ctx, fmt.Sprintf("POST %s: %s", url, string(marshaled)))
 
-	var created PolicyAccessPolicyJSONClientModel
-	if err := r.client.Post(ctx, url, body, &created); err != nil {
+	var apiResp PolicyAccessPolicyJSONClientModel
+	if err := r.client.Post(ctx, url, body, &apiResp); err != nil {
 		resp.Diagnostics.AddError("Error creating userclouds_access_policy", err.Error())
 		return
 	}
-
+	created := apiResp
 	createdTF, err := PolicyAccessPolicyJSONClientModelToTF(&created)
 	if err != nil {
 		resp.Diagnostics.AddError("Error converting userclouds_access_policy response JSON to Terraform state", err.Error())
@@ -137,8 +137,8 @@ func (r *AccessPolicyResource) Read(ctx context.Context, req resource.ReadReques
 	url := "/tokenizer/policies/access/{id}"
 	url = strings.ReplaceAll(url, "{id}", oldState.ID.ValueString())
 	tflog.Trace(ctx, fmt.Sprintf("GET %s", url))
-	var current PolicyAccessPolicyJSONClientModel
-	if err := r.client.Get(ctx, url, &current); err != nil {
+	var apiResp PolicyAccessPolicyJSONClientModel
+	if err := r.client.Get(ctx, url, &apiResp); err != nil {
 		var jce jsonclient.Error
 		if errors.As(err, &jce) && (jce.StatusCode == http.StatusNotFound) {
 			resp.State.RemoveResource(ctx)
@@ -148,6 +148,7 @@ func (r *AccessPolicyResource) Read(ctx context.Context, req resource.ReadReques
 		resp.Diagnostics.AddError("Error reading userclouds_access_policy", err.Error())
 		return
 	}
+	current := apiResp
 
 	newState, err := PolicyAccessPolicyJSONClientModelToTF(&current)
 	if err != nil {
@@ -184,7 +185,6 @@ func (r *AccessPolicyResource) Update(ctx context.Context, req resource.UpdateRe
 	body := TokenizerUpdateAccessPolicyRequestJSONClientModel{
 		AccessPolicy: jsonclientModel,
 	}
-	var updated PolicyAccessPolicyJSONClientModel
 	url := "/tokenizer/policies/access/{id}"
 	url = strings.ReplaceAll(url, "{id}", state.ID.ValueString())
 
@@ -195,10 +195,12 @@ func (r *AccessPolicyResource) Update(ctx context.Context, req resource.UpdateRe
 	}
 	tflog.Trace(ctx, fmt.Sprintf("PUT %s: %s", url, string(marshaled)))
 
-	if err := r.client.Put(ctx, url, body, &updated); err != nil {
+	var apiResp PolicyAccessPolicyJSONClientModel
+	if err := r.client.Put(ctx, url, body, &apiResp); err != nil {
 		resp.Diagnostics.AddError("Error updating userclouds_access_policy", err.Error())
 		return
 	}
+	updated := apiResp
 
 	newState, err := PolicyAccessPolicyJSONClientModelToTF(&updated)
 	if err != nil {

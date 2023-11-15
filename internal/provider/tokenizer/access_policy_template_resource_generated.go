@@ -107,12 +107,12 @@ func (r *AccessPolicyTemplateResource) Create(ctx context.Context, req resource.
 	}
 	tflog.Trace(ctx, fmt.Sprintf("POST %s: %s", url, string(marshaled)))
 
-	var created PolicyAccessPolicyTemplateJSONClientModel
-	if err := r.client.Post(ctx, url, body, &created); err != nil {
+	var apiResp PolicyAccessPolicyTemplateJSONClientModel
+	if err := r.client.Post(ctx, url, body, &apiResp); err != nil {
 		resp.Diagnostics.AddError("Error creating userclouds_access_policy_template", err.Error())
 		return
 	}
-
+	created := apiResp
 	createdTF, err := PolicyAccessPolicyTemplateJSONClientModelToTF(&created)
 	if err != nil {
 		resp.Diagnostics.AddError("Error converting userclouds_access_policy_template response JSON to Terraform state", err.Error())
@@ -137,8 +137,8 @@ func (r *AccessPolicyTemplateResource) Read(ctx context.Context, req resource.Re
 	url := "/tokenizer/policies/accesstemplate/{id}"
 	url = strings.ReplaceAll(url, "{id}", oldState.ID.ValueString())
 	tflog.Trace(ctx, fmt.Sprintf("GET %s", url))
-	var current PolicyAccessPolicyTemplateJSONClientModel
-	if err := r.client.Get(ctx, url, &current); err != nil {
+	var apiResp PolicyAccessPolicyTemplateJSONClientModel
+	if err := r.client.Get(ctx, url, &apiResp); err != nil {
 		var jce jsonclient.Error
 		if errors.As(err, &jce) && (jce.StatusCode == http.StatusNotFound) {
 			resp.State.RemoveResource(ctx)
@@ -148,6 +148,7 @@ func (r *AccessPolicyTemplateResource) Read(ctx context.Context, req resource.Re
 		resp.Diagnostics.AddError("Error reading userclouds_access_policy_template", err.Error())
 		return
 	}
+	current := apiResp
 
 	newState, err := PolicyAccessPolicyTemplateJSONClientModelToTF(&current)
 	if err != nil {
@@ -184,7 +185,6 @@ func (r *AccessPolicyTemplateResource) Update(ctx context.Context, req resource.
 	body := TokenizerUpdateAccessPolicyTemplateRequestJSONClientModel{
 		AccessPolicyTemplate: jsonclientModel,
 	}
-	var updated PolicyAccessPolicyTemplateJSONClientModel
 	url := "/tokenizer/policies/accesstemplate/{id}"
 	url = strings.ReplaceAll(url, "{id}", state.ID.ValueString())
 
@@ -195,10 +195,12 @@ func (r *AccessPolicyTemplateResource) Update(ctx context.Context, req resource.
 	}
 	tflog.Trace(ctx, fmt.Sprintf("PUT %s: %s", url, string(marshaled)))
 
-	if err := r.client.Put(ctx, url, body, &updated); err != nil {
+	var apiResp PolicyAccessPolicyTemplateJSONClientModel
+	if err := r.client.Put(ctx, url, body, &apiResp); err != nil {
 		resp.Diagnostics.AddError("Error updating userclouds_access_policy_template", err.Error())
 		return
 	}
+	updated := apiResp
 
 	newState, err := PolicyAccessPolicyTemplateJSONClientModelToTF(&updated)
 	if err != nil {

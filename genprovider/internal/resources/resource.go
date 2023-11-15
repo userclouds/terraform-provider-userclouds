@@ -47,20 +47,45 @@ type data struct {
 	// (on update, must specify the last known version of the resource)
 	IsVersionedResource bool
 
+	// Name of the model for fetch request. Likely the same as JSONClientModelName, but if the GET
+	// response doesn't return the model directly (e.g. returns several properties, of which the
+	// model is one), then this will differ.
+	ReadResponseModel string
+	// Name of property within the ReadResponseModel struct that contains the model data,
+	// or "" if GetResponseModel = JSONClientModelName (i.e. the GET endpoint returns the model
+	// directly)
+	ReadResponseDataPropertyName string
+
 	// Name of model struct for creation request (e.g. IdpCreateColumnRequestJSONClientModel)
 	CreateRequestModel string
-	// Name of property within the model struct, which contains the object data to create (e.g. "Column" for IdpCreateColumnRequestJSONClientModel)
+	// Name of property within the CreateRequestModel struct that which contains the object data to
+	// create (e.g. "Column" for IdpCreateColumnRequestJSONClientModel)
 	CreateRequestDataPropertyName string
 	// Whether the CreateRequestDataPropertyName property is an array
-	CreateBodyUsesArray bool
+	CreateRequestBodyUsesArray bool
+	// Name of the model for create response. Likely the same as JSONClientModelName, but if the PUT
+	// response doesn't return the model directly (e.g. returns several properties, of which the
+	// model is one), then this will differ.
+	CreateResponseModel string
+	// Name of property within the CreateResponseModel struct that contains the updated
+	// model data, or "" if UpdateResponseModel = JSONClientModelName
+	CreateResponseDataPropertyName string
+	// Whether the CreateResponseDataPropertyName property is an array
+	CreateResponseBodyUsesArray bool
 
 	UpdateSupported bool
 	// Name of model struct for update request (e.g. IdpUpdateColumnRequestJSONClientModel)
 	UpdateRequestModel string
-	// Name of property within the model struct, which contains the object data to update (e.g. "Column" for IdpUpdateColumnRequestJSONClientModel)
+	// Name of property within the UpdateRequestModel struct that which contains the object data to
+	// update (e.g. "Column" for IdpUpdateColumnRequestJSONClientModel)
 	UpdateRequestDataPropertyName string
-	// Whether the UpdateRequestDataPropertyName property is an array
-	UpdateBodyUsesArray bool
+	// Name of the model for update response. Likely the same as JSONClientModelName, but if the PUT
+	// response doesn't return the model directly (e.g. returns several properties, of which the
+	// model is one), then this will differ.
+	UpdateResponseModel string
+	// Name of property within the UpdateResponseModel struct that contains the updated
+	// model data, or "" if UpdateResponseModel = JSONClientModelName
+	UpdateResponseDataPropertyName string
 
 	// The name of the query param that should be used to specify the version of
 	// the resource to delete, e.g. "policy_version", if required. (empty string
@@ -172,7 +197,7 @@ func (r *<< .StructName >>) Create(ctx context.Context, req resource.CreateReque
 	url = strings.ReplaceAll(url, "{<< $pathParam >>}", data.<< $attr >>.ValueString())
 	<<- end >>
 
-	<<- if .CreateBodyUsesArray >>
+	<<- if .CreateRequestBodyUsesArray >>
 	modelArray := []<< .JSONClientModelName >>{*jsonclientModel}
 	body := << .CreateRequestModel >>{
 		<< .CreateRequestDataPropertyName >>: &modelArray,
@@ -190,12 +215,19 @@ func (r *<< .StructName >>) Create(ctx context.Context, req resource.CreateReque
 	}
 	tflog.Trace(ctx, fmt.Sprintf("POST %s: %s", url, string(marshaled)))
 
-	var created << .JSONClientModelName >>
-	if err := r.client.Post(ctx, url, body, &created); err != nil {
+	var apiResp << .CreateResponseModel >>
+	if err := r.client.Post(ctx, url, body, &apiResp); err != nil {
 		resp.Diagnostics.AddError("Error creating userclouds_<< .TypeNameSuffix >>", err.Error())
 		return
 	}
 
+	<<- if eq .CreateResponseModel .JSONClientModelName >>
+	created := apiResp
+	<<- else if not .CreateResponseBodyUsesArray >>
+	created := *apiResp.<< .CreateResponseDataPropertyName >>
+	<<- else >>
+	created := (*apiResp.<< .CreateResponseDataPropertyName >>)[0]
+	<<- end >>
 	createdTF, err := << .JSONClientModelToTFFuncName >>(&created)
 	if err != nil {
 		resp.Diagnostics.AddError("Error converting userclouds_<< .TypeNameSuffix >> response JSON to Terraform state", err.Error())
@@ -222,8 +254,8 @@ func (r *<< .StructName >>) Read(ctx context.Context, req resource.ReadRequest, 
 	url = strings.ReplaceAll(url, "{<< $pathParam >>}", oldState.<< $attr >>.ValueString())
 	<<- end >>
 	tflog.Trace(ctx, fmt.Sprintf("GET %s", url))
-	var current << .JSONClientModelName >>
-	if err := r.client.Get(ctx, url, &current); err != nil {
+	var apiResp << .ReadResponseModel >>
+	if err := r.client.Get(ctx, url, &apiResp); err != nil {
 		var jce jsonclient.Error
 		if errors.As(err, &jce) && (jce.StatusCode == http.StatusNotFound) {
 			resp.State.RemoveResource(ctx)
@@ -233,6 +265,11 @@ func (r *<< .StructName >>) Read(ctx context.Context, req resource.ReadRequest, 
 		resp.Diagnostics.AddError("Error reading userclouds_<< .TypeNameSuffix >>", err.Error())
 		return
 	}
+	<<- if eq .ReadResponseModel .JSONClientModelName >>
+	current := apiResp
+	<<- else >>
+	current := *apiResp.<< .ReadResponseDataPropertyName >>
+	<<- end >>
 
 	newState, err := << .JSONClientModelToTFFuncName >>(&current)
 	if err != nil {
@@ -273,7 +310,6 @@ func (r *<< .StructName >>) Update(ctx context.Context, req resource.UpdateReque
 	body := << .UpdateRequestModel >>{
 		<< .UpdateRequestDataPropertyName >>: jsonclientModel,
 	}
-	var updated << .JSONClientModelName >>
 	url := "<< .ResourcePath >>"
 	<<- range $pathParam, $attr := .PathParamsToModelFields >>
 	url = strings.ReplaceAll(url, "{<< $pathParam >>}", state.<< $attr >>.ValueString())
@@ -286,10 +322,16 @@ func (r *<< .StructName >>) Update(ctx context.Context, req resource.UpdateReque
 	}
 	tflog.Trace(ctx, fmt.Sprintf("PUT %s: %s", url, string(marshaled)))
 
-	if err := r.client.Put(ctx, url, body, &updated); err != nil {
+	var apiResp << .UpdateResponseModel >>
+	if err := r.client.Put(ctx, url, body, &apiResp); err != nil {
 		resp.Diagnostics.AddError("Error updating userclouds_<< .TypeNameSuffix >>", err.Error())
 		return
 	}
+	<<- if eq .UpdateResponseModel .JSONClientModelName >>
+	updated := apiResp
+	<<- else >>
+	updated := *apiResp.<< .UpdateResponseDataPropertyName >>
+	<<- end >>
 
 	newState, err := << .JSONClientModelToTFFuncName >>(&updated)
 	if err != nil {
@@ -392,17 +434,49 @@ func getRequestBodySchemaRef(spec *openapi3.Spec, path string, method string) (*
 	return jsonBody.Schema.SchemaReference, nil
 }
 
-// Given a schema ref for a request body, get the name of the key within that request body object
-// that should contain the actual resource schema that we are creating or updating. E.g. given a ref
-// for IdpCreateColumnRequest, this will return "column," since that's the key for the
-// UserstoreColumn schema.
-func getRequestBodyResourceSchemaKey(spec *openapi3.Spec, bodySchemaRef *openapi3.SchemaReference, expectedResourceSchemaName string) (key string, isArray bool, err error) {
-	bodySchema, err := schemas.ResolveSchema(spec, &openapi3.SchemaOrRef{SchemaReference: bodySchemaRef})
-	if err != nil {
-		return "", false, ucerr.Errorf("could not resolve request body schema ref %s: %v", bodySchemaRef.Ref, err)
+// Get the OpenAPI schema ref for the response body of the given path and method.
+func getResponseBodySchemaRef(spec *openapi3.Spec, path string, method string) (*openapi3.SchemaReference, error) {
+	endpoint, ok := spec.Paths.MapOfPathItemValues[path]
+	if !ok {
+		return nil, ucerr.Errorf("could not find path %s in the OpenAPI spec", path)
 	}
-	if len(bodySchema.Properties) != 1 {
-		return "", false, ucerr.Errorf("expected exactly 1 property in request body schema %s. If we have added more properties, we need to double check this codegen code to make sure they get set in POST/PUT requests as necessary", bodySchemaRef.Ref)
+	op, ok := endpoint.MapOfOperationValues[method]
+	if !ok {
+		return nil, ucerr.Errorf("path %s does not support %s", path, strings.ToUpper(method))
+	}
+	d, ok := op.Responses.MapOfResponseOrRefValues["200"]
+	if !ok {
+		d, ok = op.Responses.MapOfResponseOrRefValues["201"]
+	}
+	if !ok {
+		return nil, ucerr.Errorf("path %s %s operation does not have a response defined for status 200 or 201", path, strings.ToUpper(method))
+	}
+	resp := d.Response
+	if resp == nil {
+		// TODO: use ResponseRef if the spec uses that instead of specifying the response inline
+		return nil, ucerr.Errorf("path %s %s operation default response does not have response info declared inline", path, strings.ToUpper(method))
+	}
+	schemaOrRef := resp.Content["application/json"].Schema
+	if schemaOrRef == nil {
+		return nil, ucerr.Errorf("path %s %s operation default response does not specify a schema for the application/json content type", path, strings.ToUpper(method))
+	}
+	if schemaOrRef.SchemaReference == nil {
+		return nil, ucerr.Errorf("path %s %s operation request body schema does not specify a ref", path, strings.ToUpper(method))
+	}
+	return schemaOrRef.SchemaReference, nil
+}
+
+// Given a schema ref for a request/response body, get the name of the key within that request body
+// object that contains the data schema for the resource we are getting/creating/updating. E.g.
+// given a ref for IdpCreateColumnRequest, this will return "column," since that's the key for the
+// UserstoreColumn schema that stores the column resource.
+func findDataSchemaInAPISchema(spec *openapi3.Spec, apiBodySchemaRef *openapi3.SchemaReference, expectedResourceSchemaName string, assertSingleProperty bool) (key string, isArray bool, err error) {
+	bodySchema, err := schemas.ResolveSchema(spec, &openapi3.SchemaOrRef{SchemaReference: apiBodySchemaRef})
+	if err != nil {
+		return "", false, ucerr.Errorf("could not resolve request/response body schema ref %s: %v", apiBodySchemaRef.Ref, err)
+	}
+	if len(bodySchema.Properties) != 1 && assertSingleProperty {
+		return "", false, ucerr.Errorf("expected exactly 1 property in request body schema %s. If we have added more properties, we need to double check this codegen code to make sure they get set in POST/PUT requests as necessary", apiBodySchemaRef.Ref)
 	}
 	for key, prop := range bodySchema.Properties {
 		isArray = false
@@ -410,21 +484,22 @@ func getRequestBodyResourceSchemaKey(spec *openapi3.Spec, bodySchemaRef *openapi
 		if prop.Schema != nil && prop.Schema.Type != nil && *prop.Schema.Type == openapi3.SchemaTypeArray {
 			isArray = true
 			if prop.Schema.Items == nil {
-				return "", false, ucerr.Errorf("request body schema %s property %s is supposedly an array, but is missing the items schema", bodySchemaRef.Ref, key)
+				return "", false, ucerr.Errorf("request body schema %s property %s is supposedly an array, but is missing the items schema", apiBodySchemaRef.Ref, key)
 			}
 			schemaRef = prop.Schema.Items.SchemaReference
 		} else {
 			schemaRef = prop.SchemaReference
 		}
 		if schemaRef == nil || schemaRef.Ref == "" {
-			return "", false, ucerr.Errorf("got nil or empty schema ref for request body schema %s property %s", bodySchemaRef.Ref, key)
+			// This prop isn't an object (or doesn't use a ref whose name we can check), so keep
+			// looking
+			continue
 		}
-		if name := schemas.SchemaNameFromRef(schemaRef.Ref); name != expectedResourceSchemaName {
-			return "", false, ucerr.Errorf("expected request body schema %s property %s to have resource schema %s as specified in the codegen config, but got %s instead", bodySchemaRef.Ref, key, expectedResourceSchemaName, name)
+		if name := schemas.SchemaNameFromRef(schemaRef.Ref); name == expectedResourceSchemaName {
+			return key, isArray, nil
 		}
-		return key, isArray, nil
 	}
-	panic("unreachable")
+	return "", false, ucerr.Errorf("expected request body schema %s to have a property whose schema is %s, but did not find such a property", apiBodySchemaRef.Ref, expectedResourceSchemaName)
 }
 
 // GenResource generates the code to implement a Terraform resource.
@@ -459,28 +534,75 @@ func GenResource(ctx context.Context, outDir string, outFilePackage string, spec
 		isVersionedResource = true
 	}
 
-	createBodySchemaRef, err := getRequestBodySchemaRef(spec, resource.RestCollectionPath, "post")
+	readResponseBodyRef, err := getResponseBodySchemaRef(spec, resource.RestResourcePath, "get")
+	if err != nil {
+		log.Fatalf("Could not get GET response body schema ref for resource %s: %v", resource.TypeNameSuffix, err)
+	}
+	var readResponseDataPropertyName string
+	if schemas.SchemaNameFromRef(readResponseBodyRef.Ref) != resource.OpenapiSchema {
+		var isArray bool
+		readResponseDataPropertyName, isArray, err = findDataSchemaInAPISchema(spec, readResponseBodyRef, resource.OpenapiSchema, false)
+		if err != nil {
+			log.Fatalf("Could not get GET response body schema key for resource %s: %v", resource.TypeNameSuffix, err)
+		}
+		if isArray {
+			log.Fatalf("Expected GET response property %s for resource %s to be a single object, not an array", readResponseDataPropertyName, resource.TypeNameSuffix)
+		}
+	}
+
+	createRequestBodySchemaRef, err := getRequestBodySchemaRef(spec, resource.RestCollectionPath, "post")
 	if err != nil {
 		log.Fatalf("Could not get POST request body schema ref for resource %s: %v", resource.TypeNameSuffix, err)
 	}
-	createBodySchemaKey, createBodyUsesArray, err := getRequestBodyResourceSchemaKey(spec, createBodySchemaRef, resource.OpenapiSchema)
+	createRequestBodySchemaKey, createRequestBodyUsesArray, err := findDataSchemaInAPISchema(spec, createRequestBodySchemaRef, resource.OpenapiSchema, true)
 	if err != nil {
 		log.Fatalf("Could not get POST request body schema key for resource %s: %v", resource.TypeNameSuffix, err)
 	}
+	createResponseBodyRef, err := getResponseBodySchemaRef(spec, resource.RestCollectionPath, "post")
+	if err != nil {
+		log.Fatalf("Could not get POST response body schema ref for resource %s: %v", resource.TypeNameSuffix, err)
+	}
+	var createResponseBodySchemaKey string
+	var createResponseBodyUsesArray bool
+	if schemas.SchemaNameFromRef(createResponseBodyRef.Ref) != resource.OpenapiSchema {
+		createResponseBodySchemaKey, createResponseBodyUsesArray, err = findDataSchemaInAPISchema(spec, createResponseBodyRef, resource.OpenapiSchema, false)
+		if err != nil {
+			log.Fatalf("Could not get POST response body schema key for resource %s: %v", resource.TypeNameSuffix, err)
+		}
+	}
 
 	updateSupported := true
-	var updateBodySchemaKey string
-	var updateBodyUsesArray bool
 	var updateRequestModel string
-	updateBodySchemaRef, err := getRequestBodySchemaRef(spec, resource.RestResourcePath, "put")
+	var updateRequestDataPropertyName string
+	var updateResponseModel string
+	var updateResponseDataPropertyName string
+	updateRequestBodySchemaRef, err := getRequestBodySchemaRef(spec, resource.RestResourcePath, "put")
 	if err != nil {
 		updateSupported = false
 	} else {
-		updateBodySchemaKey, updateBodyUsesArray, err = getRequestBodyResourceSchemaKey(spec, updateBodySchemaRef, resource.OpenapiSchema)
+		updateRequestModel = schemas.GetJSONClientModelStructName(schemas.SchemaNameFromRef(updateRequestBodySchemaRef.Ref))
+		var isArray bool
+		updateRequestDataPropertyName, isArray, err = findDataSchemaInAPISchema(spec, updateRequestBodySchemaRef, resource.OpenapiSchema, true)
 		if err != nil {
-			updateSupported = false
-		} else {
-			updateRequestModel = schemas.GetJSONClientModelStructName(schemas.SchemaNameFromRef(updateBodySchemaRef.Ref))
+			log.Fatalf("Could not get PUT request body schema key for resource %s: %v", resource.TypeNameSuffix, err)
+		}
+		if isArray {
+			log.Fatalf("Resource %s PUT request body takes an array for key %s, which we don't support right now", resource.TypeNameSuffix, updateRequestDataPropertyName)
+		}
+		updateResponseBodySchemaRef, err := getResponseBodySchemaRef(spec, resource.RestResourcePath, "get")
+		if err != nil {
+			log.Fatalf("Could not get PUT response body schema ref for resource %s: %v", resource.TypeNameSuffix, err)
+		}
+		updateResponseModel = schemas.GetJSONClientModelStructName(schemas.SchemaNameFromRef((updateResponseBodySchemaRef.Ref)))
+		if schemas.SchemaNameFromRef(updateResponseBodySchemaRef.Ref) != resource.OpenapiSchema {
+			var isArray bool
+			updateResponseDataPropertyName, isArray, err = findDataSchemaInAPISchema(spec, updateResponseBodySchemaRef, resource.OpenapiSchema, false)
+			if err != nil {
+				log.Fatalf("Could not get PUT response body schema key for resource %s: %v", resource.TypeNameSuffix, err)
+			}
+			if isArray {
+				log.Fatalf("Expected PUT response property %s for resource %s to be a single object, not an array", updateResponseDataPropertyName, resource.TypeNameSuffix)
+			}
 		}
 	}
 
@@ -519,14 +641,21 @@ func GenResource(ctx context.Context, outDir string, outFilePackage string, spec
 		PathParamsToModelFields: pathParamsToModelFields,
 		IsVersionedResource:     isVersionedResource,
 
-		CreateRequestModel:            schemas.GetJSONClientModelStructName(schemas.SchemaNameFromRef(createBodySchemaRef.Ref)),
-		CreateRequestDataPropertyName: stringutils.ToUpperCamel(createBodySchemaKey),
-		CreateBodyUsesArray:           createBodyUsesArray,
+		ReadResponseModel:            schemas.GetJSONClientModelStructName(schemas.SchemaNameFromRef(readResponseBodyRef.Ref)),
+		ReadResponseDataPropertyName: stringutils.ToUpperCamel(readResponseDataPropertyName),
 
-		UpdateSupported:               updateSupported,
-		UpdateRequestModel:            updateRequestModel,
-		UpdateRequestDataPropertyName: stringutils.ToUpperCamel(updateBodySchemaKey),
-		UpdateBodyUsesArray:           updateBodyUsesArray,
+		CreateRequestModel:             schemas.GetJSONClientModelStructName(schemas.SchemaNameFromRef(createRequestBodySchemaRef.Ref)),
+		CreateRequestDataPropertyName:  stringutils.ToUpperCamel(createRequestBodySchemaKey),
+		CreateRequestBodyUsesArray:     createRequestBodyUsesArray,
+		CreateResponseModel:            schemas.GetJSONClientModelStructName(schemas.SchemaNameFromRef(createResponseBodyRef.Ref)),
+		CreateResponseDataPropertyName: stringutils.ToUpperCamel(createResponseBodySchemaKey),
+		CreateResponseBodyUsesArray:    createResponseBodyUsesArray,
+
+		UpdateSupported:                updateSupported,
+		UpdateRequestModel:             updateRequestModel,
+		UpdateRequestDataPropertyName:  stringutils.ToUpperCamel(updateRequestDataPropertyName),
+		UpdateResponseModel:            updateResponseModel,
+		UpdateResponseDataPropertyName: stringutils.ToUpperCamel(updateResponseDataPropertyName),
 
 		DeleteVersionQueryParam: deleteVersionQueryParam,
 	}
