@@ -109,12 +109,12 @@ func (r *UserstoreColumnSoftDeletedRetentionDurationResource) Create(ctx context
 	}
 	tflog.Trace(ctx, fmt.Sprintf("POST %s: %s", url, string(marshaled)))
 
-	var created IdpColumnRetentionDurationJSONClientModel
-	if err := r.client.Post(ctx, url, body, &created); err != nil {
+	var apiResp IdpColumnRetentionDurationsResponseJSONClientModel
+	if err := r.client.Post(ctx, url, body, &apiResp); err != nil {
 		resp.Diagnostics.AddError("Error creating userclouds_userstore_column_soft_deleted_retention_duration", err.Error())
 		return
 	}
-
+	created := (*apiResp.RetentionDurations)[0]
 	createdTF, err := IdpColumnRetentionDurationJSONClientModelToTF(&created)
 	if err != nil {
 		resp.Diagnostics.AddError("Error converting userclouds_userstore_column_soft_deleted_retention_duration response JSON to Terraform state", err.Error())
@@ -140,8 +140,8 @@ func (r *UserstoreColumnSoftDeletedRetentionDurationResource) Read(ctx context.C
 	url = strings.ReplaceAll(url, "{id}", oldState.ColumnID.ValueString())
 	url = strings.ReplaceAll(url, "{id2}", oldState.ID.ValueString())
 	tflog.Trace(ctx, fmt.Sprintf("GET %s", url))
-	var current IdpColumnRetentionDurationJSONClientModel
-	if err := r.client.Get(ctx, url, &current); err != nil {
+	var apiResp IdpColumnRetentionDurationResponseJSONClientModel
+	if err := r.client.Get(ctx, url, &apiResp); err != nil {
 		var jce jsonclient.Error
 		if errors.As(err, &jce) && (jce.StatusCode == http.StatusNotFound) {
 			resp.State.RemoveResource(ctx)
@@ -151,6 +151,7 @@ func (r *UserstoreColumnSoftDeletedRetentionDurationResource) Read(ctx context.C
 		resp.Diagnostics.AddError("Error reading userclouds_userstore_column_soft_deleted_retention_duration", err.Error())
 		return
 	}
+	current := *apiResp.RetentionDuration
 
 	newState, err := IdpColumnRetentionDurationJSONClientModelToTF(&current)
 	if err != nil {
@@ -173,6 +174,10 @@ func (r *UserstoreColumnSoftDeletedRetentionDurationResource) Update(ctx context
 	if resp.Diagnostics.HasError() {
 		return
 	}
+	// Must provide the last-known version. (The IncrementOnUpdate plan modifier
+	// has already incremented the version in the plan, but we need to provide
+	// the old version in our request to the server)
+	plan.Version = state.Version
 
 	jsonclientModel, err := IdpColumnRetentionDurationTFModelToJSONClient(plan)
 	if err != nil {
@@ -183,7 +188,6 @@ func (r *UserstoreColumnSoftDeletedRetentionDurationResource) Update(ctx context
 	body := UserstoreUpdateColumnRetentionDurationRequestType2JSONClientModel{
 		RetentionDuration: jsonclientModel,
 	}
-	var updated IdpColumnRetentionDurationJSONClientModel
 	url := "/userstore/config/columns/{id}/softdeletedretentiondurations/{id2}"
 	url = strings.ReplaceAll(url, "{id}", state.ColumnID.ValueString())
 	url = strings.ReplaceAll(url, "{id2}", state.ID.ValueString())
@@ -195,10 +199,12 @@ func (r *UserstoreColumnSoftDeletedRetentionDurationResource) Update(ctx context
 	}
 	tflog.Trace(ctx, fmt.Sprintf("PUT %s: %s", url, string(marshaled)))
 
-	if err := r.client.Put(ctx, url, body, &updated); err != nil {
+	var apiResp IdpColumnRetentionDurationResponseJSONClientModel
+	if err := r.client.Put(ctx, url, body, &apiResp); err != nil {
 		resp.Diagnostics.AddError("Error updating userclouds_userstore_column_soft_deleted_retention_duration", err.Error())
 		return
 	}
+	updated := *apiResp.RetentionDuration
 
 	newState, err := IdpColumnRetentionDurationJSONClientModelToTF(&updated)
 	if err != nil {

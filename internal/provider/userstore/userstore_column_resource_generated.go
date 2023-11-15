@@ -107,12 +107,12 @@ func (r *UserstoreColumnResource) Create(ctx context.Context, req resource.Creat
 	}
 	tflog.Trace(ctx, fmt.Sprintf("POST %s: %s", url, string(marshaled)))
 
-	var created UserstoreColumnJSONClientModel
-	if err := r.client.Post(ctx, url, body, &created); err != nil {
+	var apiResp UserstoreColumnJSONClientModel
+	if err := r.client.Post(ctx, url, body, &apiResp); err != nil {
 		resp.Diagnostics.AddError("Error creating userclouds_userstore_column", err.Error())
 		return
 	}
-
+	created := apiResp
 	createdTF, err := UserstoreColumnJSONClientModelToTF(&created)
 	if err != nil {
 		resp.Diagnostics.AddError("Error converting userclouds_userstore_column response JSON to Terraform state", err.Error())
@@ -137,8 +137,8 @@ func (r *UserstoreColumnResource) Read(ctx context.Context, req resource.ReadReq
 	url := "/userstore/config/columns/{id}"
 	url = strings.ReplaceAll(url, "{id}", oldState.ID.ValueString())
 	tflog.Trace(ctx, fmt.Sprintf("GET %s", url))
-	var current UserstoreColumnJSONClientModel
-	if err := r.client.Get(ctx, url, &current); err != nil {
+	var apiResp UserstoreColumnJSONClientModel
+	if err := r.client.Get(ctx, url, &apiResp); err != nil {
 		var jce jsonclient.Error
 		if errors.As(err, &jce) && (jce.StatusCode == http.StatusNotFound) {
 			resp.State.RemoveResource(ctx)
@@ -148,6 +148,7 @@ func (r *UserstoreColumnResource) Read(ctx context.Context, req resource.ReadReq
 		resp.Diagnostics.AddError("Error reading userclouds_userstore_column", err.Error())
 		return
 	}
+	current := apiResp
 
 	newState, err := UserstoreColumnJSONClientModelToTF(&current)
 	if err != nil {
@@ -180,7 +181,6 @@ func (r *UserstoreColumnResource) Update(ctx context.Context, req resource.Updat
 	body := UserstoreUpdateColumnRequestJSONClientModel{
 		Column: jsonclientModel,
 	}
-	var updated UserstoreColumnJSONClientModel
 	url := "/userstore/config/columns/{id}"
 	url = strings.ReplaceAll(url, "{id}", state.ID.ValueString())
 
@@ -191,10 +191,12 @@ func (r *UserstoreColumnResource) Update(ctx context.Context, req resource.Updat
 	}
 	tflog.Trace(ctx, fmt.Sprintf("PUT %s: %s", url, string(marshaled)))
 
-	if err := r.client.Put(ctx, url, body, &updated); err != nil {
+	var apiResp UserstoreColumnJSONClientModel
+	if err := r.client.Put(ctx, url, body, &apiResp); err != nil {
 		resp.Diagnostics.AddError("Error updating userclouds_userstore_column", err.Error())
 		return
 	}
+	updated := apiResp
 
 	newState, err := UserstoreColumnJSONClientModelToTF(&updated)
 	if err != nil {

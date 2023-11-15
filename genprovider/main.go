@@ -36,7 +36,7 @@ func handleSpec(ctx context.Context, specConfig *config.Spec, openapiDir string)
 		log.Fatalf("failed to create generated file package directory: %v", err)
 	}
 
-	schemas.GenSchemas(ctx, wd, specConfig.GeneratedFilePackage, &spec)
+	schemas.GenSchemas(ctx, wd, specConfig, &spec)
 	for _, resource := range specConfig.Resources {
 		resources.GenResource(ctx, wd, specConfig.GeneratedFilePackage, &spec, &resource)
 	}

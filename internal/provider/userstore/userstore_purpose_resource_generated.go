@@ -107,12 +107,12 @@ func (r *UserstorePurposeResource) Create(ctx context.Context, req resource.Crea
 	}
 	tflog.Trace(ctx, fmt.Sprintf("POST %s: %s", url, string(marshaled)))
 
-	var created UserstorePurposeJSONClientModel
-	if err := r.client.Post(ctx, url, body, &created); err != nil {
+	var apiResp UserstorePurposeJSONClientModel
+	if err := r.client.Post(ctx, url, body, &apiResp); err != nil {
 		resp.Diagnostics.AddError("Error creating userclouds_userstore_purpose", err.Error())
 		return
 	}
-
+	created := apiResp
 	createdTF, err := UserstorePurposeJSONClientModelToTF(&created)
 	if err != nil {
 		resp.Diagnostics.AddError("Error converting userclouds_userstore_purpose response JSON to Terraform state", err.Error())
@@ -137,8 +137,8 @@ func (r *UserstorePurposeResource) Read(ctx context.Context, req resource.ReadRe
 	url := "/userstore/config/purposes/{id}"
 	url = strings.ReplaceAll(url, "{id}", oldState.ID.ValueString())
 	tflog.Trace(ctx, fmt.Sprintf("GET %s", url))
-	var current UserstorePurposeJSONClientModel
-	if err := r.client.Get(ctx, url, &current); err != nil {
+	var apiResp UserstorePurposeJSONClientModel
+	if err := r.client.Get(ctx, url, &apiResp); err != nil {
 		var jce jsonclient.Error
 		if errors.As(err, &jce) && (jce.StatusCode == http.StatusNotFound) {
 			resp.State.RemoveResource(ctx)
@@ -148,6 +148,7 @@ func (r *UserstorePurposeResource) Read(ctx context.Context, req resource.ReadRe
 		resp.Diagnostics.AddError("Error reading userclouds_userstore_purpose", err.Error())
 		return
 	}
+	current := apiResp
 
 	newState, err := UserstorePurposeJSONClientModelToTF(&current)
 	if err != nil {
@@ -180,7 +181,6 @@ func (r *UserstorePurposeResource) Update(ctx context.Context, req resource.Upda
 	body := UserstoreUpdatePurposeRequestJSONClientModel{
 		Purpose: jsonclientModel,
 	}
-	var updated UserstorePurposeJSONClientModel
 	url := "/userstore/config/purposes/{id}"
 	url = strings.ReplaceAll(url, "{id}", state.ID.ValueString())
 
@@ -191,10 +191,12 @@ func (r *UserstorePurposeResource) Update(ctx context.Context, req resource.Upda
 	}
 	tflog.Trace(ctx, fmt.Sprintf("PUT %s: %s", url, string(marshaled)))
 
-	if err := r.client.Put(ctx, url, body, &updated); err != nil {
+	var apiResp UserstorePurposeJSONClientModel
+	if err := r.client.Put(ctx, url, body, &apiResp); err != nil {
 		resp.Diagnostics.AddError("Error updating userclouds_userstore_purpose", err.Error())
 		return
 	}
+	updated := apiResp
 
 	newState, err := UserstorePurposeJSONClientModelToTF(&updated)
 	if err != nil {

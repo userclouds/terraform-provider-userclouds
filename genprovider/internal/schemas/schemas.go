@@ -11,6 +11,7 @@ import (
 
 	"github.com/swaggest/openapi-go/openapi3"
 	"github.com/userclouds/terraform-provider-userclouds/genprovider/internal/apitypes"
+	"github.com/userclouds/terraform-provider-userclouds/genprovider/internal/config"
 	"github.com/userclouds/terraform-provider-userclouds/genprovider/internal/stringutils"
 	"golang.org/x/exp/slices"
 
@@ -237,7 +238,7 @@ func inferAPIType(spec *openapi3.Spec, schemaName *string, schema *openapi3.Sche
 	return basicTypesMap[string(*schema.Type)], nil
 }
 
-func gatherSchemaProperties(spec *openapi3.Spec, schemaName string) (schemaData, error) {
+func gatherSchemaProperties(spec *openapi3.Spec, schemaName string, overrideInfo *config.SchemaOverride) (schemaData, error) {
 	schemaOrRef := spec.Components.Schemas.MapOfSchemaOrRefValues[schemaName]
 	schema, err := ResolveSchema(spec, &schemaOrRef)
 	if err != nil {
@@ -294,6 +295,9 @@ func gatherSchemaProperties(spec *openapi3.Spec, schemaName string) (schemaData,
 		} else if name == "version" {
 			// Version is like an etag -- should be set by server, not by practitioners
 			fieldData.ExtraTFAttributeFields["Computed"] = "true"
+		} else if overrideInfo != nil && slices.Contains(overrideInfo.ReadonlyProperties, name) {
+			// Handle properties marked readonly by generation config
+			fieldData.ExtraTFAttributeFields["Computed"] = "true"
 		} else {
 			// Computed: these values can be populated by the provider (e.g. on read) if unspecified
 			// in the terraform config
@@ -321,13 +325,13 @@ func gatherSchemaProperties(spec *openapi3.Spec, schemaName string) (schemaData,
 
 // GenSchemas generates the code for Terraform/jsonclient schemas, attribute maps, and conversion
 // functions.
-func GenSchemas(ctx context.Context, outDir string, outFilePackage string, spec *openapi3.Spec) {
+func GenSchemas(ctx context.Context, outDir string, conf *config.Spec, spec *openapi3.Spec) {
 	fileHeaderTemplate := template.Must(template.New("fileHeaderTemplate").Delims("<<", ">>").Parse(fileHeaderTemplate))
 	modelTemplate := template.Must(template.New("modelTemplate").Delims("<<", ">>").Parse(modelTemplate))
 
 	buf := bytes.NewBuffer([]byte{})
 
-	if err := fileHeaderTemplate.Execute(buf, fileData{Package: outFilePackage}); err != nil {
+	if err := fileHeaderTemplate.Execute(buf, fileData{Package: conf.GeneratedFilePackage}); err != nil {
 		log.Fatalf("error executing template: %v", err)
 	}
 
@@ -338,7 +342,11 @@ func GenSchemas(ctx context.Context, outDir string, outFilePackage string, spec 
 	sort.Strings(schemaNames)
 
 	for _, name := range schemaNames {
-		data, err := gatherSchemaProperties(spec, name)
+		var overrideInfo *config.SchemaOverride
+		if i, ok := conf.SchemaOverrides[name]; ok {
+			overrideInfo = &i
+		}
+		data, err := gatherSchemaProperties(spec, name, overrideInfo)
 		if err != nil {
 			log.Printf("WARNING: skipping schema generation for %s: %v", name, err) // lint: ucwrapper-safe
 			continue
@@ -353,7 +361,7 @@ func GenSchemas(ctx context.Context, outDir string, outFilePackage string, spec 
 	if err != nil {
 		log.Fatalf("error formatting source: %v", err)
 	}
-	fh, err := os.Create(outDir + "/" + outFilePackage + "/schemas_generated.go")
+	fh, err := os.Create(outDir + "/" + conf.GeneratedFilePackage + "/schemas_generated.go")
 	if err != nil {
 		log.Fatalf("error opening output file: %v", err)
 	}

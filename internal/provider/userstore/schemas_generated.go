@@ -249,7 +249,6 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
-		Optional:            true,
 	},
 	"duration": schema.SingleNestedAttribute{
 		Attributes:          IdpRetentionDurationAttributes,
@@ -298,13 +297,11 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
-		Optional:            true,
 	},
 	"use_default": schema.BoolAttribute{
 		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
-		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
 		Computed:            true,
