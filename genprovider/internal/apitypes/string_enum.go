@@ -41,7 +41,7 @@ func (t *StringEnum) description() string {
 			desc += ", "
 		}
 	}
-	if t.Schema.Description != nil && *t.Schema.Description != "" {
+	if t.Schema != nil && t.Schema.Description != nil && *t.Schema.Description != "" {
 		if !strings.HasSuffix(*t.Schema.Description, ".") {
 			desc = ". " + desc
 		}
@@ -89,4 +89,18 @@ func (t *StringEnum) JSONClientModelToTFFunc() string {
 	return `func (val *string) (types.String, error) {
 		return types.StringPointerValue(val), nil
 	}`
+}
+
+// GetTFPlanModifierType returns the name of the
+// terraform-plugin-framework/resource/schema/planmodifier type for this API
+// type (e.g. String, Int64, etc.)
+func (t *StringEnum) GetTFPlanModifierType() string {
+	return "String"
+}
+
+// GetTFPlanModifierPackageName returns the name of the package
+// (terraform-plugin-framework/resource/schema/RETURNVALUE) containing the plan
+// modifiers for this type
+func (t *StringEnum) GetTFPlanModifierPackageName() string {
+	return "stringplanmodifier"
 }

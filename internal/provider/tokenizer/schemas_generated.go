@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -26,6 +27,9 @@ import (
 // OpenAPI spec and no one is going to be reading this generated code anyways, so we should just
 // silence the rule.
 //revive:disable:exported
+
+// boolplanmodifier is used in userstore schemas but not tokenizer
+var _ = boolplanmodifier.RequiresReplace
 
 // PaginationCursorTFModel is a Terraform model struct for the PaginationCursorAttributes schema.
 type PaginationCursorTFModel struct {

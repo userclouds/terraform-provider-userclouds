@@ -91,3 +91,17 @@ func (t *Map) JSONClientModelToTFFunc() string {
 		return types.MapValueMust(valueAttrType, out), nil
 	}`
 }
+
+// GetTFPlanModifierType returns the name of the
+// terraform-plugin-framework/resource/schema/planmodifier type for this API
+// type (e.g. String, Int64, etc.)
+func (t *Map) GetTFPlanModifierType() string {
+	return "Map"
+}
+
+// GetTFPlanModifierPackageName returns the name of the package
+// (terraform-plugin-framework/resource/schema/RETURNVALUE) containing the plan
+// modifiers for this type
+func (t *Map) GetTFPlanModifierPackageName() string {
+	return "mapplanmodifier"
+}

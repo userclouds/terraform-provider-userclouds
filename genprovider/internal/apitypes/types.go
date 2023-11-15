@@ -29,6 +29,14 @@ type APIType interface {
 	// TFModelToJSONClientFunc should return the text of a function with
 	// signature "func (val *JSONClientModelType) (TFModelType, error)"
 	JSONClientModelToTFFunc() string
+	// GetTFPlanModifierType returns the name of the
+	// terraform-plugin-framework/resource/schema/planmodifier type for this API
+	// type (e.g. String, Int64, etc.)
+	GetTFPlanModifierType() string
+	// GetTFPlanModifierPackageName returns the name of the package
+	// (terraform-plugin-framework/resource/schema/RETURNVALUE) containing the
+	// plan modifiers for this type
+	GetTFPlanModifierPackageName() string
 }
 
 func fieldsToString(fields map[string]string) string {
@@ -46,7 +54,7 @@ func fieldsToString(fields map[string]string) string {
 
 func makeCommonFields(schema *openapi3.Schema) map[string]string {
 	var description string
-	if schema.Description != nil {
+	if schema != nil && schema.Description != nil {
 		description = *schema.Description
 	}
 	return map[string]string{
