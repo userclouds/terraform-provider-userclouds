@@ -1266,6 +1266,8 @@ paths:
           description: Bad Request
         "404":
           description: Not Found
+        "409":
+          description: Conflict
         "500":
           description: Internal Server Error
       summary: Update Purpose
