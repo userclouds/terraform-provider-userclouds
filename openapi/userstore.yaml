@@ -23,6 +23,8 @@ paths:
           description: Bad Request
         "403":
           description: Forbidden
+        "404":
+          description: Not Found
         "500":
           description: Internal Server Error
       summary: Execute Accessor
@@ -69,6 +71,8 @@ paths:
           description: Bad Request
         "403":
           description: Forbidden
+        "404":
+          description: Not Found
         "409":
           description: Conflict
         "500":
