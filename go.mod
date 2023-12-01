@@ -8,7 +8,7 @@ require (
 	github.com/hashicorp/terraform-plugin-framework-validators v0.11.0
 	github.com/hashicorp/terraform-plugin-log v0.9.0
 	github.com/iancoleman/strcase v0.3.0
-	github.com/swaggest/openapi-go v0.2.41
+	github.com/swaggest/openapi-go v0.2.42
 )
 
 require (
