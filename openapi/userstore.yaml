@@ -2033,6 +2033,8 @@ components:
       properties:
         column:
           $ref: '#/components/schemas/UserstoreResourceID'
+        normalizer:
+          $ref: '#/components/schemas/UserstoreResourceID'
         validator:
           $ref: '#/components/schemas/UserstoreResourceID'
       type: object

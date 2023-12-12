@@ -2715,25 +2715,40 @@ func UserstoreColumnIndexTypeJSONClientModelToTF(in *UserstoreColumnIndexTypeJSO
 
 // UserstoreColumnInputConfigTFModel is a Terraform model struct for the UserstoreColumnInputConfigAttributes schema.
 type UserstoreColumnInputConfigTFModel struct {
-	Column    types.String `tfsdk:"column"`
-	Validator types.String `tfsdk:"validator"`
+	Column     types.String `tfsdk:"column"`
+	Normalizer types.String `tfsdk:"normalizer"`
+	Validator  types.String `tfsdk:"validator"`
 }
 
 // UserstoreColumnInputConfigJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreColumnInputConfigJSONClientModel struct {
-	Column    *UserstoreResourceIDJSONClientModel `json:"column,omitempty"`
-	Validator *UserstoreResourceIDJSONClientModel `json:"validator,omitempty"`
+	Column     *UserstoreResourceIDJSONClientModel `json:"column,omitempty"`
+	Normalizer *UserstoreResourceIDJSONClientModel `json:"normalizer,omitempty"`
+	Validator  *UserstoreResourceIDJSONClientModel `json:"validator,omitempty"`
 }
 
 // UserstoreColumnInputConfigAttrTypes defines the attribute types for the UserstoreColumnInputConfigAttributes schema.
 var UserstoreColumnInputConfigAttrTypes = map[string]attr.Type{
-	"column":    types.StringType,
-	"validator": types.StringType,
+	"column":     types.StringType,
+	"normalizer": types.StringType,
+	"validator":  types.StringType,
 }
 
 // UserstoreColumnInputConfigAttributes defines the Terraform attributes schema.
 var UserstoreColumnInputConfigAttributes = map[string]schema.Attribute{
 	"column": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.RegexMatches(
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
+				"invalid UUIDv4 format",
+			),
+		},
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"normalizer": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
@@ -2779,6 +2794,22 @@ func UserstoreColumnInputConfigTFModelToJSONClient(in *UserstoreColumnInputConfi
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"column\" field: %+v", err)
 	}
+	out.Normalizer, err = func(val *types.String) (*UserstoreResourceIDJSONClientModel, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted, err := uuid.FromString(val.ValueString())
+		if err != nil {
+			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
+		}
+		s := UserstoreResourceIDJSONClientModel{
+			ID: &converted,
+		}
+		return &s, nil
+	}(&in.Normalizer)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"normalizer\" field: %+v", err)
+	}
 	out.Validator, err = func(val *types.String) (*UserstoreResourceIDJSONClientModel, error) {
 		if val.IsNull() || val.IsUnknown() {
 			return nil, nil
@@ -2821,6 +2852,26 @@ func UserstoreColumnInputConfigJSONClientModelToTF(in *UserstoreColumnInputConfi
 	}(in.Column)
 	if err != nil {
 		return UserstoreColumnInputConfigTFModel{}, ucerr.Errorf("failed to convert \"column\" field: %+v", err)
+	}
+	out.Normalizer, err = func(val *UserstoreResourceIDJSONClientModel) (types.String, error) {
+		if val == nil {
+			return types.StringNull(), nil
+		}
+		// We should only need to convert jsonclient models to TF models when receiving API
+		// responses, and API responses should always have the ID set.
+		// Sometimes we receive nil UUIDs here because of how the server
+		// serializes empty values, so we should only freak out if we see a
+		// name provided but not an ID.
+		if val.Name != nil && *val.Name != "" && (val.ID == nil || val.ID.IsNil()) {
+			return types.StringNull(), ucerr.Errorf("got nil ID field in UserstoreResourceID. this is an issue with the UserClouds Terraform provider")
+		}
+		if val.ID == nil || val.ID.IsNil() {
+			return types.StringNull(), nil
+		}
+		return types.StringValue(val.ID.String()), nil
+	}(in.Normalizer)
+	if err != nil {
+		return UserstoreColumnInputConfigTFModel{}, ucerr.Errorf("failed to convert \"normalizer\" field: %+v", err)
 	}
 	out.Validator, err = func(val *UserstoreResourceIDJSONClientModel) (types.String, error) {
 		if val == nil {

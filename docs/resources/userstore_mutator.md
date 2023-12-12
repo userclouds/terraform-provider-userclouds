@@ -37,6 +37,7 @@ Manages a User Store mutator. For more details, refer to the [mutators documenta
 Optional:
 
 - `column` (String)
+- `normalizer` (String)
 - `validator` (String)
 
 
