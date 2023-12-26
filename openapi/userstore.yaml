@@ -1794,6 +1794,8 @@ components:
           $ref: '#/components/schemas/UuidUUID'
         organization_id:
           $ref: '#/components/schemas/UuidUUID'
+        region:
+          type: string
         row_data:
           additionalProperties:
             $ref: '#/components/schemas/IdpValueAndPurposes'
