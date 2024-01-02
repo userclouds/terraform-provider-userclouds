@@ -104,8 +104,7 @@ func (p *UserCloudsProvider) Configure(ctx context.Context, req provider.Configu
 
 	options := []jsonclient.Option{
 		jsonclient.ClientCredentialsTokenSource(tenantURL+"/oidc/token", clientID, clientSecret, nil),
-		// TODO: switch to using jsonclient.HeaderUserAgent once a GO SDK is released and it is available for this provider.
-		jsonclient.Header("User-Agent", fmt.Sprintf("UserClouds Terraform Provider v%v", p.version)),
+		jsonclient.HeaderUserAgent(fmt.Sprintf("UserClouds Terraform Provider v%v", p.version)),
 	}
 	client := jsonclient.New(strings.TrimSuffix(tenantURL, "/"), options...)
 	if err := client.ValidateBearerTokenHeader(); err != nil {
