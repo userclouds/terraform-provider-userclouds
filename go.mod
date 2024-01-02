@@ -76,5 +76,5 @@ require (
 	golang.org/x/text v0.14.0 // indirect
 	google.golang.org/grpc v1.60.1 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
-	userclouds.com v0.6.4
+	userclouds.com v0.8.4
 )

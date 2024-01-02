@@ -233,5 +233,5 @@ gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C
 gopkg.in/yaml.v3 v3.0.0/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
 gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
 gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
-userclouds.com v0.6.4 h1:pVMovD5r+ekJLIAuMz6EpTUkHTth6LJIR0auBDlmszU=
-userclouds.com v0.6.4/go.mod h1:xm0IRMVFOetGPX0S5e4yWJsACwm0m5cWWAP5mXefTSM=
+userclouds.com v0.8.4 h1:OFWc+CvRw9qojxpjfu/rJLWoXcZXJ2ybgbFLKPSLM9U=
+userclouds.com v0.8.4/go.mod h1:hRClgxebsw6I8kpfpq0Nc0mvxqub6FHZElmOt6RupcQ=
