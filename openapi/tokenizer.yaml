@@ -843,7 +843,9 @@ components:
       type: object
     PolicyPolicyType:
       enum:
+      - composite_and
       - compositeintersection
+      - composite_or
       - compositeunion
       type: string
     PolicyTransformType:
