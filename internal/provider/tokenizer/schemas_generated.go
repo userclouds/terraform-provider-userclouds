@@ -135,10 +135,10 @@ var PolicyAccessPolicyAttributes = map[string]schema.Attribute{
 	},
 	"policy_type": schema.StringAttribute{
 		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"compositeintersection", "compositeunion"}...),
+			stringvalidator.OneOf([]string{"composite_and", "compositeintersection", "composite_or", "compositeunion"}...),
 		},
-		Description:         "Valid values: `compositeintersection`, `compositeunion`",
-		MarkdownDescription: "Valid values: `compositeintersection`, `compositeunion`",
+		Description:         "Valid values: `composite_and`, `compositeintersection`, `composite_or`, `compositeunion`",
+		MarkdownDescription: "Valid values: `composite_and`, `compositeintersection`, `composite_or`, `compositeunion`",
 		Required:            true,
 	},
 	"tag_ids": schema.ListAttribute{
