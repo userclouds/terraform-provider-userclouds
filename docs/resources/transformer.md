@@ -18,14 +18,14 @@ Manages a Tokenizer transformer. For more details refer to the [transformer docu
 ### Required
 
 - `function` (String)
-- `input_type` (String) Valid values: `address`, `birthdate`, `boolean`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
+- `input_type` (String) Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
 - `name` (String)
 - `transform_type` (String) Valid values: `passthrough`, `tokenizebyreference`, `tokenizebyvalue`, `transform`
 
 ### Optional
 
 - `description` (String)
-- `output_type` (String) Valid values: `address`, `birthdate`, `boolean`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
+- `output_type` (String) Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
 - `parameters` (String)
 - `reuse_existing_token` (Boolean) Specifies if the tokenizing transfomer should return existing token instead of creating a new one.
 - `tag_ids` (List of String)
