@@ -27,7 +27,7 @@ Manages a Tokenizer transformer. For more details refer to the [transformer docu
 - `description` (String)
 - `output_type` (String) Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
 - `parameters` (String)
-- `reuse_existing_token` (Boolean) Specifies if the tokenizing transfomer should return existing token instead of creating a new one.
+- `reuse_existing_token` (Boolean) Specifies if the tokenizing transformer should return existing token instead of creating a new one.
 - `tag_ids` (List of String)
 
 ### Read-Only

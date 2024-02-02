@@ -975,8 +975,8 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 	},
 	"reuse_existing_token": schema.BoolAttribute{
 		Computed:            true,
-		Description:         "Specifies if the tokenizing transfomer should return existing token instead of creating a new one.",
-		MarkdownDescription: "Specifies if the tokenizing transfomer should return existing token instead of creating a new one.",
+		Description:         "Specifies if the tokenizing transformer should return existing token instead of creating a new one.",
+		MarkdownDescription: "Specifies if the tokenizing transformer should return existing token instead of creating a new one.",
 		Optional:            true,
 	},
 	"tag_ids": schema.ListAttribute{

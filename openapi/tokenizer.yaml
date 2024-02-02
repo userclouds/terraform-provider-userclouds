@@ -876,7 +876,7 @@ components:
         parameters:
           type: string
         reuse_existing_token:
-          description: Specifies if the tokenizing transfomer should return existing
+          description: Specifies if the tokenizing transformer should return existing
             token instead of creating a new one.
           type: boolean
         tag_ids:
