@@ -2712,8 +2712,8 @@ var UserstoreColumnConstraintsAttributes = map[string]schema.Attribute{
 	},
 	"unique_required": schema.BoolAttribute{
 		Computed:            true,
-		Description:         "If true, each value for the associated column must be unique for the user.",
-		MarkdownDescription: "If true, each value for the associated column must be unique for the user.",
+		Description:         "If true, each value for the associated column must be unique for the user. This is primarily useful for array columns.",
+		MarkdownDescription: "If true, each value for the associated column must be unique for the user. This is primarily useful for array columns.",
 		Optional:            true,
 	},
 }
@@ -2867,7 +2867,7 @@ type UserstoreColumnFieldTFModel struct {
 	CamelCaseName       types.String `tfsdk:"camel_case_name"`
 	IgnoreForUniqueness types.Bool   `tfsdk:"ignore_for_uniqueness"`
 	Name                types.String `tfsdk:"name"`
-	Optional            types.Bool   `tfsdk:"optional"`
+	Required            types.Bool   `tfsdk:"required"`
 	StructName          types.String `tfsdk:"struct_name"`
 	Type                types.String `tfsdk:"type"`
 }
@@ -2877,7 +2877,7 @@ type UserstoreColumnFieldJSONClientModel struct {
 	CamelCaseName       *string `json:"camel_case_name,omitempty"`
 	IgnoreForUniqueness *bool   `json:"ignore_for_uniqueness,omitempty"`
 	Name                *string `json:"name,omitempty"`
-	Optional            *bool   `json:"optional,omitempty"`
+	Required            *bool   `json:"required,omitempty"`
 	StructName          *string `json:"struct_name,omitempty"`
 	Type                *string `json:"type,omitempty"`
 }
@@ -2887,7 +2887,7 @@ var UserstoreColumnFieldAttrTypes = map[string]attr.Type{
 	"camel_case_name":       types.StringType,
 	"ignore_for_uniqueness": types.BoolType,
 	"name":                  types.StringType,
-	"optional":              types.BoolType,
+	"required":              types.BoolType,
 	"struct_name":           types.StringType,
 	"type":                  types.StringType,
 }
@@ -2896,8 +2896,8 @@ var UserstoreColumnFieldAttrTypes = map[string]attr.Type{
 var UserstoreColumnFieldAttributes = map[string]schema.Attribute{
 	"camel_case_name": schema.StringAttribute{
 		Computed:            true,
-		Description:         "Derived camel-case version of field name, with underscores stripped out. (ex. IDField1)",
-		MarkdownDescription: "Derived camel-case version of field name, with underscores stripped out. (ex. IDField1)",
+		Description:         "Read-only camel-case version of field name, with underscores stripped out. (ex. IDField1)",
+		MarkdownDescription: "Read-only camel-case version of field name, with underscores stripped out. (ex. IDField1)",
 		Optional:            true,
 	},
 	"ignore_for_uniqueness": schema.BoolAttribute{
@@ -2911,7 +2911,7 @@ var UserstoreColumnFieldAttributes = map[string]schema.Attribute{
 		MarkdownDescription: "Each part of name must be capitalized or all-caps, separated by underscores. Names may contain alphanumeric characters, and the first part must start with a letter, while other parts may start with a number. (ex. ID_Field_1)",
 		Required:            true,
 	},
-	"optional": schema.BoolAttribute{
+	"required": schema.BoolAttribute{
 		Computed:            true,
 		Description:         "Whether a value must be specified for the field.",
 		MarkdownDescription: "Whether a value must be specified for the field.",
@@ -2919,8 +2919,8 @@ var UserstoreColumnFieldAttributes = map[string]schema.Attribute{
 	},
 	"struct_name": schema.StringAttribute{
 		Computed:            true,
-		Description:         "Derived snake-case version of field name, with all letters lowercase. (ex. id_field_1)",
-		MarkdownDescription: "Derived snake-case version of field name, with all letters lowercase. (ex. id_field_1)",
+		Description:         "Read-only snake-case version of field name, with all letters lowercase. (ex. id_field_1)",
+		MarkdownDescription: "Read-only snake-case version of field name, with all letters lowercase. (ex. id_field_1)",
 		Optional:            true,
 	},
 	"type": schema.StringAttribute{
@@ -2967,15 +2967,15 @@ func UserstoreColumnFieldTFModelToJSONClient(in *UserstoreColumnFieldTFModel) (*
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
 	}
-	out.Optional, err = func(val *types.Bool) (*bool, error) {
+	out.Required, err = func(val *types.Bool) (*bool, error) {
 		if val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
 		converted := val.ValueBool()
 		return &converted, nil
-	}(&in.Optional)
+	}(&in.Required)
 	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"optional\" field: %+v", err)
+		return nil, ucerr.Errorf("failed to convert \"required\" field: %+v", err)
 	}
 	out.StructName, err = func(val *types.String) (*string, error) {
 		if val.IsNull() || val.IsUnknown() {
@@ -3022,11 +3022,11 @@ func UserstoreColumnFieldJSONClientModelToTF(in *UserstoreColumnFieldJSONClientM
 	if err != nil {
 		return UserstoreColumnFieldTFModel{}, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
 	}
-	out.Optional, err = func(val *bool) (types.Bool, error) {
+	out.Required, err = func(val *bool) (types.Bool, error) {
 		return types.BoolPointerValue(val), nil
-	}(in.Optional)
+	}(in.Required)
 	if err != nil {
-		return UserstoreColumnFieldTFModel{}, ucerr.Errorf("failed to convert \"optional\" field: %+v", err)
+		return UserstoreColumnFieldTFModel{}, ucerr.Errorf("failed to convert \"required\" field: %+v", err)
 	}
 	out.StructName, err = func(val *string) (types.String, error) {
 		return types.StringPointerValue(val), nil
