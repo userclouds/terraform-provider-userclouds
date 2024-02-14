@@ -27,6 +27,7 @@ Manages a User Store accessor. For more details, refer to the [accessors documen
 
 - `data_life_cycle_state` (String) Valid values: `live`, `postdelete`, `predelete`, `softdeleted`
 - `description` (String)
+- `is_audit_logged` (Boolean) Whether this accessor is audit logged each time it is executed.
 - `token_access_policy` (String)
 
 ### Read-Only
