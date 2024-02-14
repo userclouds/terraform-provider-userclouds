@@ -2071,13 +2071,13 @@ components:
           type: boolean
         unique_required:
           description: If true, each value for the associated column must be unique
-            for the user.
+            for the user. This is primarily useful for array columns.
           type: boolean
       type: object
     UserstoreColumnField:
       properties:
         camel_case_name:
-          description: Derived camel-case version of field name, with underscores
+          description: Read-only camel-case version of field name, with underscores
             stripped out. (ex. IDField1)
           type: string
         ignore_for_uniqueness:
@@ -2090,11 +2090,11 @@ components:
             part must start with a letter, while other parts may start with a number.
             (ex. ID_Field_1)
           type: string
-        optional:
+        required:
           description: Whether a value must be specified for the field.
           type: boolean
         struct_name:
-          description: Derived snake-case version of field name, with all letters
+          description: Read-only snake-case version of field name, with all letters
             lowercase. (ex. id_field_1)
           type: string
         type:
