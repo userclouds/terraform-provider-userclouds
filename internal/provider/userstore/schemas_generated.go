@@ -1892,6 +1892,7 @@ type UserstoreAccessorTFModel struct {
 	DataLifeCycleState types.String `tfsdk:"data_life_cycle_state"`
 	Description        types.String `tfsdk:"description"`
 	ID                 types.String `tfsdk:"id"`
+	IsAuditLogged      types.Bool   `tfsdk:"is_audit_logged"`
 	Name               types.String `tfsdk:"name"`
 	Purposes           types.List   `tfsdk:"purposes"`
 	SelectorConfig     types.Object `tfsdk:"selector_config"`
@@ -1906,6 +1907,7 @@ type UserstoreAccessorJSONClientModel struct {
 	DataLifeCycleState *string                                       `json:"data_life_cycle_state,omitempty"`
 	Description        *string                                       `json:"description,omitempty"`
 	ID                 *uuid.UUID                                    `json:"id,omitempty"`
+	IsAuditLogged      *bool                                         `json:"is_audit_logged,omitempty"`
 	Name               *string                                       `json:"name,omitempty"`
 	Purposes           *[]UserstoreResourceIDJSONClientModel         `json:"purposes,omitempty"`
 	SelectorConfig     *UserstoreUserSelectorConfigJSONClientModel   `json:"selector_config,omitempty"`
@@ -1924,6 +1926,7 @@ var UserstoreAccessorAttrTypes = map[string]attr.Type{
 	"data_life_cycle_state": types.StringType,
 	"description":           types.StringType,
 	"id":                    types.StringType,
+	"is_audit_logged":       types.BoolType,
 	"name":                  types.StringType,
 	"purposes": types.ListType{
 		ElemType: types.StringType,
@@ -1985,6 +1988,12 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.UseStateForUnknown(),
 		},
+	},
+	"is_audit_logged": schema.BoolAttribute{
+		Computed:            true,
+		Description:         "Whether this accessor is audit logged each time it is executed.",
+		MarkdownDescription: "Whether this accessor is audit logged each time it is executed.",
+		Optional:            true,
 	},
 	"name": schema.StringAttribute{
 		Description:         "",
@@ -2115,6 +2124,16 @@ func UserstoreAccessorTFModelToJSONClient(in *UserstoreAccessorTFModel) (*Userst
 	}(&in.ID)
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
+	}
+	out.IsAuditLogged, err = func(val *types.Bool) (*bool, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueBool()
+		return &converted, nil
+	}(&in.IsAuditLogged)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"is_audit_logged\" field: %+v", err)
 	}
 	out.Name, err = func(val *types.String) (*string, error) {
 		if val.IsNull() || val.IsUnknown() {
@@ -2297,6 +2316,12 @@ func UserstoreAccessorJSONClientModelToTF(in *UserstoreAccessorJSONClientModel) 
 	}(in.ID)
 	if err != nil {
 		return UserstoreAccessorTFModel{}, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
+	}
+	out.IsAuditLogged, err = func(val *bool) (types.Bool, error) {
+		return types.BoolPointerValue(val), nil
+	}(in.IsAuditLogged)
+	if err != nil {
+		return UserstoreAccessorTFModel{}, ucerr.Errorf("failed to convert \"is_audit_logged\" field: %+v", err)
 	}
 	out.Name, err = func(val *string) (types.String, error) {
 		return types.StringPointerValue(val), nil

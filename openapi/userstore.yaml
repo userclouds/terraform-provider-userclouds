@@ -2000,6 +2000,9 @@ components:
           type: string
         id:
           $ref: '#/components/schemas/UuidUUID'
+        is_audit_logged:
+          description: Whether this accessor is audit logged each time it is executed.
+          type: boolean
         is_system:
           description: Whether this accessor is a system accessor. System accessors
             cannot be deleted or modified. This property cannot be changed.
