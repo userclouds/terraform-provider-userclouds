@@ -7,11 +7,33 @@ paths:
   /userstore/api/accessors:
     post:
       description: This endpoint executes a specified accessor (custom read API).
+      parameters:
+      - description: A cursor value after which the returned list will start
+        in: query
+        name: starting_after
+        schema:
+          description: A cursor value after which the returned list will start
+          nullable: true
+          type: string
+      - description: A cursor value before which the returned list will end
+        in: query
+        name: ending_before
+        schema:
+          description: A cursor value before which the returned list will end
+          nullable: true
+          type: string
+      - description: The maximum number of results to be returned per page
+        in: query
+        name: limit
+        schema:
+          description: The maximum number of results to be returned per page
+          nullable: true
+          type: string
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/IdpExecuteAccessorRequest'
+              $ref: '#/components/schemas/UserstoreExecuteAccessorHandlerRequest'
       responses:
         "200":
           content:
@@ -1813,15 +1835,6 @@ components:
       - week
       - year
       type: string
-    IdpExecuteAccessorRequest:
-      properties:
-        accessor_id:
-          $ref: '#/components/schemas/UuidUUID'
-        context:
-          $ref: '#/components/schemas/PolicyClientContext'
-        selector_values:
-          $ref: '#/components/schemas/UserstoreUserSelectorValues'
-      type: object
     IdpExecuteAccessorResponse:
       properties:
         data:
@@ -1829,6 +1842,14 @@ components:
             type: string
           nullable: true
           type: array
+        has_next:
+          type: boolean
+        has_prev:
+          type: boolean
+        next:
+          type: string
+        prev:
+          $ref: '#/components/schemas/PaginationCursor'
       type: object
     IdpExecuteMutatorRequest:
       properties:
@@ -2128,6 +2149,15 @@ components:
       - timestamp
       - uuid
       type: string
+    UserstoreExecuteAccessorHandlerRequest:
+      properties:
+        accessor_id:
+          $ref: '#/components/schemas/UuidUUID'
+        context:
+          $ref: '#/components/schemas/PolicyClientContext'
+        selector_values:
+          $ref: '#/components/schemas/UserstoreUserSelectorValues'
+      type: object
     UserstoreMutator:
       properties:
         access_policy:
