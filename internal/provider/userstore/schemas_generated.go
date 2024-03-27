@@ -1082,6 +1082,97 @@ func IdpCreateColumnRequestJSONClientModelToTF(in *IdpCreateColumnRequestJSONCli
 	return out, nil
 }
 
+// IdpCreateDataTypeRequestTFModel is a Terraform model struct for the IdpCreateDataTypeRequestAttributes schema.
+type IdpCreateDataTypeRequestTFModel struct {
+	DataType types.Object `tfsdk:"data_type"`
+}
+
+// IdpCreateDataTypeRequestJSONClientModel stores data for use with jsonclient for making API requests.
+type IdpCreateDataTypeRequestJSONClientModel struct {
+	DataType *UserstoreColumnDataTypeJSONClientModel `json:"data_type,omitempty"`
+}
+
+// IdpCreateDataTypeRequestAttrTypes defines the attribute types for the IdpCreateDataTypeRequestAttributes schema.
+var IdpCreateDataTypeRequestAttrTypes = map[string]attr.Type{
+	"data_type": types.ObjectType{
+		AttrTypes: UserstoreColumnDataTypeAttrTypes,
+	},
+}
+
+// IdpCreateDataTypeRequestAttributes defines the Terraform attributes schema.
+var IdpCreateDataTypeRequestAttributes = map[string]schema.Attribute{
+	"data_type": schema.SingleNestedAttribute{
+		Attributes:          UserstoreColumnDataTypeAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// IdpCreateDataTypeRequestTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func IdpCreateDataTypeRequestTFModelToJSONClient(in *IdpCreateDataTypeRequestTFModel) (*IdpCreateDataTypeRequestJSONClientModel, error) {
+	out := IdpCreateDataTypeRequestJSONClientModel{}
+	var err error
+	out.DataType, err = func(val *types.Object) (*UserstoreColumnDataTypeJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := UserstoreColumnDataTypeTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return UserstoreColumnDataTypeTFModelToJSONClient(&tfModel)
+	}(&in.DataType)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"data_type\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// IdpCreateDataTypeRequestJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func IdpCreateDataTypeRequestJSONClientModelToTF(in *IdpCreateDataTypeRequestJSONClientModel) (IdpCreateDataTypeRequestTFModel, error) {
+	out := IdpCreateDataTypeRequestTFModel{}
+	var err error
+	out.DataType, err = func(val *UserstoreColumnDataTypeJSONClientModel) (types.Object, error) {
+		attrTypes := UserstoreColumnDataTypeAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := UserstoreColumnDataTypeJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert UserstoreColumnDataTypeTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.DataType)
+	if err != nil {
+		return IdpCreateDataTypeRequestTFModel{}, ucerr.Errorf("failed to convert \"data_type\" field: %+v", err)
+	}
+	return out, nil
+}
+
 // IdpCreateMutatorRequestTFModel is a Terraform model struct for the IdpCreateMutatorRequestAttributes schema.
 type IdpCreateMutatorRequestTFModel struct {
 	Mutator types.Object `tfsdk:"mutator"`
@@ -2423,6 +2514,7 @@ func UserstoreAccessorJSONClientModelToTF(in *UserstoreAccessorJSONClientModel) 
 // UserstoreColumnTFModel is a Terraform model struct for the UserstoreColumnAttributes schema.
 type UserstoreColumnTFModel struct {
 	Constraints  types.Object `tfsdk:"constraints"`
+	DataType     types.String `tfsdk:"data_type"`
 	DefaultValue types.String `tfsdk:"default_value"`
 	ID           types.String `tfsdk:"id"`
 	IndexType    types.String `tfsdk:"index_type"`
@@ -2434,6 +2526,7 @@ type UserstoreColumnTFModel struct {
 // UserstoreColumnJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreColumnJSONClientModel struct {
 	Constraints  *UserstoreColumnConstraintsJSONClientModel `json:"constraints,omitempty"`
+	DataType     *UserstoreResourceIDJSONClientModel        `json:"data_type,omitempty"`
 	DefaultValue *string                                    `json:"default_value,omitempty"`
 	ID           *uuid.UUID                                 `json:"id,omitempty"`
 	IndexType    *string                                    `json:"index_type,omitempty"`
@@ -2447,6 +2540,7 @@ var UserstoreColumnAttrTypes = map[string]attr.Type{
 	"constraints": types.ObjectType{
 		AttrTypes: UserstoreColumnConstraintsAttrTypes,
 	},
+	"data_type":     types.StringType,
 	"default_value": types.StringType,
 	"id":            types.StringType,
 	"index_type":    types.StringType,
@@ -2459,6 +2553,18 @@ var UserstoreColumnAttrTypes = map[string]attr.Type{
 var UserstoreColumnAttributes = map[string]schema.Attribute{
 	"constraints": schema.SingleNestedAttribute{
 		Attributes:          UserstoreColumnConstraintsAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"data_type": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.RegexMatches(
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
+				"invalid UUIDv4 format",
+			),
+		},
 		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
@@ -2543,6 +2649,22 @@ func UserstoreColumnTFModelToJSONClient(in *UserstoreColumnTFModel) (*UserstoreC
 	}(&in.Constraints)
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"constraints\" field: %+v", err)
+	}
+	out.DataType, err = func(val *types.String) (*UserstoreResourceIDJSONClientModel, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted, err := uuid.FromString(val.ValueString())
+		if err != nil {
+			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
+		}
+		s := UserstoreResourceIDJSONClientModel{
+			ID: &converted,
+		}
+		return &s, nil
+	}(&in.DataType)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"data_type\" field: %+v", err)
 	}
 	out.DefaultValue, err = func(val *types.String) (*string, error) {
 		if val.IsNull() || val.IsUnknown() {
@@ -2641,6 +2763,26 @@ func UserstoreColumnJSONClientModelToTF(in *UserstoreColumnJSONClientModel) (Use
 	}(in.Constraints)
 	if err != nil {
 		return UserstoreColumnTFModel{}, ucerr.Errorf("failed to convert \"constraints\" field: %+v", err)
+	}
+	out.DataType, err = func(val *UserstoreResourceIDJSONClientModel) (types.String, error) {
+		if val == nil {
+			return types.StringNull(), nil
+		}
+		// We should only need to convert jsonclient models to TF models when receiving API
+		// responses, and API responses should always have the ID set.
+		// Sometimes we receive nil UUIDs here because of how the server
+		// serializes empty values, so we should only freak out if we see a
+		// name provided but not an ID.
+		if val.Name != nil && *val.Name != "" && (val.ID == nil || val.ID.IsNil()) {
+			return types.StringNull(), ucerr.Errorf("got nil ID field in UserstoreResourceID. this is an issue with the UserClouds Terraform provider")
+		}
+		if val.ID == nil || val.ID.IsNil() {
+			return types.StringNull(), nil
+		}
+		return types.StringValue(val.ID.String()), nil
+	}(in.DataType)
+	if err != nil {
+		return UserstoreColumnTFModel{}, ucerr.Errorf("failed to convert \"data_type\" field: %+v", err)
 	}
 	out.DefaultValue, err = func(val *string) (types.String, error) {
 		return types.StringPointerValue(val), nil
@@ -2883,6 +3025,236 @@ func UserstoreColumnConstraintsJSONClientModelToTF(in *UserstoreColumnConstraint
 	}(in.UniqueRequired)
 	if err != nil {
 		return UserstoreColumnConstraintsTFModel{}, ucerr.Errorf("failed to convert \"unique_required\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// UserstoreColumnDataTypeTFModel is a Terraform model struct for the UserstoreColumnDataTypeAttributes schema.
+type UserstoreColumnDataTypeTFModel struct {
+	CompositeAttributes  types.Object `tfsdk:"composite_attributes"`
+	Description          types.String `tfsdk:"description"`
+	ID                   types.String `tfsdk:"id"`
+	IsCompositeFieldType types.Bool   `tfsdk:"is_composite_field_type"`
+	IsNative             types.Bool   `tfsdk:"is_native"`
+	Name                 types.String `tfsdk:"name"`
+}
+
+// UserstoreColumnDataTypeJSONClientModel stores data for use with jsonclient for making API requests.
+type UserstoreColumnDataTypeJSONClientModel struct {
+	CompositeAttributes  *UserstoreCompositeAttributesJSONClientModel `json:"composite_attributes,omitempty"`
+	Description          *string                                      `json:"description,omitempty"`
+	ID                   *uuid.UUID                                   `json:"id,omitempty"`
+	IsCompositeFieldType *bool                                        `json:"is_composite_field_type,omitempty"`
+	IsNative             *bool                                        `json:"is_native,omitempty"`
+	Name                 *string                                      `json:"name,omitempty"`
+}
+
+// UserstoreColumnDataTypeAttrTypes defines the attribute types for the UserstoreColumnDataTypeAttributes schema.
+var UserstoreColumnDataTypeAttrTypes = map[string]attr.Type{
+	"composite_attributes": types.ObjectType{
+		AttrTypes: UserstoreCompositeAttributesAttrTypes,
+	},
+	"description":             types.StringType,
+	"id":                      types.StringType,
+	"is_composite_field_type": types.BoolType,
+	"is_native":               types.BoolType,
+	"name":                    types.StringType,
+}
+
+// UserstoreColumnDataTypeAttributes defines the Terraform attributes schema.
+var UserstoreColumnDataTypeAttributes = map[string]schema.Attribute{
+	"composite_attributes": schema.SingleNestedAttribute{
+		Attributes:          UserstoreCompositeAttributesAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"description": schema.StringAttribute{
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"id": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.RegexMatches(
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
+				"invalid UUIDv4 format",
+			),
+		},
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+		PlanModifiers: []planmodifier.String{
+			stringplanmodifier.UseStateForUnknown(),
+		},
+	},
+	"is_composite_field_type": schema.BoolAttribute{
+		Computed:            true,
+		Description:         "Whether the data type can be used for a composite field.",
+		MarkdownDescription: "Whether the data type can be used for a composite field.",
+		Optional:            true,
+	},
+	"is_native": schema.BoolAttribute{
+		Computed:            true,
+		Description:         "Whether this is a native non-editable data type.",
+		MarkdownDescription: "Whether this is a native non-editable data type.",
+		Optional:            true,
+	},
+	"name": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
+	},
+}
+
+// UserstoreColumnDataTypeTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func UserstoreColumnDataTypeTFModelToJSONClient(in *UserstoreColumnDataTypeTFModel) (*UserstoreColumnDataTypeJSONClientModel, error) {
+	out := UserstoreColumnDataTypeJSONClientModel{}
+	var err error
+	out.CompositeAttributes, err = func(val *types.Object) (*UserstoreCompositeAttributesJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := UserstoreCompositeAttributesTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return UserstoreCompositeAttributesTFModelToJSONClient(&tfModel)
+	}(&in.CompositeAttributes)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"composite_attributes\" field: %+v", err)
+	}
+	out.Description, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.Description)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"description\" field: %+v", err)
+	}
+	out.ID, err = func(val *types.String) (*uuid.UUID, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted, err := uuid.FromString(val.ValueString())
+		if err != nil {
+			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
+		}
+		return &converted, nil
+	}(&in.ID)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
+	}
+	out.IsCompositeFieldType, err = func(val *types.Bool) (*bool, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueBool()
+		return &converted, nil
+	}(&in.IsCompositeFieldType)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"is_composite_field_type\" field: %+v", err)
+	}
+	out.IsNative, err = func(val *types.Bool) (*bool, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueBool()
+		return &converted, nil
+	}(&in.IsNative)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"is_native\" field: %+v", err)
+	}
+	out.Name, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.Name)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// UserstoreColumnDataTypeJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func UserstoreColumnDataTypeJSONClientModelToTF(in *UserstoreColumnDataTypeJSONClientModel) (UserstoreColumnDataTypeTFModel, error) {
+	out := UserstoreColumnDataTypeTFModel{}
+	var err error
+	out.CompositeAttributes, err = func(val *UserstoreCompositeAttributesJSONClientModel) (types.Object, error) {
+		attrTypes := UserstoreCompositeAttributesAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := UserstoreCompositeAttributesJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert UserstoreCompositeAttributesTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.CompositeAttributes)
+	if err != nil {
+		return UserstoreColumnDataTypeTFModel{}, ucerr.Errorf("failed to convert \"composite_attributes\" field: %+v", err)
+	}
+	out.Description, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.Description)
+	if err != nil {
+		return UserstoreColumnDataTypeTFModel{}, ucerr.Errorf("failed to convert \"description\" field: %+v", err)
+	}
+	out.ID, err = func(val *uuid.UUID) (types.String, error) {
+		if val == nil {
+			return types.StringNull(), nil
+		}
+		return types.StringValue(val.String()), nil
+	}(in.ID)
+	if err != nil {
+		return UserstoreColumnDataTypeTFModel{}, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
+	}
+	out.IsCompositeFieldType, err = func(val *bool) (types.Bool, error) {
+		return types.BoolPointerValue(val), nil
+	}(in.IsCompositeFieldType)
+	if err != nil {
+		return UserstoreColumnDataTypeTFModel{}, ucerr.Errorf("failed to convert \"is_composite_field_type\" field: %+v", err)
+	}
+	out.IsNative, err = func(val *bool) (types.Bool, error) {
+		return types.BoolPointerValue(val), nil
+	}(in.IsNative)
+	if err != nil {
+		return UserstoreColumnDataTypeTFModel{}, ucerr.Errorf("failed to convert \"is_native\" field: %+v", err)
+	}
+	out.Name, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.Name)
+	if err != nil {
+		return UserstoreColumnDataTypeTFModel{}, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
 	}
 	return out, nil
 }
@@ -3405,6 +3777,364 @@ func UserstoreColumnOutputConfigJSONClientModelToTF(in *UserstoreColumnOutputCon
 	}(in.Transformer)
 	if err != nil {
 		return UserstoreColumnOutputConfigTFModel{}, ucerr.Errorf("failed to convert \"transformer\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// UserstoreCompositeAttributesTFModel is a Terraform model struct for the UserstoreCompositeAttributesAttributes schema.
+type UserstoreCompositeAttributesTFModel struct {
+	Fields    types.List `tfsdk:"fields"`
+	IncludeID types.Bool `tfsdk:"include_id"`
+}
+
+// UserstoreCompositeAttributesJSONClientModel stores data for use with jsonclient for making API requests.
+type UserstoreCompositeAttributesJSONClientModel struct {
+	Fields    *[]UserstoreCompositeFieldJSONClientModel `json:"fields,omitempty"`
+	IncludeID *bool                                     `json:"include_id,omitempty"`
+}
+
+// UserstoreCompositeAttributesAttrTypes defines the attribute types for the UserstoreCompositeAttributesAttributes schema.
+var UserstoreCompositeAttributesAttrTypes = map[string]attr.Type{
+	"fields": types.ListType{
+		ElemType: types.ObjectType{
+			AttrTypes: UserstoreCompositeFieldAttrTypes,
+		},
+	},
+	"include_id": types.BoolType,
+}
+
+// UserstoreCompositeAttributesAttributes defines the Terraform attributes schema.
+var UserstoreCompositeAttributesAttributes = map[string]schema.Attribute{
+	"fields": schema.ListNestedAttribute{
+		NestedObject: schema.NestedAttributeObject{
+			Attributes: UserstoreCompositeFieldAttributes,
+		},
+		Computed:            true,
+		Description:         "The set of fields associated with a composite data type.",
+		MarkdownDescription: "The set of fields associated with a composite data type.",
+		Optional:            true,
+	},
+	"include_id": schema.BoolAttribute{
+		Computed:            true,
+		Description:         "Whether the composite data type must include an id field.",
+		MarkdownDescription: "Whether the composite data type must include an id field.",
+		Optional:            true,
+	},
+}
+
+// UserstoreCompositeAttributesTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func UserstoreCompositeAttributesTFModelToJSONClient(in *UserstoreCompositeAttributesTFModel) (*UserstoreCompositeAttributesJSONClientModel, error) {
+	out := UserstoreCompositeAttributesJSONClientModel{}
+	var err error
+	out.Fields, err = func(val *types.List) (*[]UserstoreCompositeFieldJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		var out = []UserstoreCompositeFieldJSONClientModel{}
+		for _, elem := range val.Elements() {
+			elemTyped, ok := elem.(types.Object)
+			if !ok {
+				return nil, ucerr.Errorf("unexpected type %s in list", elem.Type(context.Background()).String())
+			}
+			converted, err := func(val *types.Object) (*UserstoreCompositeFieldJSONClientModel, error) {
+				if val == nil || val.IsNull() || val.IsUnknown() {
+					return nil, nil
+				}
+
+				attrs := val.Attributes()
+
+				tfModel := UserstoreCompositeFieldTFModel{}
+				reflected := reflect.ValueOf(&tfModel)
+				tfsdkNamesToFieldNames := map[string]string{}
+				for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+					tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+				}
+				for k, v := range attrs {
+					reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+				}
+				return UserstoreCompositeFieldTFModelToJSONClient(&tfModel)
+			}(&elemTyped)
+			if err != nil {
+				return nil, ucerr.Wrap(err)
+			}
+			out = append(out, *converted)
+		}
+		return &out, nil
+	}(&in.Fields)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"fields\" field: %+v", err)
+	}
+	out.IncludeID, err = func(val *types.Bool) (*bool, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueBool()
+		return &converted, nil
+	}(&in.IncludeID)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"include_id\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// UserstoreCompositeAttributesJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func UserstoreCompositeAttributesJSONClientModelToTF(in *UserstoreCompositeAttributesJSONClientModel) (UserstoreCompositeAttributesTFModel, error) {
+	out := UserstoreCompositeAttributesTFModel{}
+	var err error
+	out.Fields, err = func(val *[]UserstoreCompositeFieldJSONClientModel) (types.List, error) {
+		childAttrType := types.ObjectType{
+			AttrTypes: UserstoreCompositeFieldAttrTypes,
+		}
+		if val == nil {
+			return types.ListNull(childAttrType), nil
+		}
+		var out []attr.Value
+		for _, elem := range *val {
+			converted, err := func(val *UserstoreCompositeFieldJSONClientModel) (types.Object, error) {
+				attrTypes := UserstoreCompositeFieldAttrTypes
+
+				if val == nil {
+					return types.ObjectNull(attrTypes), nil
+				}
+
+				tfModel, err := UserstoreCompositeFieldJSONClientModelToTF(val)
+				if err != nil {
+					return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+				}
+
+				v := reflect.ValueOf(tfModel)
+
+				attrVals := map[string]attr.Value{}
+				for i := 0; i < v.NumField(); i++ {
+					attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+				}
+
+				objVal, diag := types.ObjectValue(attrTypes, attrVals)
+				if diag.ErrorsCount() > 0 {
+					return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert UserstoreCompositeFieldTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+				}
+				return objVal, nil
+			}(&elem)
+			if err != nil {
+				return types.ListNull(childAttrType), ucerr.Wrap(err)
+			}
+			out = append(out, converted)
+		}
+		return types.ListValueMust(childAttrType, out), nil
+	}(in.Fields)
+	if err != nil {
+		return UserstoreCompositeAttributesTFModel{}, ucerr.Errorf("failed to convert \"fields\" field: %+v", err)
+	}
+	out.IncludeID, err = func(val *bool) (types.Bool, error) {
+		return types.BoolPointerValue(val), nil
+	}(in.IncludeID)
+	if err != nil {
+		return UserstoreCompositeAttributesTFModel{}, ucerr.Errorf("failed to convert \"include_id\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// UserstoreCompositeFieldTFModel is a Terraform model struct for the UserstoreCompositeFieldAttributes schema.
+type UserstoreCompositeFieldTFModel struct {
+	CamelCaseName       types.String `tfsdk:"camel_case_name"`
+	DataType            types.String `tfsdk:"data_type"`
+	IgnoreForUniqueness types.Bool   `tfsdk:"ignore_for_uniqueness"`
+	Name                types.String `tfsdk:"name"`
+	Required            types.Bool   `tfsdk:"required"`
+	StructName          types.String `tfsdk:"struct_name"`
+}
+
+// UserstoreCompositeFieldJSONClientModel stores data for use with jsonclient for making API requests.
+type UserstoreCompositeFieldJSONClientModel struct {
+	CamelCaseName       *string                             `json:"camel_case_name,omitempty"`
+	DataType            *UserstoreResourceIDJSONClientModel `json:"data_type,omitempty"`
+	IgnoreForUniqueness *bool                               `json:"ignore_for_uniqueness,omitempty"`
+	Name                *string                             `json:"name,omitempty"`
+	Required            *bool                               `json:"required,omitempty"`
+	StructName          *string                             `json:"struct_name,omitempty"`
+}
+
+// UserstoreCompositeFieldAttrTypes defines the attribute types for the UserstoreCompositeFieldAttributes schema.
+var UserstoreCompositeFieldAttrTypes = map[string]attr.Type{
+	"camel_case_name":       types.StringType,
+	"data_type":             types.StringType,
+	"ignore_for_uniqueness": types.BoolType,
+	"name":                  types.StringType,
+	"required":              types.BoolType,
+	"struct_name":           types.StringType,
+}
+
+// UserstoreCompositeFieldAttributes defines the Terraform attributes schema.
+var UserstoreCompositeFieldAttributes = map[string]schema.Attribute{
+	"camel_case_name": schema.StringAttribute{
+		Computed:            true,
+		Description:         "Read-only camel-case version of field name, with underscores stripped out. (ex. IDField1)",
+		MarkdownDescription: "Read-only camel-case version of field name, with underscores stripped out. (ex. IDField1)",
+		Optional:            true,
+	},
+	"data_type": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.RegexMatches(
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
+				"invalid UUIDv4 format",
+			),
+		},
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"ignore_for_uniqueness": schema.BoolAttribute{
+		Computed:            true,
+		Description:         "If true, field value will be ignored when comparing two composite values for a uniqueness check.",
+		MarkdownDescription: "If true, field value will be ignored when comparing two composite values for a uniqueness check.",
+		Optional:            true,
+	},
+	"name": schema.StringAttribute{
+		Description:         "Each part of name must be capitalized or all-caps, separated by underscores. Names may contain alphanumeric characters, and the first part must start with a letter, while other parts may start with a number. (ex. ID_Field_1)",
+		MarkdownDescription: "Each part of name must be capitalized or all-caps, separated by underscores. Names may contain alphanumeric characters, and the first part must start with a letter, while other parts may start with a number. (ex. ID_Field_1)",
+		Required:            true,
+	},
+	"required": schema.BoolAttribute{
+		Computed:            true,
+		Description:         "Whether a value must be specified for the field.",
+		MarkdownDescription: "Whether a value must be specified for the field.",
+		Optional:            true,
+	},
+	"struct_name": schema.StringAttribute{
+		Computed:            true,
+		Description:         "Read-only snake-case version of field name, with all letters lowercase. (ex. id_field_1)",
+		MarkdownDescription: "Read-only snake-case version of field name, with all letters lowercase. (ex. id_field_1)",
+		Optional:            true,
+	},
+}
+
+// UserstoreCompositeFieldTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func UserstoreCompositeFieldTFModelToJSONClient(in *UserstoreCompositeFieldTFModel) (*UserstoreCompositeFieldJSONClientModel, error) {
+	out := UserstoreCompositeFieldJSONClientModel{}
+	var err error
+	out.CamelCaseName, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.CamelCaseName)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"camel_case_name\" field: %+v", err)
+	}
+	out.DataType, err = func(val *types.String) (*UserstoreResourceIDJSONClientModel, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted, err := uuid.FromString(val.ValueString())
+		if err != nil {
+			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
+		}
+		s := UserstoreResourceIDJSONClientModel{
+			ID: &converted,
+		}
+		return &s, nil
+	}(&in.DataType)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"data_type\" field: %+v", err)
+	}
+	out.IgnoreForUniqueness, err = func(val *types.Bool) (*bool, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueBool()
+		return &converted, nil
+	}(&in.IgnoreForUniqueness)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"ignore_for_uniqueness\" field: %+v", err)
+	}
+	out.Name, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.Name)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
+	}
+	out.Required, err = func(val *types.Bool) (*bool, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueBool()
+		return &converted, nil
+	}(&in.Required)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"required\" field: %+v", err)
+	}
+	out.StructName, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.StructName)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"struct_name\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// UserstoreCompositeFieldJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func UserstoreCompositeFieldJSONClientModelToTF(in *UserstoreCompositeFieldJSONClientModel) (UserstoreCompositeFieldTFModel, error) {
+	out := UserstoreCompositeFieldTFModel{}
+	var err error
+	out.CamelCaseName, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.CamelCaseName)
+	if err != nil {
+		return UserstoreCompositeFieldTFModel{}, ucerr.Errorf("failed to convert \"camel_case_name\" field: %+v", err)
+	}
+	out.DataType, err = func(val *UserstoreResourceIDJSONClientModel) (types.String, error) {
+		if val == nil {
+			return types.StringNull(), nil
+		}
+		// We should only need to convert jsonclient models to TF models when receiving API
+		// responses, and API responses should always have the ID set.
+		// Sometimes we receive nil UUIDs here because of how the server
+		// serializes empty values, so we should only freak out if we see a
+		// name provided but not an ID.
+		if val.Name != nil && *val.Name != "" && (val.ID == nil || val.ID.IsNil()) {
+			return types.StringNull(), ucerr.Errorf("got nil ID field in UserstoreResourceID. this is an issue with the UserClouds Terraform provider")
+		}
+		if val.ID == nil || val.ID.IsNil() {
+			return types.StringNull(), nil
+		}
+		return types.StringValue(val.ID.String()), nil
+	}(in.DataType)
+	if err != nil {
+		return UserstoreCompositeFieldTFModel{}, ucerr.Errorf("failed to convert \"data_type\" field: %+v", err)
+	}
+	out.IgnoreForUniqueness, err = func(val *bool) (types.Bool, error) {
+		return types.BoolPointerValue(val), nil
+	}(in.IgnoreForUniqueness)
+	if err != nil {
+		return UserstoreCompositeFieldTFModel{}, ucerr.Errorf("failed to convert \"ignore_for_uniqueness\" field: %+v", err)
+	}
+	out.Name, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.Name)
+	if err != nil {
+		return UserstoreCompositeFieldTFModel{}, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
+	}
+	out.Required, err = func(val *bool) (types.Bool, error) {
+		return types.BoolPointerValue(val), nil
+	}(in.Required)
+	if err != nil {
+		return UserstoreCompositeFieldTFModel{}, ucerr.Errorf("failed to convert \"required\" field: %+v", err)
+	}
+	out.StructName, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.StructName)
+	if err != nil {
+		return UserstoreCompositeFieldTFModel{}, ucerr.Errorf("failed to convert \"struct_name\" field: %+v", err)
 	}
 	return out, nil
 }
@@ -5190,6 +5920,97 @@ func UserstoreUpdateColumnRetentionDurationsRequestType2JSONClientModelToTF(in *
 	}(in.RetentionDurations)
 	if err != nil {
 		return UserstoreUpdateColumnRetentionDurationsRequestType2TFModel{}, ucerr.Errorf("failed to convert \"retention_durations\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// UserstoreUpdateDataTypeRequestTFModel is a Terraform model struct for the UserstoreUpdateDataTypeRequestAttributes schema.
+type UserstoreUpdateDataTypeRequestTFModel struct {
+	DataType types.Object `tfsdk:"data_type"`
+}
+
+// UserstoreUpdateDataTypeRequestJSONClientModel stores data for use with jsonclient for making API requests.
+type UserstoreUpdateDataTypeRequestJSONClientModel struct {
+	DataType *UserstoreColumnDataTypeJSONClientModel `json:"data_type,omitempty"`
+}
+
+// UserstoreUpdateDataTypeRequestAttrTypes defines the attribute types for the UserstoreUpdateDataTypeRequestAttributes schema.
+var UserstoreUpdateDataTypeRequestAttrTypes = map[string]attr.Type{
+	"data_type": types.ObjectType{
+		AttrTypes: UserstoreColumnDataTypeAttrTypes,
+	},
+}
+
+// UserstoreUpdateDataTypeRequestAttributes defines the Terraform attributes schema.
+var UserstoreUpdateDataTypeRequestAttributes = map[string]schema.Attribute{
+	"data_type": schema.SingleNestedAttribute{
+		Attributes:          UserstoreColumnDataTypeAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// UserstoreUpdateDataTypeRequestTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func UserstoreUpdateDataTypeRequestTFModelToJSONClient(in *UserstoreUpdateDataTypeRequestTFModel) (*UserstoreUpdateDataTypeRequestJSONClientModel, error) {
+	out := UserstoreUpdateDataTypeRequestJSONClientModel{}
+	var err error
+	out.DataType, err = func(val *types.Object) (*UserstoreColumnDataTypeJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := UserstoreColumnDataTypeTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return UserstoreColumnDataTypeTFModelToJSONClient(&tfModel)
+	}(&in.DataType)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"data_type\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// UserstoreUpdateDataTypeRequestJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func UserstoreUpdateDataTypeRequestJSONClientModelToTF(in *UserstoreUpdateDataTypeRequestJSONClientModel) (UserstoreUpdateDataTypeRequestTFModel, error) {
+	out := UserstoreUpdateDataTypeRequestTFModel{}
+	var err error
+	out.DataType, err = func(val *UserstoreColumnDataTypeJSONClientModel) (types.Object, error) {
+		attrTypes := UserstoreColumnDataTypeAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := UserstoreColumnDataTypeJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert UserstoreColumnDataTypeTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.DataType)
+	if err != nil {
+		return UserstoreUpdateDataTypeRequestTFModel{}, ucerr.Errorf("failed to convert \"data_type\" field: %+v", err)
 	}
 	return out, nil
 }

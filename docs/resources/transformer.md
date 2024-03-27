@@ -25,7 +25,9 @@ Manages a Tokenizer transformer. For more details refer to the [transformer docu
 ### Optional
 
 - `description` (String)
+- `input_data_type` (String)
 - `input_type_constraints` (Attributes) (see [below for nested schema](#nestedatt--input_type_constraints))
+- `output_data_type` (String)
 - `output_type` (String) Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
 - `output_type_constraints` (Attributes) (see [below for nested schema](#nestedatt--output_type_constraints))
 - `parameters` (String)
