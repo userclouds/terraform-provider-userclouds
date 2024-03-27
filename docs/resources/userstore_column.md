@@ -34,6 +34,7 @@ resource "userclouds_userstore_column" "example" {
 ### Optional
 
 - `constraints` (Attributes) (see [below for nested schema](#nestedatt--constraints))
+- `data_type` (String)
 - `default_value` (String)
 
 ### Read-Only
