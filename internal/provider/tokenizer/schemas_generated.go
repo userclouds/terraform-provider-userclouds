@@ -144,10 +144,10 @@ var PolicyAccessPolicyAttributes = map[string]schema.Attribute{
 	},
 	"policy_type": schema.StringAttribute{
 		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"composite_and", "compositeintersection", "composite_or", "compositeunion"}...),
+			stringvalidator.OneOf([]string{"composite_and", "composite_or"}...),
 		},
-		Description:         "Valid values: `composite_and`, `compositeintersection`, `composite_or`, `compositeunion`",
-		MarkdownDescription: "Valid values: `composite_and`, `compositeintersection`, `composite_or`, `compositeunion`",
+		Description:         "Valid values: `composite_and`, `composite_or`",
+		MarkdownDescription: "Valid values: `composite_and`, `composite_or`",
 		Required:            true,
 	},
 	"tag_ids": schema.ListAttribute{
@@ -903,9 +903,11 @@ type PolicyTransformerTFModel struct {
 	Description           types.String `tfsdk:"description"`
 	Function              types.String `tfsdk:"function"`
 	ID                    types.String `tfsdk:"id"`
+	InputDataType         types.String `tfsdk:"input_data_type"`
 	InputType             types.String `tfsdk:"input_type"`
 	InputTypeConstraints  types.Object `tfsdk:"input_type_constraints"`
 	Name                  types.String `tfsdk:"name"`
+	OutputDataType        types.String `tfsdk:"output_data_type"`
 	OutputType            types.String `tfsdk:"output_type"`
 	OutputTypeConstraints types.Object `tfsdk:"output_type_constraints"`
 	Parameters            types.String `tfsdk:"parameters"`
@@ -919,9 +921,11 @@ type PolicyTransformerJSONClientModel struct {
 	Description           *string                                    `json:"description,omitempty"`
 	Function              *string                                    `json:"function,omitempty"`
 	ID                    *uuid.UUID                                 `json:"id,omitempty"`
+	InputDataType         *UserstoreResourceIDJSONClientModel        `json:"input_data_type,omitempty"`
 	InputType             *string                                    `json:"input_type,omitempty"`
 	InputTypeConstraints  *UserstoreColumnConstraintsJSONClientModel `json:"input_type_constraints,omitempty"`
 	Name                  *string                                    `json:"name,omitempty"`
+	OutputDataType        *UserstoreResourceIDJSONClientModel        `json:"output_data_type,omitempty"`
 	OutputType            *string                                    `json:"output_type,omitempty"`
 	OutputTypeConstraints *UserstoreColumnConstraintsJSONClientModel `json:"output_type_constraints,omitempty"`
 	Parameters            *string                                    `json:"parameters,omitempty"`
@@ -932,15 +936,17 @@ type PolicyTransformerJSONClientModel struct {
 
 // PolicyTransformerAttrTypes defines the attribute types for the PolicyTransformerAttributes schema.
 var PolicyTransformerAttrTypes = map[string]attr.Type{
-	"description": types.StringType,
-	"function":    types.StringType,
-	"id":          types.StringType,
-	"input_type":  types.StringType,
+	"description":     types.StringType,
+	"function":        types.StringType,
+	"id":              types.StringType,
+	"input_data_type": types.StringType,
+	"input_type":      types.StringType,
 	"input_type_constraints": types.ObjectType{
 		AttrTypes: UserstoreColumnConstraintsAttrTypes,
 	},
-	"name":        types.StringType,
-	"output_type": types.StringType,
+	"name":             types.StringType,
+	"output_data_type": types.StringType,
+	"output_type":      types.StringType,
 	"output_type_constraints": types.ObjectType{
 		AttrTypes: UserstoreColumnConstraintsAttrTypes,
 	},
@@ -980,6 +986,18 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 			stringplanmodifier.UseStateForUnknown(),
 		},
 	},
+	"input_data_type": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.RegexMatches(
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
+				"invalid UUIDv4 format",
+			),
+		},
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
 	"input_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"address", "birthdate", "boolean", "composite", "date", "e164_phonenumber", "email", "integer", "phonenumber", "ssn", "string", "timestamp", "uuid"}...),
@@ -999,6 +1017,18 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 		Description:         "",
 		MarkdownDescription: "",
 		Required:            true,
+	},
+	"output_data_type": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.RegexMatches(
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
+				"invalid UUIDv4 format",
+			),
+		},
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"output_type": schema.StringAttribute{
 		Validators: []validator.String{
@@ -1082,6 +1112,22 @@ func PolicyTransformerTFModelToJSONClient(in *PolicyTransformerTFModel) (*Policy
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
 	}
+	out.InputDataType, err = func(val *types.String) (*UserstoreResourceIDJSONClientModel, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted, err := uuid.FromString(val.ValueString())
+		if err != nil {
+			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
+		}
+		s := UserstoreResourceIDJSONClientModel{
+			ID: &converted,
+		}
+		return &s, nil
+	}(&in.InputDataType)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"input_data_type\" field: %+v", err)
+	}
 	out.InputType, err = func(val *types.String) (*string, error) {
 		if val.IsNull() || val.IsUnknown() {
 			return nil, nil
@@ -1122,6 +1168,22 @@ func PolicyTransformerTFModelToJSONClient(in *PolicyTransformerTFModel) (*Policy
 	}(&in.Name)
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
+	}
+	out.OutputDataType, err = func(val *types.String) (*UserstoreResourceIDJSONClientModel, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted, err := uuid.FromString(val.ValueString())
+		if err != nil {
+			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
+		}
+		s := UserstoreResourceIDJSONClientModel{
+			ID: &converted,
+		}
+		return &s, nil
+	}(&in.OutputDataType)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"output_data_type\" field: %+v", err)
 	}
 	out.OutputType, err = func(val *types.String) (*string, error) {
 		if val.IsNull() || val.IsUnknown() {
@@ -1242,6 +1304,26 @@ func PolicyTransformerJSONClientModelToTF(in *PolicyTransformerJSONClientModel) 
 	if err != nil {
 		return PolicyTransformerTFModel{}, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
 	}
+	out.InputDataType, err = func(val *UserstoreResourceIDJSONClientModel) (types.String, error) {
+		if val == nil {
+			return types.StringNull(), nil
+		}
+		// We should only need to convert jsonclient models to TF models when receiving API
+		// responses, and API responses should always have the ID set.
+		// Sometimes we receive nil UUIDs here because of how the server
+		// serializes empty values, so we should only freak out if we see a
+		// name provided but not an ID.
+		if val.Name != nil && *val.Name != "" && (val.ID == nil || val.ID.IsNil()) {
+			return types.StringNull(), ucerr.Errorf("got nil ID field in UserstoreResourceID. this is an issue with the UserClouds Terraform provider")
+		}
+		if val.ID == nil || val.ID.IsNil() {
+			return types.StringNull(), nil
+		}
+		return types.StringValue(val.ID.String()), nil
+	}(in.InputDataType)
+	if err != nil {
+		return PolicyTransformerTFModel{}, ucerr.Errorf("failed to convert \"input_data_type\" field: %+v", err)
+	}
 	out.InputType, err = func(val *string) (types.String, error) {
 		return types.StringPointerValue(val), nil
 	}(in.InputType)
@@ -1281,6 +1363,26 @@ func PolicyTransformerJSONClientModelToTF(in *PolicyTransformerJSONClientModel) 
 	}(in.Name)
 	if err != nil {
 		return PolicyTransformerTFModel{}, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
+	}
+	out.OutputDataType, err = func(val *UserstoreResourceIDJSONClientModel) (types.String, error) {
+		if val == nil {
+			return types.StringNull(), nil
+		}
+		// We should only need to convert jsonclient models to TF models when receiving API
+		// responses, and API responses should always have the ID set.
+		// Sometimes we receive nil UUIDs here because of how the server
+		// serializes empty values, so we should only freak out if we see a
+		// name provided but not an ID.
+		if val.Name != nil && *val.Name != "" && (val.ID == nil || val.ID.IsNil()) {
+			return types.StringNull(), ucerr.Errorf("got nil ID field in UserstoreResourceID. this is an issue with the UserClouds Terraform provider")
+		}
+		if val.ID == nil || val.ID.IsNil() {
+			return types.StringNull(), nil
+		}
+		return types.StringValue(val.ID.String()), nil
+	}(in.OutputDataType)
+	if err != nil {
+		return PolicyTransformerTFModel{}, ucerr.Errorf("failed to convert \"output_data_type\" field: %+v", err)
 	}
 	out.OutputType, err = func(val *string) (types.String, error) {
 		return types.StringPointerValue(val), nil

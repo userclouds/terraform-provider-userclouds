@@ -223,16 +223,6 @@ func (r *<< .StructName >>) Create(ctx context.Context, req resource.CreateReque
 
 	<<- if eq .CreateResponseModel .JSONClientModelName >>
 	created := apiResp
-	<<- if eq .StructName "AccessPolicyResource" >>
-	// TODO: (GH #3563) this is a temporary workaround for enums compositeunion/compositeintersection being renamed
-	if created.PolicyType != nil {
-		if *created.PolicyType == "compositeunion" {
-			*created.PolicyType = "composite_or"
-		} else if *created.PolicyType == "compositeintersection" {
-			*created.PolicyType = "composite_and"
-		}
-	}
-	<<- end >>
 	<<- else if not .CreateResponseBodyUsesArray >>
 	created := *apiResp.<< .CreateResponseDataPropertyName >>
 	<<- else >>
@@ -277,16 +267,6 @@ func (r *<< .StructName >>) Read(ctx context.Context, req resource.ReadRequest, 
 	}
 	<<- if eq .ReadResponseModel .JSONClientModelName >>
 	current := apiResp
-	<<- if eq .StructName "AccessPolicyResource" >>
-	// TODO: (GH #3563) this is a temporary workaround for enums compositeunion/compositeintersection being renamed
-	if current.PolicyType != nil {
-		if *current.PolicyType == "compositeunion" {
-			*current.PolicyType = "composite_or"
-		} else if *current.PolicyType == "compositeintersection" {
-			*current.PolicyType = "composite_and"
-		}
-	}
-	<<- end >>
 	<<- else >>
 	current := *apiResp.<< .ReadResponseDataPropertyName >>
 	<<- end >>
@@ -349,16 +329,6 @@ func (r *<< .StructName >>) Update(ctx context.Context, req resource.UpdateReque
 	}
 	<<- if eq .UpdateResponseModel .JSONClientModelName >>
 	updated := apiResp
-	<<- if eq .StructName "AccessPolicyResource" >>
-	// TODO: (GH #3563) this is a temporary workaround for enums compositeunion/compositeintersection being renamed
-	if updated.PolicyType != nil {
-		if *updated.PolicyType == "compositeunion" {
-			*updated.PolicyType = "composite_or"
-		} else if *updated.PolicyType == "compositeintersection" {
-			*updated.PolicyType = "composite_and"
-		}
-	}
-	<<- end >>
 	<<- else >>
 	updated := *apiResp.<< .UpdateResponseDataPropertyName >>
 	<<- end >>
