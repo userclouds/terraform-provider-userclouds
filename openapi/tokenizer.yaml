@@ -847,9 +847,7 @@ components:
     PolicyPolicyType:
       enum:
       - composite_and
-      - compositeintersection
       - composite_or
-      - compositeunion
       type: string
     PolicyTransformType:
       enum:
@@ -866,6 +864,8 @@ components:
           type: string
         id:
           $ref: '#/components/schemas/UuidUUID'
+        input_data_type:
+          $ref: '#/components/schemas/UserstoreResourceID'
         input_type:
           $ref: '#/components/schemas/UserstoreDataType'
         input_type_constraints:
@@ -876,6 +876,8 @@ components:
           type: boolean
         name:
           type: string
+        output_data_type:
+          $ref: '#/components/schemas/UserstoreResourceID'
         output_type:
           $ref: '#/components/schemas/UserstoreDataType'
         output_type_constraints:
