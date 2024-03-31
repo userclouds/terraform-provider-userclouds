@@ -18,7 +18,7 @@ Manages a Tokenizer access policy. For more details, refer to the [access policy
 ### Required
 
 - `name` (String)
-- `policy_type` (String) Valid values: `composite_and`, `compositeintersection`, `composite_or`, `compositeunion`
+- `policy_type` (String) Valid values: `composite_and`, `composite_or`
 
 ### Optional
 
