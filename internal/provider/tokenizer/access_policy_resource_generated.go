@@ -113,14 +113,6 @@ func (r *AccessPolicyResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 	created := apiResp
-	// TODO: (GH #3563) this is a temporary workaround for enums compositeunion/compositeintersection being renamed
-	if created.PolicyType != nil {
-		if *created.PolicyType == "compositeunion" {
-			*created.PolicyType = "composite_or"
-		} else if *created.PolicyType == "compositeintersection" {
-			*created.PolicyType = "composite_and"
-		}
-	}
 	createdTF, err := PolicyAccessPolicyJSONClientModelToTF(&created)
 	if err != nil {
 		resp.Diagnostics.AddError("Error converting userclouds_access_policy response JSON to Terraform state", err.Error())
@@ -157,14 +149,6 @@ func (r *AccessPolicyResource) Read(ctx context.Context, req resource.ReadReques
 		return
 	}
 	current := apiResp
-	// TODO: (GH #3563) this is a temporary workaround for enums compositeunion/compositeintersection being renamed
-	if current.PolicyType != nil {
-		if *current.PolicyType == "compositeunion" {
-			*current.PolicyType = "composite_or"
-		} else if *current.PolicyType == "compositeintersection" {
-			*current.PolicyType = "composite_and"
-		}
-	}
 
 	newState, err := PolicyAccessPolicyJSONClientModelToTF(&current)
 	if err != nil {
@@ -217,14 +201,6 @@ func (r *AccessPolicyResource) Update(ctx context.Context, req resource.UpdateRe
 		return
 	}
 	updated := apiResp
-	// TODO: (GH #3563) this is a temporary workaround for enums compositeunion/compositeintersection being renamed
-	if updated.PolicyType != nil {
-		if *updated.PolicyType == "compositeunion" {
-			*updated.PolicyType = "composite_or"
-		} else if *updated.PolicyType == "compositeintersection" {
-			*updated.PolicyType = "composite_and"
-		}
-	}
 
 	newState, err := PolicyAccessPolicyJSONClientModelToTF(&updated)
 	if err != nil {

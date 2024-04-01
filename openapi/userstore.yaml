@@ -2013,6 +2013,9 @@ components:
             type: string
           nullable: true
           type: array
+        debug:
+          additionalProperties: {}
+          type: object
         has_next:
           type: boolean
         has_prev:
@@ -2406,6 +2409,8 @@ components:
           $ref: '#/components/schemas/UuidUUID'
         context:
           $ref: '#/components/schemas/PolicyClientContext'
+        debug:
+          type: boolean
         selector_values:
           $ref: '#/components/schemas/UserstoreUserSelectorValues'
       type: object
