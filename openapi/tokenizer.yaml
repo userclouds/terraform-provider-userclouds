@@ -1040,6 +1040,11 @@ components:
             values for the associated column cannot be modified, but can be added
             or removed.
           type: boolean
+        partial_updates:
+          description: Can be enabled for array columns that have UniqueRequired or
+            UniqueIDRequired enabled. When enabled, a mutation request will update
+            the specified subset of values for the associated column.
+          type: boolean
         unique_id_required:
           description: Can be enabled for column type composite or address. If true,
             each value for the associated column must have a unique string ID, which

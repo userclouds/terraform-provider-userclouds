@@ -3142,6 +3142,7 @@ func TokenizerUpdateAccessPolicyTemplateRequestJSONClientModelToTF(in *Tokenizer
 type UserstoreColumnConstraintsTFModel struct {
 	Fields            types.List `tfsdk:"fields"`
 	ImmutableRequired types.Bool `tfsdk:"immutable_required"`
+	PartialUpdates    types.Bool `tfsdk:"partial_updates"`
 	UniqueIDRequired  types.Bool `tfsdk:"unique_id_required"`
 	UniqueRequired    types.Bool `tfsdk:"unique_required"`
 }
@@ -3150,6 +3151,7 @@ type UserstoreColumnConstraintsTFModel struct {
 type UserstoreColumnConstraintsJSONClientModel struct {
 	Fields            *[]UserstoreColumnFieldJSONClientModel `json:"fields,omitempty"`
 	ImmutableRequired *bool                                  `json:"immutable_required,omitempty"`
+	PartialUpdates    *bool                                  `json:"partial_updates,omitempty"`
 	UniqueIDRequired  *bool                                  `json:"unique_id_required,omitempty"`
 	UniqueRequired    *bool                                  `json:"unique_required,omitempty"`
 }
@@ -3162,6 +3164,7 @@ var UserstoreColumnConstraintsAttrTypes = map[string]attr.Type{
 		},
 	},
 	"immutable_required": types.BoolType,
+	"partial_updates":    types.BoolType,
 	"unique_id_required": types.BoolType,
 	"unique_required":    types.BoolType,
 }
@@ -3181,6 +3184,12 @@ var UserstoreColumnConstraintsAttributes = map[string]schema.Attribute{
 		Computed:            true,
 		Description:         "Can be enabled when unique_id_required is enabled. If true, values for the associated column cannot be modified, but can be added or removed.",
 		MarkdownDescription: "Can be enabled when unique_id_required is enabled. If true, values for the associated column cannot be modified, but can be added or removed.",
+		Optional:            true,
+	},
+	"partial_updates": schema.BoolAttribute{
+		Computed:            true,
+		Description:         "Can be enabled for array columns that have UniqueRequired or UniqueIDRequired enabled. When enabled, a mutation request will update the specified subset of values for the associated column.",
+		MarkdownDescription: "Can be enabled for array columns that have UniqueRequired or UniqueIDRequired enabled. When enabled, a mutation request will update the specified subset of values for the associated column.",
 		Optional:            true,
 	},
 	"unique_id_required": schema.BoolAttribute{
@@ -3248,6 +3257,16 @@ func UserstoreColumnConstraintsTFModelToJSONClient(in *UserstoreColumnConstraint
 	}(&in.ImmutableRequired)
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"immutable_required\" field: %+v", err)
+	}
+	out.PartialUpdates, err = func(val *types.Bool) (*bool, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueBool()
+		return &converted, nil
+	}(&in.PartialUpdates)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"partial_updates\" field: %+v", err)
 	}
 	out.UniqueIDRequired, err = func(val *types.Bool) (*bool, error) {
 		if val.IsNull() || val.IsUnknown() {
@@ -3325,6 +3344,12 @@ func UserstoreColumnConstraintsJSONClientModelToTF(in *UserstoreColumnConstraint
 	}(in.ImmutableRequired)
 	if err != nil {
 		return UserstoreColumnConstraintsTFModel{}, ucerr.Errorf("failed to convert \"immutable_required\" field: %+v", err)
+	}
+	out.PartialUpdates, err = func(val *bool) (types.Bool, error) {
+		return types.BoolPointerValue(val), nil
+	}(in.PartialUpdates)
+	if err != nil {
+		return UserstoreColumnConstraintsTFModel{}, ucerr.Errorf("failed to convert \"partial_updates\" field: %+v", err)
 	}
 	out.UniqueIDRequired, err = func(val *bool) (types.Bool, error) {
 		return types.BoolPointerValue(val), nil
