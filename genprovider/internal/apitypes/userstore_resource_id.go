@@ -39,7 +39,7 @@ func (t *UserstoreResourceID) TFSchemaAttributeText(extraFields map[string]strin
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("` + uuidRegex + `"),
-				"invalid UUIDv4 format",
+				"invalid UUID format",
 			),
 		},
 		` + fieldsToString(fields) + `

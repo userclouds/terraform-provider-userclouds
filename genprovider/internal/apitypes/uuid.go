@@ -5,9 +5,9 @@ import (
 	"golang.org/x/exp/maps"
 )
 
-const uuidRegex = `(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$`
+const uuidRegex = `(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$`
 
-// UUID represents a UUIDv4 string.
+// UUID represents a UUID string.
 type UUID struct {
 	Schema *openapi3.Schema
 }
@@ -32,7 +32,7 @@ func (t *UUID) TFSchemaAttributeText(extraFields map[string]string) string {
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("` + uuidRegex + `"),
-				"invalid UUIDv4 format",
+				"invalid UUID format",
 			),
 		},
 		` + fieldsToString(fields) + `
