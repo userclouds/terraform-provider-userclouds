@@ -56,8 +56,8 @@ var IdpColumnConsentedPurposesAttributes = map[string]schema.Attribute{
 	"column": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -239,8 +239,8 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 	"column_id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -273,8 +273,8 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -288,8 +288,8 @@ var IdpColumnRetentionDurationAttributes = map[string]schema.Attribute{
 	"purpose_id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -1508,8 +1508,8 @@ var IdpGetConsentedPurposesForUserRequestAttributes = map[string]schema.Attribut
 	"user_id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -2034,8 +2034,8 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 	"access_policy": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Description:         "",
@@ -2068,8 +2068,8 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -2106,8 +2106,8 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 	"token_access_policy": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -2561,8 +2561,8 @@ var UserstoreColumnAttributes = map[string]schema.Attribute{
 	"data_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -2579,8 +2579,8 @@ var UserstoreColumnAttributes = map[string]schema.Attribute{
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -3104,8 +3104,8 @@ var UserstoreColumnDataTypeAttributes = map[string]schema.Attribute{
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -3517,8 +3517,8 @@ var UserstoreColumnInputConfigAttributes = map[string]schema.Attribute{
 	"column": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -3529,8 +3529,8 @@ var UserstoreColumnInputConfigAttributes = map[string]schema.Attribute{
 	"normalizer": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -3541,8 +3541,8 @@ var UserstoreColumnInputConfigAttributes = map[string]schema.Attribute{
 	"validator": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -3697,8 +3697,8 @@ var UserstoreColumnOutputConfigAttributes = map[string]schema.Attribute{
 	"column": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -3709,8 +3709,8 @@ var UserstoreColumnOutputConfigAttributes = map[string]schema.Attribute{
 	"transformer": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -4000,8 +4000,8 @@ var UserstoreCompositeFieldAttributes = map[string]schema.Attribute{
 	"data_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -4260,8 +4260,8 @@ var UserstoreMutatorAttributes = map[string]schema.Attribute{
 	"access_policy": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Description:         "",
@@ -4285,8 +4285,8 @@ var UserstoreMutatorAttributes = map[string]schema.Attribute{
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -4601,8 +4601,8 @@ var UserstorePurposeAttributes = map[string]schema.Attribute{
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -4711,8 +4711,8 @@ var UserstoreResourceIDAttributes = map[string]schema.Attribute{
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,

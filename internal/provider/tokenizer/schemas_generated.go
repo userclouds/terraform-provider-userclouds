@@ -119,8 +119,8 @@ var PolicyAccessPolicyAttributes = map[string]schema.Attribute{
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -444,8 +444,8 @@ var PolicyAccessPolicyComponentAttributes = map[string]schema.Attribute{
 	"policy": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -456,8 +456,8 @@ var PolicyAccessPolicyComponentAttributes = map[string]schema.Attribute{
 	"template": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -639,8 +639,8 @@ var PolicyAccessPolicyTemplateAttributes = map[string]schema.Attribute{
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -974,8 +974,8 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -989,8 +989,8 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 	"input_data_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -1021,8 +1021,8 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 	"output_data_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -1670,8 +1670,8 @@ var TokenizerCreateTokenRequestAttributes = map[string]schema.Attribute{
 	"access_policy_rid": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -1688,8 +1688,8 @@ var TokenizerCreateTokenRequestAttributes = map[string]schema.Attribute{
 	"transformer_rid": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -2063,8 +2063,8 @@ var TokenizerInspectTokenResponseAttributes = map[string]schema.Attribute{
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -2656,8 +2656,8 @@ var TokenizerLookupTokensRequestAttributes = map[string]schema.Attribute{
 	"access_policy_rid": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -2674,8 +2674,8 @@ var TokenizerLookupTokensRequestAttributes = map[string]schema.Attribute{
 	"transformer_rid": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,
@@ -3596,8 +3596,8 @@ var UserstoreResourceIDAttributes = map[string]schema.Attribute{
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
-				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$"),
-				"invalid UUIDv4 format",
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
 			),
 		},
 		Computed:            true,

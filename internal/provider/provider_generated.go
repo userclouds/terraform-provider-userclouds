@@ -10,6 +10,7 @@ import (
 )
 
 var generatedResources = []func() resource.Resource{
+	userstore.NewUserstoreColumnDataTypeResource,
 	userstore.NewUserstoreColumnResource,
 	userstore.NewUserstoreColumnSoftDeletedRetentionDurationResource,
 	userstore.NewUserstoreAccessorResource,

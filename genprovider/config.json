@@ -13,6 +13,14 @@
             },
             "resources": [
                 {
+                    "type_name_suffix": "userstore_column_data_type",
+                    "description": "Manages a User Store column data type. For more details, refer to the User Store documentation: https://docs.userclouds.com/docs/introduction",
+                    "markdown_description": "Manages a User Store column data type. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs/introduction).",
+                    "openapi_schema": "UserstoreColumnDataType",
+                    "rest_collection_path": "/userstore/config/datatypes",
+                    "rest_resource_path": "/userstore/config/datatypes/{id}"
+                },
+                {
                     "type_name_suffix": "userstore_column",
                     "description": "Manages a User Store column. For more details, refer to the User Store documentation: https://docs.userclouds.com/docs/introduction",
                     "markdown_description": "Manages a User Store column. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs/introduction).",
