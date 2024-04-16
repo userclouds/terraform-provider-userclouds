@@ -795,6 +795,12 @@ components:
           type: string
         policy_type:
           $ref: '#/components/schemas/PolicyPolicyType'
+        required_context:
+          additionalProperties:
+            type: string
+          description: What context is required for this policy to be executed
+          nullable: true
+          type: object
         tag_ids:
           $ref: '#/components/schemas/UuidarrayUUIDArray'
         version:
