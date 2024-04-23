@@ -64,7 +64,7 @@ yarn-error.log*
 # Python
 *.pyc
 .coverage
-.venv
+.venv*
 *.egg-info/
 *.egg
 __pycache__/
