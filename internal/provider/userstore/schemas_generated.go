@@ -2520,6 +2520,7 @@ type UserstoreColumnTFModel struct {
 	IndexType    types.String `tfsdk:"index_type"`
 	IsArray      types.Bool   `tfsdk:"is_array"`
 	Name         types.String `tfsdk:"name"`
+	Table        types.String `tfsdk:"table"`
 	Type         types.String `tfsdk:"type"`
 }
 
@@ -2532,6 +2533,7 @@ type UserstoreColumnJSONClientModel struct {
 	IndexType    *string                                    `json:"index_type,omitempty"`
 	IsArray      *bool                                      `json:"is_array,omitempty"`
 	Name         *string                                    `json:"name,omitempty"`
+	Table        *string                                    `json:"table,omitempty"`
 	Type         *string                                    `json:"type,omitempty"`
 }
 
@@ -2546,6 +2548,7 @@ var UserstoreColumnAttrTypes = map[string]attr.Type{
 	"index_type":    types.StringType,
 	"is_array":      types.BoolType,
 	"name":          types.StringType,
+	"table":         types.StringType,
 	"type":          types.StringType,
 }
 
@@ -2611,6 +2614,12 @@ var UserstoreColumnAttributes = map[string]schema.Attribute{
 		Description:         "",
 		MarkdownDescription: "",
 		Required:            true,
+	},
+	"table": schema.StringAttribute{
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"type": schema.StringAttribute{
 		Validators: []validator.String{
@@ -2719,6 +2728,16 @@ func UserstoreColumnTFModelToJSONClient(in *UserstoreColumnTFModel) (*UserstoreC
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
 	}
+	out.Table, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.Table)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"table\" field: %+v", err)
+	}
 	out.Type, err = func(val *types.String) (*string, error) {
 		if val.IsNull() || val.IsUnknown() {
 			return nil, nil
@@ -2816,6 +2835,12 @@ func UserstoreColumnJSONClientModelToTF(in *UserstoreColumnJSONClientModel) (Use
 	}(in.Name)
 	if err != nil {
 		return UserstoreColumnTFModel{}, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
+	}
+	out.Table, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.Table)
+	if err != nil {
+		return UserstoreColumnTFModel{}, ucerr.Errorf("failed to convert \"table\" field: %+v", err)
 	}
 	out.Type, err = func(val *string) (types.String, error) {
 		return types.StringPointerValue(val), nil
