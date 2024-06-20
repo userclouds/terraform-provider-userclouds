@@ -67,6 +67,7 @@ type PolicyAccessPolicyTFModel struct {
 	PolicyType      types.String `tfsdk:"policy_type"`
 	RequiredContext types.Map    `tfsdk:"required_context"`
 	TagIds          types.List   `tfsdk:"tag_ids"`
+	Thresholds      types.Object `tfsdk:"thresholds"`
 	Version         types.Int64  `tfsdk:"version"`
 }
 
@@ -80,6 +81,7 @@ type PolicyAccessPolicyJSONClientModel struct {
 	PolicyType      *string                                       `json:"policy_type,omitempty"`
 	RequiredContext *map[string]string                            `json:"required_context,omitempty"`
 	TagIds          *[]uuid.UUID                                  `json:"tag_ids,omitempty"`
+	Thresholds      *PolicyAccessPolicyThresholdsJSONClientModel  `json:"thresholds,omitempty"`
 	Version         *int64                                        `json:"version,omitempty"`
 }
 
@@ -100,6 +102,9 @@ var PolicyAccessPolicyAttrTypes = map[string]attr.Type{
 	},
 	"tag_ids": types.ListType{
 		ElemType: types.StringType,
+	},
+	"thresholds": types.ObjectType{
+		AttrTypes: PolicyAccessPolicyThresholdsAttrTypes,
 	},
 	"version": types.Int64Type,
 }
@@ -164,6 +169,13 @@ var PolicyAccessPolicyAttributes = map[string]schema.Attribute{
 	},
 	"tag_ids": schema.ListAttribute{
 		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"thresholds": schema.SingleNestedAttribute{
+		Attributes:          PolicyAccessPolicyThresholdsAttributes,
 		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
@@ -331,6 +343,27 @@ func PolicyAccessPolicyTFModelToJSONClient(in *PolicyAccessPolicyTFModel) (*Poli
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"tag_ids\" field: %+v", err)
 	}
+	out.Thresholds, err = func(val *types.Object) (*PolicyAccessPolicyThresholdsJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := PolicyAccessPolicyThresholdsTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return PolicyAccessPolicyThresholdsTFModelToJSONClient(&tfModel)
+	}(&in.Thresholds)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"thresholds\" field: %+v", err)
+	}
 	out.Version, err = func(val *types.Int64) (*int64, error) {
 		if val.IsNull() || val.IsUnknown() {
 			return nil, nil
@@ -467,6 +500,34 @@ func PolicyAccessPolicyJSONClientModelToTF(in *PolicyAccessPolicyJSONClientModel
 	}(in.TagIds)
 	if err != nil {
 		return PolicyAccessPolicyTFModel{}, ucerr.Errorf("failed to convert \"tag_ids\" field: %+v", err)
+	}
+	out.Thresholds, err = func(val *PolicyAccessPolicyThresholdsJSONClientModel) (types.Object, error) {
+		attrTypes := PolicyAccessPolicyThresholdsAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := PolicyAccessPolicyThresholdsJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert PolicyAccessPolicyThresholdsTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.Thresholds)
+	if err != nil {
+		return PolicyAccessPolicyTFModel{}, ucerr.Errorf("failed to convert \"thresholds\" field: %+v", err)
 	}
 	out.Version, err = func(val *int64) (types.Int64, error) {
 		return types.Int64PointerValue(val), nil
@@ -875,6 +936,161 @@ func PolicyAccessPolicyTemplateJSONClientModelToTF(in *PolicyAccessPolicyTemplat
 	}(in.Version)
 	if err != nil {
 		return PolicyAccessPolicyTemplateTFModel{}, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// PolicyAccessPolicyThresholdsTFModel is a Terraform model struct for the PolicyAccessPolicyThresholdsAttributes schema.
+type PolicyAccessPolicyThresholdsTFModel struct {
+	AnnounceMaxExecutionFailure types.Bool  `tfsdk:"announce_max_execution_failure"`
+	AnnounceMaxResultFailure    types.Bool  `tfsdk:"announce_max_result_failure"`
+	MaxExecutionDurationSeconds types.Int64 `tfsdk:"max_execution_duration_seconds"`
+	MaxExecutions               types.Int64 `tfsdk:"max_executions"`
+	MaxResultsPerExecution      types.Int64 `tfsdk:"max_results_per_execution"`
+}
+
+// PolicyAccessPolicyThresholdsJSONClientModel stores data for use with jsonclient for making API requests.
+type PolicyAccessPolicyThresholdsJSONClientModel struct {
+	AnnounceMaxExecutionFailure *bool  `json:"announce_max_execution_failure,omitempty"`
+	AnnounceMaxResultFailure    *bool  `json:"announce_max_result_failure,omitempty"`
+	MaxExecutionDurationSeconds *int64 `json:"max_execution_duration_seconds,omitempty"`
+	MaxExecutions               *int64 `json:"max_executions,omitempty"`
+	MaxResultsPerExecution      *int64 `json:"max_results_per_execution,omitempty"`
+}
+
+// PolicyAccessPolicyThresholdsAttrTypes defines the attribute types for the PolicyAccessPolicyThresholdsAttributes schema.
+var PolicyAccessPolicyThresholdsAttrTypes = map[string]attr.Type{
+	"announce_max_execution_failure": types.BoolType,
+	"announce_max_result_failure":    types.BoolType,
+	"max_execution_duration_seconds": types.Int64Type,
+	"max_executions":                 types.Int64Type,
+	"max_results_per_execution":      types.Int64Type,
+}
+
+// PolicyAccessPolicyThresholdsAttributes defines the Terraform attributes schema.
+var PolicyAccessPolicyThresholdsAttributes = map[string]schema.Attribute{
+	"announce_max_execution_failure": schema.BoolAttribute{
+		Computed:            true,
+		Description:         "If true, we return '429 Too Many Requests' if max_executions is exceeded for the past max_execution_duration_seconds seconds.",
+		MarkdownDescription: "If true, we return '429 Too Many Requests' if max_executions is exceeded for the past max_execution_duration_seconds seconds.",
+		Optional:            true,
+	},
+	"announce_max_result_failure": schema.BoolAttribute{
+		Computed:            true,
+		Description:         "If true, we return '400 Bad Request' if the action would involve more than max_results_per_execution results.",
+		MarkdownDescription: "If true, we return '400 Bad Request' if the action would involve more than max_results_per_execution results.",
+		Optional:            true,
+	},
+	"max_execution_duration_seconds": schema.Int64Attribute{
+		Computed:            true,
+		Description:         "Specifies the duration in seconds over which we limit the max executions. If max_executions is non-zero, this value must be between 5 and 60, inclusive.",
+		MarkdownDescription: "Specifies the duration in seconds over which we limit the max executions. If max_executions is non-zero, this value must be between 5 and 60, inclusive.",
+		Optional:            true,
+	},
+	"max_executions": schema.Int64Attribute{
+		Computed:            true,
+		Description:         "If non-zero, specifies the maximum number of executions for the past max_execution_duration_seconds seconds.",
+		MarkdownDescription: "If non-zero, specifies the maximum number of executions for the past max_execution_duration_seconds seconds.",
+		Optional:            true,
+	},
+	"max_results_per_execution": schema.Int64Attribute{
+		Computed:            true,
+		Description:         "If non-zero, specifies the max number of results that an action can involve.",
+		MarkdownDescription: "If non-zero, specifies the max number of results that an action can involve.",
+		Optional:            true,
+	},
+}
+
+// PolicyAccessPolicyThresholdsTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func PolicyAccessPolicyThresholdsTFModelToJSONClient(in *PolicyAccessPolicyThresholdsTFModel) (*PolicyAccessPolicyThresholdsJSONClientModel, error) {
+	out := PolicyAccessPolicyThresholdsJSONClientModel{}
+	var err error
+	out.AnnounceMaxExecutionFailure, err = func(val *types.Bool) (*bool, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueBool()
+		return &converted, nil
+	}(&in.AnnounceMaxExecutionFailure)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"announce_max_execution_failure\" field: %+v", err)
+	}
+	out.AnnounceMaxResultFailure, err = func(val *types.Bool) (*bool, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueBool()
+		return &converted, nil
+	}(&in.AnnounceMaxResultFailure)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"announce_max_result_failure\" field: %+v", err)
+	}
+	out.MaxExecutionDurationSeconds, err = func(val *types.Int64) (*int64, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueInt64()
+		return &converted, nil
+	}(&in.MaxExecutionDurationSeconds)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"max_execution_duration_seconds\" field: %+v", err)
+	}
+	out.MaxExecutions, err = func(val *types.Int64) (*int64, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueInt64()
+		return &converted, nil
+	}(&in.MaxExecutions)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"max_executions\" field: %+v", err)
+	}
+	out.MaxResultsPerExecution, err = func(val *types.Int64) (*int64, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueInt64()
+		return &converted, nil
+	}(&in.MaxResultsPerExecution)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"max_results_per_execution\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// PolicyAccessPolicyThresholdsJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func PolicyAccessPolicyThresholdsJSONClientModelToTF(in *PolicyAccessPolicyThresholdsJSONClientModel) (PolicyAccessPolicyThresholdsTFModel, error) {
+	out := PolicyAccessPolicyThresholdsTFModel{}
+	var err error
+	out.AnnounceMaxExecutionFailure, err = func(val *bool) (types.Bool, error) {
+		return types.BoolPointerValue(val), nil
+	}(in.AnnounceMaxExecutionFailure)
+	if err != nil {
+		return PolicyAccessPolicyThresholdsTFModel{}, ucerr.Errorf("failed to convert \"announce_max_execution_failure\" field: %+v", err)
+	}
+	out.AnnounceMaxResultFailure, err = func(val *bool) (types.Bool, error) {
+		return types.BoolPointerValue(val), nil
+	}(in.AnnounceMaxResultFailure)
+	if err != nil {
+		return PolicyAccessPolicyThresholdsTFModel{}, ucerr.Errorf("failed to convert \"announce_max_result_failure\" field: %+v", err)
+	}
+	out.MaxExecutionDurationSeconds, err = func(val *int64) (types.Int64, error) {
+		return types.Int64PointerValue(val), nil
+	}(in.MaxExecutionDurationSeconds)
+	if err != nil {
+		return PolicyAccessPolicyThresholdsTFModel{}, ucerr.Errorf("failed to convert \"max_execution_duration_seconds\" field: %+v", err)
+	}
+	out.MaxExecutions, err = func(val *int64) (types.Int64, error) {
+		return types.Int64PointerValue(val), nil
+	}(in.MaxExecutions)
+	if err != nil {
+		return PolicyAccessPolicyThresholdsTFModel{}, ucerr.Errorf("failed to convert \"max_executions\" field: %+v", err)
+	}
+	out.MaxResultsPerExecution, err = func(val *int64) (types.Int64, error) {
+		return types.Int64PointerValue(val), nil
+	}(in.MaxResultsPerExecution)
+	if err != nil {
+		return PolicyAccessPolicyThresholdsTFModel{}, ucerr.Errorf("failed to convert \"max_results_per_execution\" field: %+v", err)
 	}
 	return out, nil
 }

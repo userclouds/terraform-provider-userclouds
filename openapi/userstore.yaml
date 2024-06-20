@@ -47,6 +47,8 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
+        "429":
+          description: Too Many Requests
         "500":
           description: Internal Server Error
       summary: Execute Accessor
@@ -97,6 +99,8 @@ paths:
           description: Not Found
         "409":
           description: Conflict
+        "429":
+          description: Too Many Requests
         "500":
           description: Internal Server Error
       summary: Execute Mutator
