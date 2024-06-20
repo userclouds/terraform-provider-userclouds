@@ -2239,6 +2239,8 @@ components:
           type: boolean
         name:
           type: string
+        table:
+          type: string
         type:
           $ref: '#/components/schemas/UserstoreDataType'
       required:
