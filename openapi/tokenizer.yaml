@@ -697,8 +697,9 @@ paths:
       - Tokens
   /tokenizer/tokens/actions/resolve:
     post:
-      description: This endpoint receives a token and returns the raw data, if the
-        access policy for the token is met.
+      description: This endpoint receives a list of tokens, applies the associated
+        access policy for each token, and returns the associated token data if the
+        conditions of the access policy are met.
       requestBody:
         content:
           application/json:
@@ -803,6 +804,8 @@ components:
           type: object
         tag_ids:
           $ref: '#/components/schemas/UuidarrayUUIDArray'
+        thresholds:
+          $ref: '#/components/schemas/PolicyAccessPolicyThresholds'
         version:
           type: integer
       required:
@@ -846,6 +849,30 @@ components:
       required:
       - name
       - function
+      type: object
+    PolicyAccessPolicyThresholds:
+      properties:
+        announce_max_execution_failure:
+          description: If true, we return '429 Too Many Requests' if max_executions
+            is exceeded for the past max_execution_duration_seconds seconds.
+          type: boolean
+        announce_max_result_failure:
+          description: If true, we return '400 Bad Request' if the action would involve
+            more than max_results_per_execution results.
+          type: boolean
+        max_execution_duration_seconds:
+          description: Specifies the duration in seconds over which we limit the max
+            executions. If max_executions is non-zero, this value must be between
+            5 and 60, inclusive.
+          type: integer
+        max_executions:
+          description: If non-zero, specifies the maximum number of executions for
+            the past max_execution_duration_seconds seconds.
+          type: integer
+        max_results_per_execution:
+          description: If non-zero, specifies the max number of results that an action
+            can involve.
+          type: integer
       type: object
     PolicyClientContext:
       additionalProperties: {}
