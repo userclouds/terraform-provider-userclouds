@@ -17,7 +17,6 @@ bin/staticcheck
 
 # Used in our CLI.
 bypass_*
-!bypass_*.go
 
 # Common IDE-managed tools.
 bin/*
