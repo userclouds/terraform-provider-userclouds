@@ -1383,12 +1383,12 @@ func IdpDurationUnitJSONClientModelToTF(in *IdpDurationUnitJSONClientModel) (Idp
 
 // IdpExecuteMutatorResponseTFModel is a Terraform model struct for the IdpExecuteMutatorResponseAttributes schema.
 type IdpExecuteMutatorResponseTFModel struct {
-	UserIds types.List `tfsdk:"user_ids"`
+	UserIDs types.List `tfsdk:"user_ids"`
 }
 
 // IdpExecuteMutatorResponseJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpExecuteMutatorResponseJSONClientModel struct {
-	UserIds *[]uuid.UUID `json:"user_ids,omitempty"`
+	UserIDs *[]uuid.UUID `json:"user_ids,omitempty"`
 }
 
 // IdpExecuteMutatorResponseAttrTypes defines the attribute types for the IdpExecuteMutatorResponseAttributes schema.
@@ -1413,7 +1413,7 @@ var IdpExecuteMutatorResponseAttributes = map[string]schema.Attribute{
 func IdpExecuteMutatorResponseTFModelToJSONClient(in *IdpExecuteMutatorResponseTFModel) (*IdpExecuteMutatorResponseJSONClientModel, error) {
 	out := IdpExecuteMutatorResponseJSONClientModel{}
 	var err error
-	out.UserIds, err = func(val *types.List) (*[]uuid.UUID, error) {
+	out.UserIDs, err = func(val *types.List) (*[]uuid.UUID, error) {
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
@@ -1439,7 +1439,7 @@ func IdpExecuteMutatorResponseTFModelToJSONClient(in *IdpExecuteMutatorResponseT
 			out = append(out, *converted)
 		}
 		return &out, nil
-	}(&in.UserIds)
+	}(&in.UserIDs)
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"user_ids\" field: %+v", err)
 	}
@@ -1450,7 +1450,7 @@ func IdpExecuteMutatorResponseTFModelToJSONClient(in *IdpExecuteMutatorResponseT
 func IdpExecuteMutatorResponseJSONClientModelToTF(in *IdpExecuteMutatorResponseJSONClientModel) (IdpExecuteMutatorResponseTFModel, error) {
 	out := IdpExecuteMutatorResponseTFModel{}
 	var err error
-	out.UserIds, err = func(val *[]uuid.UUID) (types.List, error) {
+	out.UserIDs, err = func(val *[]uuid.UUID) (types.List, error) {
 		childAttrType := types.StringType
 		if val == nil {
 			return types.ListNull(childAttrType), nil
@@ -1469,7 +1469,7 @@ func IdpExecuteMutatorResponseJSONClientModelToTF(in *IdpExecuteMutatorResponseJ
 			out = append(out, converted)
 		}
 		return types.ListValueMust(childAttrType, out), nil
-	}(in.UserIds)
+	}(in.UserIDs)
 	if err != nil {
 		return IdpExecuteMutatorResponseTFModel{}, ucerr.Errorf("failed to convert \"user_ids\" field: %+v", err)
 	}

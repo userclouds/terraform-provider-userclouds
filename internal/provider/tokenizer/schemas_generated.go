@@ -66,7 +66,7 @@ type PolicyAccessPolicyTFModel struct {
 	Name            types.String `tfsdk:"name"`
 	PolicyType      types.String `tfsdk:"policy_type"`
 	RequiredContext types.Map    `tfsdk:"required_context"`
-	TagIds          types.List   `tfsdk:"tag_ids"`
+	TagIDs          types.List   `tfsdk:"tag_ids"`
 	Thresholds      types.Object `tfsdk:"thresholds"`
 	Version         types.Int64  `tfsdk:"version"`
 }
@@ -80,7 +80,7 @@ type PolicyAccessPolicyJSONClientModel struct {
 	Name            *string                                       `json:"name,omitempty"`
 	PolicyType      *string                                       `json:"policy_type,omitempty"`
 	RequiredContext *map[string]string                            `json:"required_context,omitempty"`
-	TagIds          *[]uuid.UUID                                  `json:"tag_ids,omitempty"`
+	TagIDs          *[]uuid.UUID                                  `json:"tag_ids,omitempty"`
 	Thresholds      *PolicyAccessPolicyThresholdsJSONClientModel  `json:"thresholds,omitempty"`
 	Version         *int64                                        `json:"version,omitempty"`
 }
@@ -313,7 +313,7 @@ func PolicyAccessPolicyTFModelToJSONClient(in *PolicyAccessPolicyTFModel) (*Poli
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"required_context\" field: %+v", err)
 	}
-	out.TagIds, err = func(val *types.List) (*[]uuid.UUID, error) {
+	out.TagIDs, err = func(val *types.List) (*[]uuid.UUID, error) {
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
@@ -339,7 +339,7 @@ func PolicyAccessPolicyTFModelToJSONClient(in *PolicyAccessPolicyTFModel) (*Poli
 			out = append(out, *converted)
 		}
 		return &out, nil
-	}(&in.TagIds)
+	}(&in.TagIDs)
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"tag_ids\" field: %+v", err)
 	}
@@ -478,7 +478,7 @@ func PolicyAccessPolicyJSONClientModelToTF(in *PolicyAccessPolicyJSONClientModel
 	if err != nil {
 		return PolicyAccessPolicyTFModel{}, ucerr.Errorf("failed to convert \"required_context\" field: %+v", err)
 	}
-	out.TagIds, err = func(val *[]uuid.UUID) (types.List, error) {
+	out.TagIDs, err = func(val *[]uuid.UUID) (types.List, error) {
 		childAttrType := types.StringType
 		if val == nil {
 			return types.ListNull(childAttrType), nil
@@ -497,7 +497,7 @@ func PolicyAccessPolicyJSONClientModelToTF(in *PolicyAccessPolicyJSONClientModel
 			out = append(out, converted)
 		}
 		return types.ListValueMust(childAttrType, out), nil
-	}(in.TagIds)
+	}(in.TagIDs)
 	if err != nil {
 		return PolicyAccessPolicyTFModel{}, ucerr.Errorf("failed to convert \"tag_ids\" field: %+v", err)
 	}
@@ -1187,7 +1187,7 @@ type PolicyTransformerTFModel struct {
 	OutputTypeConstraints types.Object `tfsdk:"output_type_constraints"`
 	Parameters            types.String `tfsdk:"parameters"`
 	ReuseExistingToken    types.Bool   `tfsdk:"reuse_existing_token"`
-	TagIds                types.List   `tfsdk:"tag_ids"`
+	TagIDs                types.List   `tfsdk:"tag_ids"`
 	TransformType         types.String `tfsdk:"transform_type"`
 }
 
@@ -1205,7 +1205,7 @@ type PolicyTransformerJSONClientModel struct {
 	OutputTypeConstraints *UserstoreColumnConstraintsJSONClientModel `json:"output_type_constraints,omitempty"`
 	Parameters            *string                                    `json:"parameters,omitempty"`
 	ReuseExistingToken    *bool                                      `json:"reuse_existing_token,omitempty"`
-	TagIds                *[]uuid.UUID                               `json:"tag_ids,omitempty"`
+	TagIDs                *[]uuid.UUID                               `json:"tag_ids,omitempty"`
 	TransformType         *string                                    `json:"transform_type,omitempty"`
 }
 
@@ -1511,7 +1511,7 @@ func PolicyTransformerTFModelToJSONClient(in *PolicyTransformerTFModel) (*Policy
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"reuse_existing_token\" field: %+v", err)
 	}
-	out.TagIds, err = func(val *types.List) (*[]uuid.UUID, error) {
+	out.TagIDs, err = func(val *types.List) (*[]uuid.UUID, error) {
 		if val == nil || val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
@@ -1537,7 +1537,7 @@ func PolicyTransformerTFModelToJSONClient(in *PolicyTransformerTFModel) (*Policy
 			out = append(out, *converted)
 		}
 		return &out, nil
-	}(&in.TagIds)
+	}(&in.TagIDs)
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"tag_ids\" field: %+v", err)
 	}
@@ -1705,7 +1705,7 @@ func PolicyTransformerJSONClientModelToTF(in *PolicyTransformerJSONClientModel) 
 	if err != nil {
 		return PolicyTransformerTFModel{}, ucerr.Errorf("failed to convert \"reuse_existing_token\" field: %+v", err)
 	}
-	out.TagIds, err = func(val *[]uuid.UUID) (types.List, error) {
+	out.TagIDs, err = func(val *[]uuid.UUID) (types.List, error) {
 		childAttrType := types.StringType
 		if val == nil {
 			return types.ListNull(childAttrType), nil
@@ -1724,7 +1724,7 @@ func PolicyTransformerJSONClientModelToTF(in *PolicyTransformerJSONClientModel) 
 			out = append(out, converted)
 		}
 		return types.ListValueMust(childAttrType, out), nil
-	}(in.TagIds)
+	}(in.TagIDs)
 	if err != nil {
 		return PolicyTransformerTFModel{}, ucerr.Errorf("failed to convert \"tag_ids\" field: %+v", err)
 	}
