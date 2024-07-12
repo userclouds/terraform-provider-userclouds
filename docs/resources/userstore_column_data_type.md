@@ -17,12 +17,12 @@ Manages a User Store column data type. For more details, refer to the [User Stor
 
 ### Required
 
+- `description` (String)
 - `name` (String)
 
 ### Optional
 
 - `composite_attributes` (Attributes) (see [below for nested schema](#nestedatt--composite_attributes))
-- `description` (String)
 - `is_composite_field_type` (Boolean) Whether the data type can be used for a composite field.
 - `is_native` (Boolean) Whether this is a native non-editable data type.
 
@@ -43,12 +43,12 @@ Optional:
 
 Required:
 
+- `data_type` (String)
 - `name` (String) Each part of name must be capitalized or all-caps, separated by underscores. Names may contain alphanumeric characters, and the first part must start with a letter, while other parts may start with a number. (ex. ID_Field_1)
 
 Optional:
 
 - `camel_case_name` (String) Read-only camel-case version of field name, with underscores stripped out. (ex. IDField1)
-- `data_type` (String)
 - `ignore_for_uniqueness` (Boolean) If true, field value will be ignored when comparing two composite values for a uniqueness check.
 - `required` (Boolean) Whether a value must be specified for the field.
 - `struct_name` (String) Read-only snake-case version of field name, with all letters lowercase. (ex. id_field_1)

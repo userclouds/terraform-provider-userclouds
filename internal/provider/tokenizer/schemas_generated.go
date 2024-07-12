@@ -1268,18 +1268,18 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 				"invalid UUID format",
 			),
 		},
-		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
-		Optional:            true,
+		Required:            true,
 	},
 	"input_type": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"address", "birthdate", "boolean", "composite", "date", "e164_phonenumber", "email", "integer", "phonenumber", "ssn", "string", "timestamp", "uuid"}...),
 		},
+		Computed:            true,
 		Description:         "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
 		MarkdownDescription: "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
-		Required:            true,
+		Optional:            true,
 	},
 	"input_type_constraints": schema.SingleNestedAttribute{
 		Attributes:          UserstoreColumnConstraintsAttributes,
@@ -1300,10 +1300,9 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 				"invalid UUID format",
 			),
 		},
-		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
-		Optional:            true,
+		Required:            true,
 	},
 	"output_type": schema.StringAttribute{
 		Validators: []validator.String{
