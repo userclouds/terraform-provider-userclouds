@@ -15,7 +15,7 @@ Manages a User Store column. For more details, refer to the [User Store document
 ```terraform
 resource "userclouds_userstore_column" "example" {
   name       = "example_column"
-  type       = "string"
+  data_type  = "string"
   is_array   = false
   index_type = "none"
 }
@@ -26,17 +26,17 @@ resource "userclouds_userstore_column" "example" {
 
 ### Required
 
+- `data_type` (String)
 - `index_type` (String) Valid values: `indexed`, `none`, `unique`
 - `is_array` (Boolean)
 - `name` (String)
-- `type` (String) Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
 
 ### Optional
 
 - `constraints` (Attributes) (see [below for nested schema](#nestedatt--constraints))
-- `data_type` (String)
 - `default_value` (String)
 - `table` (String)
+- `type` (String) Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
 
 ### Read-Only
 

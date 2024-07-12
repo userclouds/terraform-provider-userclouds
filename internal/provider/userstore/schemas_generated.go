@@ -2568,10 +2568,9 @@ var UserstoreColumnAttributes = map[string]schema.Attribute{
 				"invalid UUID format",
 			),
 		},
-		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
-		Optional:            true,
+		Required:            true,
 	},
 	"default_value": schema.StringAttribute{
 		Computed:            true,
@@ -2625,12 +2624,13 @@ var UserstoreColumnAttributes = map[string]schema.Attribute{
 		Validators: []validator.String{
 			stringvalidator.OneOf([]string{"address", "birthdate", "boolean", "composite", "date", "e164_phonenumber", "email", "integer", "phonenumber", "ssn", "string", "timestamp", "uuid"}...),
 		},
+		Computed:            true,
 		Description:         "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
 		MarkdownDescription: "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
+		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.RequiresReplace(),
 		},
-		Required: true,
 	},
 }
 
@@ -3121,10 +3121,9 @@ var UserstoreColumnDataTypeAttributes = map[string]schema.Attribute{
 		Optional:            true,
 	},
 	"description": schema.StringAttribute{
-		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
-		Optional:            true,
+		Required:            true,
 	},
 	"id": schema.StringAttribute{
 		Validators: []validator.String{
@@ -4029,10 +4028,9 @@ var UserstoreCompositeFieldAttributes = map[string]schema.Attribute{
 				"invalid UUID format",
 			),
 		},
-		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
-		Optional:            true,
+		Required:            true,
 	},
 	"ignore_for_uniqueness": schema.BoolAttribute{
 		Computed:            true,
