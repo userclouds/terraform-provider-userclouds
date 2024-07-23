@@ -2229,6 +2229,10 @@ components:
           $ref: '#/components/schemas/UserstoreColumnConstraints'
         data_type:
           $ref: '#/components/schemas/UserstoreResourceID'
+        default_token_access_policy:
+          $ref: '#/components/schemas/UserstoreResourceID'
+        default_transformer:
+          $ref: '#/components/schemas/UserstoreResourceID'
         default_value:
           type: string
         id:

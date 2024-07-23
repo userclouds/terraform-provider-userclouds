@@ -34,6 +34,8 @@ resource "userclouds_userstore_column" "example" {
 ### Optional
 
 - `constraints` (Attributes) (see [below for nested schema](#nestedatt--constraints))
+- `default_token_access_policy` (String)
+- `default_transformer` (String)
 - `default_value` (String)
 - `table` (String)
 - `type` (String) Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
