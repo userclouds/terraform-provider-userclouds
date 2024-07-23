@@ -2513,28 +2513,32 @@ func UserstoreAccessorJSONClientModelToTF(in *UserstoreAccessorJSONClientModel) 
 
 // UserstoreColumnTFModel is a Terraform model struct for the UserstoreColumnAttributes schema.
 type UserstoreColumnTFModel struct {
-	Constraints  types.Object `tfsdk:"constraints"`
-	DataType     types.String `tfsdk:"data_type"`
-	DefaultValue types.String `tfsdk:"default_value"`
-	ID           types.String `tfsdk:"id"`
-	IndexType    types.String `tfsdk:"index_type"`
-	IsArray      types.Bool   `tfsdk:"is_array"`
-	Name         types.String `tfsdk:"name"`
-	Table        types.String `tfsdk:"table"`
-	Type         types.String `tfsdk:"type"`
+	Constraints              types.Object `tfsdk:"constraints"`
+	DataType                 types.String `tfsdk:"data_type"`
+	DefaultTokenAccessPolicy types.String `tfsdk:"default_token_access_policy"`
+	DefaultTransformer       types.String `tfsdk:"default_transformer"`
+	DefaultValue             types.String `tfsdk:"default_value"`
+	ID                       types.String `tfsdk:"id"`
+	IndexType                types.String `tfsdk:"index_type"`
+	IsArray                  types.Bool   `tfsdk:"is_array"`
+	Name                     types.String `tfsdk:"name"`
+	Table                    types.String `tfsdk:"table"`
+	Type                     types.String `tfsdk:"type"`
 }
 
 // UserstoreColumnJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreColumnJSONClientModel struct {
-	Constraints  *UserstoreColumnConstraintsJSONClientModel `json:"constraints,omitempty"`
-	DataType     *UserstoreResourceIDJSONClientModel        `json:"data_type,omitempty"`
-	DefaultValue *string                                    `json:"default_value,omitempty"`
-	ID           *uuid.UUID                                 `json:"id,omitempty"`
-	IndexType    *string                                    `json:"index_type,omitempty"`
-	IsArray      *bool                                      `json:"is_array,omitempty"`
-	Name         *string                                    `json:"name,omitempty"`
-	Table        *string                                    `json:"table,omitempty"`
-	Type         *string                                    `json:"type,omitempty"`
+	Constraints              *UserstoreColumnConstraintsJSONClientModel `json:"constraints,omitempty"`
+	DataType                 *UserstoreResourceIDJSONClientModel        `json:"data_type,omitempty"`
+	DefaultTokenAccessPolicy *UserstoreResourceIDJSONClientModel        `json:"default_token_access_policy,omitempty"`
+	DefaultTransformer       *UserstoreResourceIDJSONClientModel        `json:"default_transformer,omitempty"`
+	DefaultValue             *string                                    `json:"default_value,omitempty"`
+	ID                       *uuid.UUID                                 `json:"id,omitempty"`
+	IndexType                *string                                    `json:"index_type,omitempty"`
+	IsArray                  *bool                                      `json:"is_array,omitempty"`
+	Name                     *string                                    `json:"name,omitempty"`
+	Table                    *string                                    `json:"table,omitempty"`
+	Type                     *string                                    `json:"type,omitempty"`
 }
 
 // UserstoreColumnAttrTypes defines the attribute types for the UserstoreColumnAttributes schema.
@@ -2542,14 +2546,16 @@ var UserstoreColumnAttrTypes = map[string]attr.Type{
 	"constraints": types.ObjectType{
 		AttrTypes: UserstoreColumnConstraintsAttrTypes,
 	},
-	"data_type":     types.StringType,
-	"default_value": types.StringType,
-	"id":            types.StringType,
-	"index_type":    types.StringType,
-	"is_array":      types.BoolType,
-	"name":          types.StringType,
-	"table":         types.StringType,
-	"type":          types.StringType,
+	"data_type":                   types.StringType,
+	"default_token_access_policy": types.StringType,
+	"default_transformer":         types.StringType,
+	"default_value":               types.StringType,
+	"id":                          types.StringType,
+	"index_type":                  types.StringType,
+	"is_array":                    types.BoolType,
+	"name":                        types.StringType,
+	"table":                       types.StringType,
+	"type":                        types.StringType,
 }
 
 // UserstoreColumnAttributes defines the Terraform attributes schema.
@@ -2571,6 +2577,30 @@ var UserstoreColumnAttributes = map[string]schema.Attribute{
 		Description:         "",
 		MarkdownDescription: "",
 		Required:            true,
+	},
+	"default_token_access_policy": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.RegexMatches(
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
+			),
+		},
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"default_transformer": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.RegexMatches(
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
+			),
+		},
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"default_value": schema.StringAttribute{
 		Computed:            true,
@@ -2674,6 +2704,38 @@ func UserstoreColumnTFModelToJSONClient(in *UserstoreColumnTFModel) (*UserstoreC
 	}(&in.DataType)
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"data_type\" field: %+v", err)
+	}
+	out.DefaultTokenAccessPolicy, err = func(val *types.String) (*UserstoreResourceIDJSONClientModel, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted, err := uuid.FromString(val.ValueString())
+		if err != nil {
+			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
+		}
+		s := UserstoreResourceIDJSONClientModel{
+			ID: &converted,
+		}
+		return &s, nil
+	}(&in.DefaultTokenAccessPolicy)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"default_token_access_policy\" field: %+v", err)
+	}
+	out.DefaultTransformer, err = func(val *types.String) (*UserstoreResourceIDJSONClientModel, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted, err := uuid.FromString(val.ValueString())
+		if err != nil {
+			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
+		}
+		s := UserstoreResourceIDJSONClientModel{
+			ID: &converted,
+		}
+		return &s, nil
+	}(&in.DefaultTransformer)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"default_transformer\" field: %+v", err)
 	}
 	out.DefaultValue, err = func(val *types.String) (*string, error) {
 		if val.IsNull() || val.IsUnknown() {
@@ -2802,6 +2864,46 @@ func UserstoreColumnJSONClientModelToTF(in *UserstoreColumnJSONClientModel) (Use
 	}(in.DataType)
 	if err != nil {
 		return UserstoreColumnTFModel{}, ucerr.Errorf("failed to convert \"data_type\" field: %+v", err)
+	}
+	out.DefaultTokenAccessPolicy, err = func(val *UserstoreResourceIDJSONClientModel) (types.String, error) {
+		if val == nil {
+			return types.StringNull(), nil
+		}
+		// We should only need to convert jsonclient models to TF models when receiving API
+		// responses, and API responses should always have the ID set.
+		// Sometimes we receive nil UUIDs here because of how the server
+		// serializes empty values, so we should only freak out if we see a
+		// name provided but not an ID.
+		if val.Name != nil && *val.Name != "" && (val.ID == nil || val.ID.IsNil()) {
+			return types.StringNull(), ucerr.Errorf("got nil ID field in UserstoreResourceID. this is an issue with the UserClouds Terraform provider")
+		}
+		if val.ID == nil || val.ID.IsNil() {
+			return types.StringNull(), nil
+		}
+		return types.StringValue(val.ID.String()), nil
+	}(in.DefaultTokenAccessPolicy)
+	if err != nil {
+		return UserstoreColumnTFModel{}, ucerr.Errorf("failed to convert \"default_token_access_policy\" field: %+v", err)
+	}
+	out.DefaultTransformer, err = func(val *UserstoreResourceIDJSONClientModel) (types.String, error) {
+		if val == nil {
+			return types.StringNull(), nil
+		}
+		// We should only need to convert jsonclient models to TF models when receiving API
+		// responses, and API responses should always have the ID set.
+		// Sometimes we receive nil UUIDs here because of how the server
+		// serializes empty values, so we should only freak out if we see a
+		// name provided but not an ID.
+		if val.Name != nil && *val.Name != "" && (val.ID == nil || val.ID.IsNil()) {
+			return types.StringNull(), ucerr.Errorf("got nil ID field in UserstoreResourceID. this is an issue with the UserClouds Terraform provider")
+		}
+		if val.ID == nil || val.ID.IsNil() {
+			return types.StringNull(), nil
+		}
+		return types.StringValue(val.ID.String()), nil
+	}(in.DefaultTransformer)
+	if err != nil {
+		return UserstoreColumnTFModel{}, ucerr.Errorf("failed to convert \"default_transformer\" field: %+v", err)
 	}
 	out.DefaultValue, err = func(val *string) (types.String, error) {
 		return types.StringPointerValue(val), nil
