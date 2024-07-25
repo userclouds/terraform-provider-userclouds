@@ -29,6 +29,22 @@ paths:
           description: The maximum number of results to be returned per page
           nullable: true
           type: string
+      - description: A comma-delimited list of column names to sort the returned list
+          by
+        in: query
+        name: sort_key
+        schema:
+          description: A comma-delimited list of column names to sort the returned
+            list by
+          nullable: true
+          type: string
+      - description: The order in which results should be sorted
+        in: query
+        name: sort_order
+        schema:
+          description: The order in which results should be sorted
+          nullable: true
+          type: string
       requestBody:
         content:
           application/json:
