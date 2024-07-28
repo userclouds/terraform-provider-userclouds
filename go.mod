@@ -1,6 +1,6 @@
 module github.com/userclouds/terraform-provider-userclouds
 
-go 1.21
+go 1.21.0
 
 toolchain go1.22.2
 
