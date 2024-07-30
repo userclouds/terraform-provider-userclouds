@@ -37,18 +37,20 @@ paths:
           description: A filter clause to use in the pagination query
           nullable: true
           type: string
-      - description: The field(s) used to sort the results
+      - description: A comma-delimited list of field names to sort the returned results
+          by - the last field name must be 'id'
         in: query
         name: sort_key
         schema:
-          description: The field(s) used to sort the results
+          description: A comma-delimited list of field names to sort the returned
+            results by - the last field name must be 'id'
           nullable: true
           type: string
-      - description: The sort order for each field (ascending or descending)
+      - description: The order in which results should be sorted (ascending or descending)
         in: query
         name: sort_order
         schema:
-          description: The sort order for each field (ascending or descending)
+          description: The order in which results should be sorted (ascending or descending)
           nullable: true
           type: string
       - description: The version of the API to be called
@@ -248,18 +250,20 @@ paths:
           description: A filter clause to use in the pagination query
           nullable: true
           type: string
-      - description: The field(s) used to sort the results
+      - description: A comma-delimited list of field names to sort the returned results
+          by - the last field name must be 'id'
         in: query
         name: sort_key
         schema:
-          description: The field(s) used to sort the results
+          description: A comma-delimited list of field names to sort the returned
+            results by - the last field name must be 'id'
           nullable: true
           type: string
-      - description: The sort order for each field (ascending or descending)
+      - description: The order in which results should be sorted (ascending or descending)
         in: query
         name: sort_order
         schema:
-          description: The sort order for each field (ascending or descending)
+          description: The order in which results should be sorted (ascending or descending)
           nullable: true
           type: string
       - description: The version of the API to be called
@@ -461,18 +465,20 @@ paths:
           description: A filter clause to use in the pagination query
           nullable: true
           type: string
-      - description: The field(s) used to sort the results
+      - description: A comma-delimited list of field names to sort the returned results
+          by - the last field name must be 'id'
         in: query
         name: sort_key
         schema:
-          description: The field(s) used to sort the results
+          description: A comma-delimited list of field names to sort the returned
+            results by - the last field name must be 'id'
           nullable: true
           type: string
-      - description: The sort order for each field (ascending or descending)
+      - description: The order in which results should be sorted (ascending or descending)
         in: query
         name: sort_order
         schema:
-          description: The sort order for each field (ascending or descending)
+          description: The order in which results should be sorted (ascending or descending)
           nullable: true
           type: string
       - description: The version of the API to be called
