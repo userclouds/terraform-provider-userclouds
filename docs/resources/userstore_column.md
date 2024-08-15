@@ -33,6 +33,7 @@ resource "userclouds_userstore_column" "example" {
 
 ### Optional
 
+- `access_policy` (String)
 - `constraints` (Attributes) (see [below for nested schema](#nestedatt--constraints))
 - `default_token_access_policy` (String)
 - `default_transformer` (String)

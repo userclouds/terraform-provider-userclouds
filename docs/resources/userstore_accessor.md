@@ -25,6 +25,7 @@ Manages a User Store accessor. For more details, refer to the [accessors documen
 
 ### Optional
 
+- `are_column_access_policies_overridden` (Boolean) Whether to column access policies are overridden for this accessor.
 - `data_life_cycle_state` (String) Valid values: `live`, `postdelete`, `predelete`, `softdeleted`
 - `description` (String)
 - `is_audit_logged` (Boolean) Whether this accessor is audit logged each time it is executed.
@@ -42,6 +43,7 @@ Manages a User Store accessor. For more details, refer to the [accessors documen
 Optional:
 
 - `column` (String)
+- `token_access_policy` (String)
 - `transformer` (String)
 
 

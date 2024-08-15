@@ -2211,6 +2211,9 @@ components:
       properties:
         access_policy:
           $ref: '#/components/schemas/UserstoreResourceID'
+        are_column_access_policies_overridden:
+          description: Whether to column access policies are overridden for this accessor.
+          type: boolean
         columns:
           items:
             $ref: '#/components/schemas/UserstoreColumnOutputConfig'
@@ -2254,6 +2257,8 @@ components:
       type: object
     UserstoreColumn:
       properties:
+        access_policy:
+          $ref: '#/components/schemas/UserstoreResourceID'
         constraints:
           $ref: '#/components/schemas/UserstoreColumnConstraints'
         data_type:
@@ -2382,6 +2387,8 @@ components:
     UserstoreColumnOutputConfig:
       properties:
         column:
+          $ref: '#/components/schemas/UserstoreResourceID'
+        token_access_policy:
           $ref: '#/components/schemas/UserstoreResourceID'
         transformer:
           $ref: '#/components/schemas/UserstoreResourceID'
