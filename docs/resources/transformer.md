@@ -37,6 +37,7 @@ Manages a Tokenizer transformer. For more details refer to the [transformer docu
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+- `version` (Number)
 
 <a id="nestedatt--input_type_constraints"></a>
 ### Nested Schema for `input_type_constraints`

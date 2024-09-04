@@ -1189,6 +1189,7 @@ type PolicyTransformerTFModel struct {
 	ReuseExistingToken    types.Bool   `tfsdk:"reuse_existing_token"`
 	TagIDs                types.List   `tfsdk:"tag_ids"`
 	TransformType         types.String `tfsdk:"transform_type"`
+	Version               types.Int64  `tfsdk:"version"`
 }
 
 // PolicyTransformerJSONClientModel stores data for use with jsonclient for making API requests.
@@ -1207,6 +1208,7 @@ type PolicyTransformerJSONClientModel struct {
 	ReuseExistingToken    *bool                                      `json:"reuse_existing_token,omitempty"`
 	TagIDs                *[]uuid.UUID                               `json:"tag_ids,omitempty"`
 	TransformType         *string                                    `json:"transform_type,omitempty"`
+	Version               *int64                                     `json:"version,omitempty"`
 }
 
 // PolicyTransformerAttrTypes defines the attribute types for the PolicyTransformerAttributes schema.
@@ -1231,6 +1233,7 @@ var PolicyTransformerAttrTypes = map[string]attr.Type{
 		ElemType: types.StringType,
 	},
 	"transform_type": types.StringType,
+	"version":        types.Int64Type,
 }
 
 // PolicyTransformerAttributes defines the Terraform attributes schema.
@@ -1346,6 +1349,14 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 		Description:         "Valid values: `passthrough`, `tokenizebyreference`, `tokenizebyvalue`, `transform`",
 		MarkdownDescription: "Valid values: `passthrough`, `tokenizebyreference`, `tokenizebyvalue`, `transform`",
 		Required:            true,
+	},
+	"version": schema.Int64Attribute{
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		PlanModifiers: []planmodifier.Int64{
+			planmodifiers.IncrementOnUpdate(),
+		},
 	},
 }
 
@@ -1550,6 +1561,16 @@ func PolicyTransformerTFModelToJSONClient(in *PolicyTransformerTFModel) (*Policy
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"transform_type\" field: %+v", err)
 	}
+	out.Version, err = func(val *types.Int64) (*int64, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueInt64()
+		return &converted, nil
+	}(&in.Version)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
+	}
 	return &out, nil
 }
 
@@ -1732,6 +1753,12 @@ func PolicyTransformerJSONClientModelToTF(in *PolicyTransformerJSONClientModel) 
 	}(in.TransformType)
 	if err != nil {
 		return PolicyTransformerTFModel{}, ucerr.Errorf("failed to convert \"transform_type\" field: %+v", err)
+	}
+	out.Version, err = func(val *int64) (types.Int64, error) {
+		return types.Int64PointerValue(val), nil
+	}(in.Version)
+	if err != nil {
+		return PolicyTransformerTFModel{}, ucerr.Errorf("failed to convert \"version\" field: %+v", err)
 	}
 	return out, nil
 }
@@ -2278,24 +2305,22 @@ func TokenizerInspectTokenRequestJSONClientModelToTF(in *TokenizerInspectTokenRe
 
 // TokenizerInspectTokenResponseTFModel is a Terraform model struct for the TokenizerInspectTokenResponseAttributes schema.
 type TokenizerInspectTokenResponseTFModel struct {
-	AccessPolicy               types.Object `tfsdk:"access_policy"`
-	Created                    types.String `tfsdk:"created"`
-	CurrentAccessPolicyVersion types.Int64  `tfsdk:"current_access_policy_version"`
-	ID                         types.String `tfsdk:"id"`
-	Token                      types.String `tfsdk:"token"`
-	Transformer                types.Object `tfsdk:"transformer"`
-	Updated                    types.String `tfsdk:"updated"`
+	AccessPolicy types.Object `tfsdk:"access_policy"`
+	Created      types.String `tfsdk:"created"`
+	ID           types.String `tfsdk:"id"`
+	Token        types.String `tfsdk:"token"`
+	Transformer  types.Object `tfsdk:"transformer"`
+	Updated      types.String `tfsdk:"updated"`
 }
 
 // TokenizerInspectTokenResponseJSONClientModel stores data for use with jsonclient for making API requests.
 type TokenizerInspectTokenResponseJSONClientModel struct {
-	AccessPolicy               *PolicyAccessPolicyJSONClientModel `json:"access_policy,omitempty"`
-	Created                    *string                            `json:"created,omitempty"`
-	CurrentAccessPolicyVersion *int64                             `json:"current_access_policy_version,omitempty"`
-	ID                         *uuid.UUID                         `json:"id,omitempty"`
-	Token                      *string                            `json:"token,omitempty"`
-	Transformer                *PolicyTransformerJSONClientModel  `json:"transformer,omitempty"`
-	Updated                    *string                            `json:"updated,omitempty"`
+	AccessPolicy *PolicyAccessPolicyJSONClientModel `json:"access_policy,omitempty"`
+	Created      *string                            `json:"created,omitempty"`
+	ID           *uuid.UUID                         `json:"id,omitempty"`
+	Token        *string                            `json:"token,omitempty"`
+	Transformer  *PolicyTransformerJSONClientModel  `json:"transformer,omitempty"`
+	Updated      *string                            `json:"updated,omitempty"`
 }
 
 // TokenizerInspectTokenResponseAttrTypes defines the attribute types for the TokenizerInspectTokenResponseAttributes schema.
@@ -2303,10 +2328,9 @@ var TokenizerInspectTokenResponseAttrTypes = map[string]attr.Type{
 	"access_policy": types.ObjectType{
 		AttrTypes: PolicyAccessPolicyAttrTypes,
 	},
-	"created":                       types.StringType,
-	"current_access_policy_version": types.Int64Type,
-	"id":                            types.StringType,
-	"token":                         types.StringType,
+	"created": types.StringType,
+	"id":      types.StringType,
+	"token":   types.StringType,
 	"transformer": types.ObjectType{
 		AttrTypes: PolicyTransformerAttrTypes,
 	},
@@ -2323,12 +2347,6 @@ var TokenizerInspectTokenResponseAttributes = map[string]schema.Attribute{
 		Optional:            true,
 	},
 	"created": schema.StringAttribute{
-		Computed:            true,
-		Description:         "",
-		MarkdownDescription: "",
-		Optional:            true,
-	},
-	"current_access_policy_version": schema.Int64Attribute{
 		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
@@ -2404,16 +2422,6 @@ func TokenizerInspectTokenResponseTFModelToJSONClient(in *TokenizerInspectTokenR
 	}(&in.Created)
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"created\" field: %+v", err)
-	}
-	out.CurrentAccessPolicyVersion, err = func(val *types.Int64) (*int64, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueInt64()
-		return &converted, nil
-	}(&in.CurrentAccessPolicyVersion)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"current_access_policy_version\" field: %+v", err)
 	}
 	out.ID, err = func(val *types.String) (*uuid.UUID, error) {
 		if val.IsNull() || val.IsUnknown() {
@@ -2509,12 +2517,6 @@ func TokenizerInspectTokenResponseJSONClientModelToTF(in *TokenizerInspectTokenR
 	}(in.Created)
 	if err != nil {
 		return TokenizerInspectTokenResponseTFModel{}, ucerr.Errorf("failed to convert \"created\" field: %+v", err)
-	}
-	out.CurrentAccessPolicyVersion, err = func(val *int64) (types.Int64, error) {
-		return types.Int64PointerValue(val), nil
-	}(in.CurrentAccessPolicyVersion)
-	if err != nil {
-		return TokenizerInspectTokenResponseTFModel{}, ucerr.Errorf("failed to convert \"current_access_policy_version\" field: %+v", err)
 	}
 	out.ID, err = func(val *uuid.UUID) (types.String, error) {
 		if val == nil {
