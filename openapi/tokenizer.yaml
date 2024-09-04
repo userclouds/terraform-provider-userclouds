@@ -931,6 +931,8 @@ components:
           $ref: '#/components/schemas/UuidarrayUUIDArray'
         transform_type:
           $ref: '#/components/schemas/PolicyTransformType'
+        version:
+          type: integer
       required:
       - name
       - input_data_type
@@ -979,8 +981,6 @@ components:
         created:
           format: date-time
           type: string
-        current_access_policy_version:
-          type: integer
         id:
           $ref: '#/components/schemas/UuidUUID'
         token:
