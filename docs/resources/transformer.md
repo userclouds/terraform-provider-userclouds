@@ -26,9 +26,9 @@ Manages a Tokenizer transformer. For more details refer to the [transformer docu
 ### Optional
 
 - `description` (String)
-- `input_type` (String) Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
+- `input_type` (String)
 - `input_type_constraints` (Attributes) (see [below for nested schema](#nestedatt--input_type_constraints))
-- `output_type` (String) Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
+- `output_type` (String)
 - `output_type_constraints` (Attributes) (see [below for nested schema](#nestedatt--output_type_constraints))
 - `parameters` (String)
 - `reuse_existing_token` (Boolean) Specifies if the tokenizing transformer should return existing token instead of creating a new one.
@@ -56,7 +56,7 @@ Optional:
 Required:
 
 - `name` (String) Each part of name must be capitalized or all-caps, separated by underscores. Names may contain alphanumeric characters, and the first part must start with a letter, while other parts may start with a number. (ex. ID_Field_1)
-- `type` (String) Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
+- `type` (String)
 
 Optional:
 
@@ -84,7 +84,7 @@ Optional:
 Required:
 
 - `name` (String) Each part of name must be capitalized or all-caps, separated by underscores. Names may contain alphanumeric characters, and the first part must start with a letter, while other parts may start with a number. (ex. ID_Field_1)
-- `type` (String) Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
+- `type` (String)
 
 Optional:
 

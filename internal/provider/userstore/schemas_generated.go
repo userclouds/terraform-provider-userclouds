@@ -2716,12 +2716,9 @@ var UserstoreColumnAttributes = map[string]schema.Attribute{
 		Optional:            true,
 	},
 	"type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"address", "birthdate", "boolean", "composite", "date", "e164_phonenumber", "email", "integer", "phonenumber", "ssn", "string", "timestamp", "uuid"}...),
-		},
 		Computed:            true,
-		Description:         "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
-		MarkdownDescription: "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
+		Description:         "",
+		MarkdownDescription: "",
 		Optional:            true,
 		PlanModifiers: []planmodifier.String{
 			stringplanmodifier.RequiresReplace(),
@@ -3573,11 +3570,8 @@ var UserstoreColumnFieldAttributes = map[string]schema.Attribute{
 		Optional:            true,
 	},
 	"type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"address", "birthdate", "boolean", "composite", "date", "e164_phonenumber", "email", "integer", "phonenumber", "ssn", "string", "timestamp", "uuid"}...),
-		},
-		Description:         "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
-		MarkdownDescription: "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
+		Description:         "",
+		MarkdownDescription: "",
 		Required:            true,
 	},
 }
@@ -4464,32 +4458,6 @@ func UserstoreDataLifeCycleStateTFModelToJSONClient(in *UserstoreDataLifeCycleSt
 // UserstoreDataLifeCycleStateJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
 func UserstoreDataLifeCycleStateJSONClientModelToTF(in *UserstoreDataLifeCycleStateJSONClientModel) (UserstoreDataLifeCycleStateTFModel, error) {
 	out := UserstoreDataLifeCycleStateTFModel{}
-	return out, nil
-}
-
-// UserstoreDataTypeTFModel is a Terraform model struct for the UserstoreDataTypeAttributes schema.
-type UserstoreDataTypeTFModel struct {
-}
-
-// UserstoreDataTypeJSONClientModel stores data for use with jsonclient for making API requests.
-type UserstoreDataTypeJSONClientModel struct {
-}
-
-// UserstoreDataTypeAttrTypes defines the attribute types for the UserstoreDataTypeAttributes schema.
-var UserstoreDataTypeAttrTypes = map[string]attr.Type{}
-
-// UserstoreDataTypeAttributes defines the Terraform attributes schema.
-var UserstoreDataTypeAttributes = map[string]schema.Attribute{}
-
-// UserstoreDataTypeTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
-func UserstoreDataTypeTFModelToJSONClient(in *UserstoreDataTypeTFModel) (*UserstoreDataTypeJSONClientModel, error) {
-	out := UserstoreDataTypeJSONClientModel{}
-	return &out, nil
-}
-
-// UserstoreDataTypeJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
-func UserstoreDataTypeJSONClientModelToTF(in *UserstoreDataTypeJSONClientModel) (UserstoreDataTypeTFModel, error) {
-	out := UserstoreDataTypeTFModel{}
 	return out, nil
 }
 

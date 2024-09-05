@@ -906,7 +906,7 @@ components:
         input_data_type:
           $ref: '#/components/schemas/UserstoreResourceID'
         input_type:
-          $ref: '#/components/schemas/UserstoreDataType'
+          type: string
         input_type_constraints:
           $ref: '#/components/schemas/UserstoreColumnConstraints'
         is_system:
@@ -918,7 +918,7 @@ components:
         output_data_type:
           $ref: '#/components/schemas/UserstoreResourceID'
         output_type:
-          $ref: '#/components/schemas/UserstoreDataType'
+          type: string
         output_type_constraints:
           $ref: '#/components/schemas/UserstoreColumnConstraints'
         parameters:
@@ -1119,27 +1119,11 @@ components:
             lowercase. (ex. id_field_1)
           type: string
         type:
-          $ref: '#/components/schemas/UserstoreDataType'
+          type: string
       required:
       - type
       - name
       type: object
-    UserstoreDataType:
-      enum:
-      - address
-      - birthdate
-      - boolean
-      - composite
-      - date
-      - e164_phonenumber
-      - email
-      - integer
-      - phonenumber
-      - ssn
-      - string
-      - timestamp
-      - uuid
-      type: string
     UserstoreResourceID:
       properties:
         id:
