@@ -2284,7 +2284,7 @@ components:
         table:
           type: string
         type:
-          $ref: '#/components/schemas/UserstoreDataType'
+          type: string
       required:
       - name
       - data_type
@@ -2364,7 +2364,7 @@ components:
             lowercase. (ex. id_field_1)
           type: string
         type:
-          $ref: '#/components/schemas/UserstoreDataType'
+          type: string
       required:
       - type
       - name
@@ -2441,22 +2441,6 @@ components:
       - postdelete
       - predelete
       - softdeleted
-      type: string
-    UserstoreDataType:
-      enum:
-      - address
-      - birthdate
-      - boolean
-      - composite
-      - date
-      - e164_phonenumber
-      - email
-      - integer
-      - phonenumber
-      - ssn
-      - string
-      - timestamp
-      - uuid
       type: string
     UserstoreExecuteAccessorHandlerRequest:
       properties:

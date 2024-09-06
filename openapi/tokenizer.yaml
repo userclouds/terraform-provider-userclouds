@@ -495,6 +495,22 @@ paths:
           description: Optional - allows filtering by transformer name
           nullable: true
           type: string
+      - description: Optional - allows filtering by transformer version
+        in: query
+        name: transformer_version
+        schema:
+          description: Optional - allows filtering by transformer version
+          nullable: true
+          type: string
+      - description: Optional - set versioned to be true to include all prior versions
+          of transformers in response
+        in: query
+        name: versioned
+        schema:
+          description: Optional - set versioned to be true to include all prior versions
+            of transformers in response
+          nullable: true
+          type: string
       responses:
         "200":
           content:
@@ -560,6 +576,13 @@ paths:
     get:
       description: This endpoint gets a transformer by ID.
       parameters:
+      - description: Optional - if not specified, the latest policy will be returned
+        in: query
+        name: transformer_version
+        schema:
+          description: Optional - if not specified, the latest policy will be returned
+          nullable: true
+          type: string
       - in: path
         name: id
         required: true
@@ -572,11 +595,44 @@ paths:
               schema:
                 $ref: '#/components/schemas/PolicyTransformer'
           description: OK
+        "400":
+          description: Bad Request
         "404":
           description: Not Found
         "500":
           description: Internal Server Error
       summary: Get Transformer
+      tags:
+      - Transformers
+    put:
+      description: This endpoint updates a transformer.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenizerUpdateTransformerRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyTransformer'
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "409":
+          description: Conflict
+        "500":
+          description: Internal Server Error
+      summary: Update Transformer
       tags:
       - Transformers
   /tokenizer/tokens:
@@ -906,7 +962,7 @@ components:
         input_data_type:
           $ref: '#/components/schemas/UserstoreResourceID'
         input_type:
-          $ref: '#/components/schemas/UserstoreDataType'
+          type: string
         input_type_constraints:
           $ref: '#/components/schemas/UserstoreColumnConstraints'
         is_system:
@@ -918,7 +974,7 @@ components:
         output_data_type:
           $ref: '#/components/schemas/UserstoreResourceID'
         output_type:
-          $ref: '#/components/schemas/UserstoreDataType'
+          type: string
         output_type_constraints:
           $ref: '#/components/schemas/UserstoreColumnConstraints'
         parameters:
@@ -1066,6 +1122,11 @@ components:
         access_policy_template:
           $ref: '#/components/schemas/PolicyAccessPolicyTemplate'
       type: object
+    TokenizerUpdateTransformerRequest:
+      properties:
+        transformer:
+          $ref: '#/components/schemas/PolicyTransformer'
+      type: object
     UserstoreColumnConstraints:
       properties:
         fields:
@@ -1119,27 +1180,11 @@ components:
             lowercase. (ex. id_field_1)
           type: string
         type:
-          $ref: '#/components/schemas/UserstoreDataType'
+          type: string
       required:
       - type
       - name
       type: object
-    UserstoreDataType:
-      enum:
-      - address
-      - birthdate
-      - boolean
-      - composite
-      - date
-      - e164_phonenumber
-      - email
-      - integer
-      - phonenumber
-      - ssn
-      - string
-      - timestamp
-      - uuid
-      type: string
     UserstoreResourceID:
       properties:
         id:

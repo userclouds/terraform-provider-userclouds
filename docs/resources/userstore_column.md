@@ -39,7 +39,7 @@ resource "userclouds_userstore_column" "example" {
 - `default_transformer` (String)
 - `default_value` (String)
 - `table` (String)
-- `type` (String) Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
+- `type` (String)
 
 ### Read-Only
 
@@ -62,7 +62,7 @@ Optional:
 Required:
 
 - `name` (String) Each part of name must be capitalized or all-caps, separated by underscores. Names may contain alphanumeric characters, and the first part must start with a letter, while other parts may start with a number. (ex. ID_Field_1)
-- `type` (String) Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`
+- `type` (String)
 
 Optional:
 

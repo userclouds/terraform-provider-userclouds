@@ -1276,12 +1276,9 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 		Required:            true,
 	},
 	"input_type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"address", "birthdate", "boolean", "composite", "date", "e164_phonenumber", "email", "integer", "phonenumber", "ssn", "string", "timestamp", "uuid"}...),
-		},
 		Computed:            true,
-		Description:         "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
-		MarkdownDescription: "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
+		Description:         "",
+		MarkdownDescription: "",
 		Optional:            true,
 	},
 	"input_type_constraints": schema.SingleNestedAttribute{
@@ -1308,12 +1305,9 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 		Required:            true,
 	},
 	"output_type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"address", "birthdate", "boolean", "composite", "date", "e164_phonenumber", "email", "integer", "phonenumber", "ssn", "string", "timestamp", "uuid"}...),
-		},
 		Computed:            true,
-		Description:         "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
-		MarkdownDescription: "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
+		Description:         "",
+		MarkdownDescription: "",
 		Optional:            true,
 	},
 	"output_type_constraints": schema.SingleNestedAttribute{
@@ -3414,6 +3408,97 @@ func TokenizerUpdateAccessPolicyTemplateRequestJSONClientModelToTF(in *Tokenizer
 	return out, nil
 }
 
+// TokenizerUpdateTransformerRequestTFModel is a Terraform model struct for the TokenizerUpdateTransformerRequestAttributes schema.
+type TokenizerUpdateTransformerRequestTFModel struct {
+	Transformer types.Object `tfsdk:"transformer"`
+}
+
+// TokenizerUpdateTransformerRequestJSONClientModel stores data for use with jsonclient for making API requests.
+type TokenizerUpdateTransformerRequestJSONClientModel struct {
+	Transformer *PolicyTransformerJSONClientModel `json:"transformer,omitempty"`
+}
+
+// TokenizerUpdateTransformerRequestAttrTypes defines the attribute types for the TokenizerUpdateTransformerRequestAttributes schema.
+var TokenizerUpdateTransformerRequestAttrTypes = map[string]attr.Type{
+	"transformer": types.ObjectType{
+		AttrTypes: PolicyTransformerAttrTypes,
+	},
+}
+
+// TokenizerUpdateTransformerRequestAttributes defines the Terraform attributes schema.
+var TokenizerUpdateTransformerRequestAttributes = map[string]schema.Attribute{
+	"transformer": schema.SingleNestedAttribute{
+		Attributes:          PolicyTransformerAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// TokenizerUpdateTransformerRequestTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func TokenizerUpdateTransformerRequestTFModelToJSONClient(in *TokenizerUpdateTransformerRequestTFModel) (*TokenizerUpdateTransformerRequestJSONClientModel, error) {
+	out := TokenizerUpdateTransformerRequestJSONClientModel{}
+	var err error
+	out.Transformer, err = func(val *types.Object) (*PolicyTransformerJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := PolicyTransformerTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return PolicyTransformerTFModelToJSONClient(&tfModel)
+	}(&in.Transformer)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"transformer\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// TokenizerUpdateTransformerRequestJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func TokenizerUpdateTransformerRequestJSONClientModelToTF(in *TokenizerUpdateTransformerRequestJSONClientModel) (TokenizerUpdateTransformerRequestTFModel, error) {
+	out := TokenizerUpdateTransformerRequestTFModel{}
+	var err error
+	out.Transformer, err = func(val *PolicyTransformerJSONClientModel) (types.Object, error) {
+		attrTypes := PolicyTransformerAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := PolicyTransformerJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert PolicyTransformerTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.Transformer)
+	if err != nil {
+		return TokenizerUpdateTransformerRequestTFModel{}, ucerr.Errorf("failed to convert \"transformer\" field: %+v", err)
+	}
+	return out, nil
+}
+
 // UserstoreColumnConstraintsTFModel is a Terraform model struct for the UserstoreColumnConstraintsAttributes schema.
 type UserstoreColumnConstraintsTFModel struct {
 	Fields            types.List `tfsdk:"fields"`
@@ -3704,11 +3789,8 @@ var UserstoreColumnFieldAttributes = map[string]schema.Attribute{
 		Optional:            true,
 	},
 	"type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"address", "birthdate", "boolean", "composite", "date", "e164_phonenumber", "email", "integer", "phonenumber", "ssn", "string", "timestamp", "uuid"}...),
-		},
-		Description:         "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
-		MarkdownDescription: "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
+		Description:         "",
+		MarkdownDescription: "",
 		Required:            true,
 	},
 }
@@ -3820,32 +3902,6 @@ func UserstoreColumnFieldJSONClientModelToTF(in *UserstoreColumnFieldJSONClientM
 	if err != nil {
 		return UserstoreColumnFieldTFModel{}, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
 	}
-	return out, nil
-}
-
-// UserstoreDataTypeTFModel is a Terraform model struct for the UserstoreDataTypeAttributes schema.
-type UserstoreDataTypeTFModel struct {
-}
-
-// UserstoreDataTypeJSONClientModel stores data for use with jsonclient for making API requests.
-type UserstoreDataTypeJSONClientModel struct {
-}
-
-// UserstoreDataTypeAttrTypes defines the attribute types for the UserstoreDataTypeAttributes schema.
-var UserstoreDataTypeAttrTypes = map[string]attr.Type{}
-
-// UserstoreDataTypeAttributes defines the Terraform attributes schema.
-var UserstoreDataTypeAttributes = map[string]schema.Attribute{}
-
-// UserstoreDataTypeTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
-func UserstoreDataTypeTFModelToJSONClient(in *UserstoreDataTypeTFModel) (*UserstoreDataTypeJSONClientModel, error) {
-	out := UserstoreDataTypeJSONClientModel{}
-	return &out, nil
-}
-
-// UserstoreDataTypeJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
-func UserstoreDataTypeJSONClientModelToTF(in *UserstoreDataTypeJSONClientModel) (UserstoreDataTypeTFModel, error) {
-	out := UserstoreDataTypeTFModel{}
 	return out, nil
 }
 

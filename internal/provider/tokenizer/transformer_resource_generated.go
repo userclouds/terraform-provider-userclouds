@@ -28,7 +28,6 @@ import (
 // Ensure provider defined types fully satisfy framework interfaces.
 var _ resource.Resource = &TransformerResource{}
 var _ resource.ResourceWithImportState = &TransformerResource{}
-var _ resource.ResourceWithModifyPlan = &TransformerResource{}
 
 // NewTransformerResource returns a new instance of the resource.
 func NewTransformerResource() resource.Resource {
@@ -163,10 +162,54 @@ func (r *TransformerResource) Read(ctx context.Context, req resource.ReadRequest
 
 // Update updates an existing resource.
 func (r *TransformerResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	resp.Diagnostics.AddError(
-		"Updates are not supported for userclouds_transformer",
-		"Terraform should have suggested destroying and re-creating the resource. Please report this as a provider bug.",
-	)
+	var state *PolicyTransformerTFModel
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+
+	var plan *PolicyTransformerTFModel
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	// Must provide the last-known version. (The IncrementOnUpdate plan modifier
+	// has already incremented the version in the plan, but we need to provide
+	// the old version in our request to the server)
+	plan.Version = state.Version
+
+	jsonclientModel, err := PolicyTransformerTFModelToJSONClient(plan)
+	if err != nil {
+		resp.Diagnostics.AddError("Error converting userclouds_transformer to JSON", err.Error())
+		return
+	}
+
+	body := TokenizerUpdateTransformerRequestJSONClientModel{
+		Transformer: jsonclientModel,
+	}
+	url := "/tokenizer/policies/transformation/{id}"
+	url = strings.ReplaceAll(url, "{id}", state.ID.ValueString())
+
+	marshaled, err := json.Marshal(body)
+	if err != nil {
+		resp.Diagnostics.AddError("Error serializing userclouds_transformer JSON request body", err.Error())
+		return
+	}
+	tflog.Trace(ctx, fmt.Sprintf("PUT %s: %s", url, string(marshaled)))
+
+	var apiResp PolicyTransformerJSONClientModel
+	if err := r.client.Put(ctx, url, body, &apiResp); err != nil {
+		resp.Diagnostics.AddError("Error updating userclouds_transformer", err.Error())
+		return
+	}
+	updated := apiResp
+
+	newState, err := PolicyTransformerJSONClientModelToTF(&updated)
+	if err != nil {
+		resp.Diagnostics.AddError("Error converting userclouds_transformer response JSON to Terraform state", err.Error())
+		return
+	}
+
+	tflog.Trace(ctx, "successfully updated userclouds_transformer with ID "+updated.ID.String())
+	resp.Diagnostics.Append(resp.State.Set(ctx, &newState)...)
 }
 
 // Delete deletes an existing resource.
@@ -192,25 +235,4 @@ func (r *TransformerResource) Delete(ctx context.Context, req resource.DeleteReq
 // ImportState imports an existing resource into Terraform.
 func (r *TransformerResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
-}
-
-// ModifyPlan forces replacement on modification, since updates are not supported for this resource
-func (r *TransformerResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, resp *resource.ModifyPlanResponse) {
-	// Do not replace on resource creation.
-	if req.State.Raw.IsNull() {
-		return
-	}
-
-	// Do not replace on resource destroy.
-	if req.Plan.Raw.IsNull() {
-		return
-	}
-
-	// Do not replace if the plans and states are equal.
-	if req.Plan.Raw.Equal(req.State.Raw) {
-		return
-	}
-
-	// TODO: does this work, or do we need to enumerate all the fields with path.Root()?
-	resp.RequiresReplace.Append(path.Empty())
 }
