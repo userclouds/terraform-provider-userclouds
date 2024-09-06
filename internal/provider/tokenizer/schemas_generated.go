@@ -3408,6 +3408,97 @@ func TokenizerUpdateAccessPolicyTemplateRequestJSONClientModelToTF(in *Tokenizer
 	return out, nil
 }
 
+// TokenizerUpdateTransformerRequestTFModel is a Terraform model struct for the TokenizerUpdateTransformerRequestAttributes schema.
+type TokenizerUpdateTransformerRequestTFModel struct {
+	Transformer types.Object `tfsdk:"transformer"`
+}
+
+// TokenizerUpdateTransformerRequestJSONClientModel stores data for use with jsonclient for making API requests.
+type TokenizerUpdateTransformerRequestJSONClientModel struct {
+	Transformer *PolicyTransformerJSONClientModel `json:"transformer,omitempty"`
+}
+
+// TokenizerUpdateTransformerRequestAttrTypes defines the attribute types for the TokenizerUpdateTransformerRequestAttributes schema.
+var TokenizerUpdateTransformerRequestAttrTypes = map[string]attr.Type{
+	"transformer": types.ObjectType{
+		AttrTypes: PolicyTransformerAttrTypes,
+	},
+}
+
+// TokenizerUpdateTransformerRequestAttributes defines the Terraform attributes schema.
+var TokenizerUpdateTransformerRequestAttributes = map[string]schema.Attribute{
+	"transformer": schema.SingleNestedAttribute{
+		Attributes:          PolicyTransformerAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// TokenizerUpdateTransformerRequestTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func TokenizerUpdateTransformerRequestTFModelToJSONClient(in *TokenizerUpdateTransformerRequestTFModel) (*TokenizerUpdateTransformerRequestJSONClientModel, error) {
+	out := TokenizerUpdateTransformerRequestJSONClientModel{}
+	var err error
+	out.Transformer, err = func(val *types.Object) (*PolicyTransformerJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := PolicyTransformerTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return PolicyTransformerTFModelToJSONClient(&tfModel)
+	}(&in.Transformer)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"transformer\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// TokenizerUpdateTransformerRequestJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func TokenizerUpdateTransformerRequestJSONClientModelToTF(in *TokenizerUpdateTransformerRequestJSONClientModel) (TokenizerUpdateTransformerRequestTFModel, error) {
+	out := TokenizerUpdateTransformerRequestTFModel{}
+	var err error
+	out.Transformer, err = func(val *PolicyTransformerJSONClientModel) (types.Object, error) {
+		attrTypes := PolicyTransformerAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := PolicyTransformerJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert PolicyTransformerTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.Transformer)
+	if err != nil {
+		return TokenizerUpdateTransformerRequestTFModel{}, ucerr.Errorf("failed to convert \"transformer\" field: %+v", err)
+	}
+	return out, nil
+}
+
 // UserstoreColumnConstraintsTFModel is a Terraform model struct for the UserstoreColumnConstraintsAttributes schema.
 type UserstoreColumnConstraintsTFModel struct {
 	Fields            types.List `tfsdk:"fields"`
