@@ -1276,12 +1276,9 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 		Required:            true,
 	},
 	"input_type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"address", "birthdate", "boolean", "composite", "date", "e164_phonenumber", "email", "integer", "phonenumber", "ssn", "string", "timestamp", "uuid"}...),
-		},
 		Computed:            true,
-		Description:         "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
-		MarkdownDescription: "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
+		Description:         "",
+		MarkdownDescription: "",
 		Optional:            true,
 	},
 	"input_type_constraints": schema.SingleNestedAttribute{
@@ -1308,12 +1305,9 @@ var PolicyTransformerAttributes = map[string]schema.Attribute{
 		Required:            true,
 	},
 	"output_type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"address", "birthdate", "boolean", "composite", "date", "e164_phonenumber", "email", "integer", "phonenumber", "ssn", "string", "timestamp", "uuid"}...),
-		},
 		Computed:            true,
-		Description:         "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
-		MarkdownDescription: "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
+		Description:         "",
+		MarkdownDescription: "",
 		Optional:            true,
 	},
 	"output_type_constraints": schema.SingleNestedAttribute{
@@ -3704,11 +3698,8 @@ var UserstoreColumnFieldAttributes = map[string]schema.Attribute{
 		Optional:            true,
 	},
 	"type": schema.StringAttribute{
-		Validators: []validator.String{
-			stringvalidator.OneOf([]string{"address", "birthdate", "boolean", "composite", "date", "e164_phonenumber", "email", "integer", "phonenumber", "ssn", "string", "timestamp", "uuid"}...),
-		},
-		Description:         "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
-		MarkdownDescription: "Valid values: `address`, `birthdate`, `boolean`, `composite`, `date`, `e164_phonenumber`, `email`, `integer`, `phonenumber`, `ssn`, `string`, `timestamp`, `uuid`",
+		Description:         "",
+		MarkdownDescription: "",
 		Required:            true,
 	},
 }
@@ -3820,32 +3811,6 @@ func UserstoreColumnFieldJSONClientModelToTF(in *UserstoreColumnFieldJSONClientM
 	if err != nil {
 		return UserstoreColumnFieldTFModel{}, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
 	}
-	return out, nil
-}
-
-// UserstoreDataTypeTFModel is a Terraform model struct for the UserstoreDataTypeAttributes schema.
-type UserstoreDataTypeTFModel struct {
-}
-
-// UserstoreDataTypeJSONClientModel stores data for use with jsonclient for making API requests.
-type UserstoreDataTypeJSONClientModel struct {
-}
-
-// UserstoreDataTypeAttrTypes defines the attribute types for the UserstoreDataTypeAttributes schema.
-var UserstoreDataTypeAttrTypes = map[string]attr.Type{}
-
-// UserstoreDataTypeAttributes defines the Terraform attributes schema.
-var UserstoreDataTypeAttributes = map[string]schema.Attribute{}
-
-// UserstoreDataTypeTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
-func UserstoreDataTypeTFModelToJSONClient(in *UserstoreDataTypeTFModel) (*UserstoreDataTypeJSONClientModel, error) {
-	out := UserstoreDataTypeJSONClientModel{}
-	return &out, nil
-}
-
-// UserstoreDataTypeJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
-func UserstoreDataTypeJSONClientModelToTF(in *UserstoreDataTypeJSONClientModel) (UserstoreDataTypeTFModel, error) {
-	out := UserstoreDataTypeTFModel{}
 	return out, nil
 }
 
