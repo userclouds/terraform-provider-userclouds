@@ -2054,6 +2054,10 @@ components:
           type: string
         prev:
           $ref: '#/components/schemas/PaginationCursor'
+        truncated:
+          description: Will be true if an incomplete set of results could be returned
+            for the query
+          type: boolean
       type: object
     IdpExecuteMutatorRequest:
       properties:
@@ -2246,6 +2250,12 @@ components:
           $ref: '#/components/schemas/UserstoreUserSelectorConfig'
         token_access_policy:
           $ref: '#/components/schemas/UserstoreResourceID'
+        use_search_index:
+          description: If true, the accessor will use a search index to look up the
+            users that match the selector. This can only be true if the selector refers
+            to a single column with a concrete data type of string and uses the LIKE
+            or ILIKE operator, and the column has the SearchIndexed flag set.
+          type: boolean
         version:
           type: integer
       required:
@@ -2281,6 +2291,8 @@ components:
           type: boolean
         name:
           type: string
+        search_indexed:
+          type: boolean
         table:
           type: string
         type:

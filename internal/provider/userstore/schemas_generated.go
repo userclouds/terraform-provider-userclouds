@@ -1990,6 +1990,7 @@ type UserstoreAccessorTFModel struct {
 	Purposes                          types.List   `tfsdk:"purposes"`
 	SelectorConfig                    types.Object `tfsdk:"selector_config"`
 	TokenAccessPolicy                 types.String `tfsdk:"token_access_policy"`
+	UseSearchIndex                    types.Bool   `tfsdk:"use_search_index"`
 	Version                           types.Int64  `tfsdk:"version"`
 }
 
@@ -2007,6 +2008,7 @@ type UserstoreAccessorJSONClientModel struct {
 	Purposes                          *[]UserstoreResourceIDJSONClientModel         `json:"purposes,omitempty"`
 	SelectorConfig                    *UserstoreUserSelectorConfigJSONClientModel   `json:"selector_config,omitempty"`
 	TokenAccessPolicy                 *UserstoreResourceIDJSONClientModel           `json:"token_access_policy,omitempty"`
+	UseSearchIndex                    *bool                                         `json:"use_search_index,omitempty"`
 	Version                           *int64                                        `json:"version,omitempty"`
 }
 
@@ -2032,6 +2034,7 @@ var UserstoreAccessorAttrTypes = map[string]attr.Type{
 		AttrTypes: UserstoreUserSelectorConfigAttrTypes,
 	},
 	"token_access_policy": types.StringType,
+	"use_search_index":    types.BoolType,
 	"version":             types.Int64Type,
 }
 
@@ -2131,6 +2134,12 @@ var UserstoreAccessorAttributes = map[string]schema.Attribute{
 		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"use_search_index": schema.BoolAttribute{
+		Computed:            true,
+		Description:         "If true, the accessor will use a search index to look up the users that match the selector. This can only be true if the selector refers to a single column with a concrete data type of string and uses the LIKE or ILIKE operator, and the column has the SearchIndexed flag set.",
+		MarkdownDescription: "If true, the accessor will use a search index to look up the users that match the selector. This can only be true if the selector refers to a single column with a concrete data type of string and uses the LIKE or ILIKE operator, and the column has the SearchIndexed flag set.",
 		Optional:            true,
 	},
 	"version": schema.Int64Attribute{
@@ -2344,6 +2353,16 @@ func UserstoreAccessorTFModelToJSONClient(in *UserstoreAccessorTFModel) (*Userst
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"token_access_policy\" field: %+v", err)
 	}
+	out.UseSearchIndex, err = func(val *types.Bool) (*bool, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueBool()
+		return &converted, nil
+	}(&in.UseSearchIndex)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"use_search_index\" field: %+v", err)
+	}
 	out.Version, err = func(val *types.Int64) (*int64, error) {
 		if val.IsNull() || val.IsUnknown() {
 			return nil, nil
@@ -2552,6 +2571,12 @@ func UserstoreAccessorJSONClientModelToTF(in *UserstoreAccessorJSONClientModel) 
 	if err != nil {
 		return UserstoreAccessorTFModel{}, ucerr.Errorf("failed to convert \"token_access_policy\" field: %+v", err)
 	}
+	out.UseSearchIndex, err = func(val *bool) (types.Bool, error) {
+		return types.BoolPointerValue(val), nil
+	}(in.UseSearchIndex)
+	if err != nil {
+		return UserstoreAccessorTFModel{}, ucerr.Errorf("failed to convert \"use_search_index\" field: %+v", err)
+	}
 	out.Version, err = func(val *int64) (types.Int64, error) {
 		return types.Int64PointerValue(val), nil
 	}(in.Version)
@@ -2573,6 +2598,7 @@ type UserstoreColumnTFModel struct {
 	IndexType                types.String `tfsdk:"index_type"`
 	IsArray                  types.Bool   `tfsdk:"is_array"`
 	Name                     types.String `tfsdk:"name"`
+	SearchIndexed            types.Bool   `tfsdk:"search_indexed"`
 	Table                    types.String `tfsdk:"table"`
 	Type                     types.String `tfsdk:"type"`
 }
@@ -2589,6 +2615,7 @@ type UserstoreColumnJSONClientModel struct {
 	IndexType                *string                                    `json:"index_type,omitempty"`
 	IsArray                  *bool                                      `json:"is_array,omitempty"`
 	Name                     *string                                    `json:"name,omitempty"`
+	SearchIndexed            *bool                                      `json:"search_indexed,omitempty"`
 	Table                    *string                                    `json:"table,omitempty"`
 	Type                     *string                                    `json:"type,omitempty"`
 }
@@ -2607,6 +2634,7 @@ var UserstoreColumnAttrTypes = map[string]attr.Type{
 	"index_type":                  types.StringType,
 	"is_array":                    types.BoolType,
 	"name":                        types.StringType,
+	"search_indexed":              types.BoolType,
 	"table":                       types.StringType,
 	"type":                        types.StringType,
 }
@@ -2708,6 +2736,12 @@ var UserstoreColumnAttributes = map[string]schema.Attribute{
 		Description:         "",
 		MarkdownDescription: "",
 		Required:            true,
+	},
+	"search_indexed": schema.BoolAttribute{
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
 	},
 	"table": schema.StringAttribute{
 		Computed:            true,
@@ -2867,6 +2901,16 @@ func UserstoreColumnTFModelToJSONClient(in *UserstoreColumnTFModel) (*UserstoreC
 	}(&in.Name)
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
+	}
+	out.SearchIndexed, err = func(val *types.Bool) (*bool, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueBool()
+		return &converted, nil
+	}(&in.SearchIndexed)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"search_indexed\" field: %+v", err)
 	}
 	out.Table, err = func(val *types.String) (*string, error) {
 		if val.IsNull() || val.IsUnknown() {
@@ -3035,6 +3079,12 @@ func UserstoreColumnJSONClientModelToTF(in *UserstoreColumnJSONClientModel) (Use
 	}(in.Name)
 	if err != nil {
 		return UserstoreColumnTFModel{}, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
+	}
+	out.SearchIndexed, err = func(val *bool) (types.Bool, error) {
+		return types.BoolPointerValue(val), nil
+	}(in.SearchIndexed)
+	if err != nil {
+		return UserstoreColumnTFModel{}, ucerr.Errorf("failed to convert \"search_indexed\" field: %+v", err)
 	}
 	out.Table, err = func(val *string) (types.String, error) {
 		return types.StringPointerValue(val), nil

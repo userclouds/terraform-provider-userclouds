@@ -38,6 +38,7 @@ resource "userclouds_userstore_column" "example" {
 - `default_token_access_policy` (String)
 - `default_transformer` (String)
 - `default_value` (String)
+- `search_indexed` (Boolean)
 - `table` (String)
 - `type` (String)
 
