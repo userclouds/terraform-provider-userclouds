@@ -1147,6 +1147,149 @@ func PolicyPolicyTypeJSONClientModelToTF(in *PolicyPolicyTypeJSONClientModel) (P
 	return out, nil
 }
 
+// PolicySecretTFModel is a Terraform model struct for the PolicySecretAttributes schema.
+type PolicySecretTFModel struct {
+	Created types.Int64  `tfsdk:"created"`
+	ID      types.String `tfsdk:"id"`
+	Name    types.String `tfsdk:"name"`
+	Value   types.String `tfsdk:"value"`
+}
+
+// PolicySecretJSONClientModel stores data for use with jsonclient for making API requests.
+type PolicySecretJSONClientModel struct {
+	Created *int64     `json:"created,omitempty"`
+	ID      *uuid.UUID `json:"id,omitempty"`
+	Name    *string    `json:"name,omitempty"`
+	Value   *string    `json:"value,omitempty"`
+}
+
+// PolicySecretAttrTypes defines the attribute types for the PolicySecretAttributes schema.
+var PolicySecretAttrTypes = map[string]attr.Type{
+	"created": types.Int64Type,
+	"id":      types.StringType,
+	"name":    types.StringType,
+	"value":   types.StringType,
+}
+
+// PolicySecretAttributes defines the Terraform attributes schema.
+var PolicySecretAttributes = map[string]schema.Attribute{
+	"created": schema.Int64Attribute{
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"id": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.RegexMatches(
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
+			),
+		},
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+		PlanModifiers: []planmodifier.String{
+			stringplanmodifier.UseStateForUnknown(),
+		},
+	},
+	"name": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
+	},
+	"value": schema.StringAttribute{
+		Description:         "",
+		MarkdownDescription: "",
+		Required:            true,
+	},
+}
+
+// PolicySecretTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func PolicySecretTFModelToJSONClient(in *PolicySecretTFModel) (*PolicySecretJSONClientModel, error) {
+	out := PolicySecretJSONClientModel{}
+	var err error
+	out.Created, err = func(val *types.Int64) (*int64, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueInt64()
+		return &converted, nil
+	}(&in.Created)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"created\" field: %+v", err)
+	}
+	out.ID, err = func(val *types.String) (*uuid.UUID, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted, err := uuid.FromString(val.ValueString())
+		if err != nil {
+			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
+		}
+		return &converted, nil
+	}(&in.ID)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
+	}
+	out.Name, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.Name)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
+	}
+	out.Value, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.Value)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"value\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// PolicySecretJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func PolicySecretJSONClientModelToTF(in *PolicySecretJSONClientModel) (PolicySecretTFModel, error) {
+	out := PolicySecretTFModel{}
+	var err error
+	out.Created, err = func(val *int64) (types.Int64, error) {
+		return types.Int64PointerValue(val), nil
+	}(in.Created)
+	if err != nil {
+		return PolicySecretTFModel{}, ucerr.Errorf("failed to convert \"created\" field: %+v", err)
+	}
+	out.ID, err = func(val *uuid.UUID) (types.String, error) {
+		if val == nil {
+			return types.StringNull(), nil
+		}
+		return types.StringValue(val.String()), nil
+	}(in.ID)
+	if err != nil {
+		return PolicySecretTFModel{}, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
+	}
+	out.Name, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.Name)
+	if err != nil {
+		return PolicySecretTFModel{}, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
+	}
+	out.Value, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.Value)
+	if err != nil {
+		return PolicySecretTFModel{}, ucerr.Errorf("failed to convert \"value\" field: %+v", err)
+	}
+	return out, nil
+}
+
 // PolicyTransformTypeTFModel is a Terraform model struct for the PolicyTransformTypeAttributes schema.
 type PolicyTransformTypeTFModel struct {
 }
@@ -1935,6 +2078,97 @@ func TokenizerCreateAccessPolicyTemplateRequestJSONClientModelToTF(in *Tokenizer
 	}(in.AccessPolicyTemplate)
 	if err != nil {
 		return TokenizerCreateAccessPolicyTemplateRequestTFModel{}, ucerr.Errorf("failed to convert \"access_policy_template\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// TokenizerCreateSecretRequestTFModel is a Terraform model struct for the TokenizerCreateSecretRequestAttributes schema.
+type TokenizerCreateSecretRequestTFModel struct {
+	Secret types.Object `tfsdk:"secret"`
+}
+
+// TokenizerCreateSecretRequestJSONClientModel stores data for use with jsonclient for making API requests.
+type TokenizerCreateSecretRequestJSONClientModel struct {
+	Secret *PolicySecretJSONClientModel `json:"secret,omitempty"`
+}
+
+// TokenizerCreateSecretRequestAttrTypes defines the attribute types for the TokenizerCreateSecretRequestAttributes schema.
+var TokenizerCreateSecretRequestAttrTypes = map[string]attr.Type{
+	"secret": types.ObjectType{
+		AttrTypes: PolicySecretAttrTypes,
+	},
+}
+
+// TokenizerCreateSecretRequestAttributes defines the Terraform attributes schema.
+var TokenizerCreateSecretRequestAttributes = map[string]schema.Attribute{
+	"secret": schema.SingleNestedAttribute{
+		Attributes:          PolicySecretAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// TokenizerCreateSecretRequestTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func TokenizerCreateSecretRequestTFModelToJSONClient(in *TokenizerCreateSecretRequestTFModel) (*TokenizerCreateSecretRequestJSONClientModel, error) {
+	out := TokenizerCreateSecretRequestJSONClientModel{}
+	var err error
+	out.Secret, err = func(val *types.Object) (*PolicySecretJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := PolicySecretTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return PolicySecretTFModelToJSONClient(&tfModel)
+	}(&in.Secret)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"secret\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// TokenizerCreateSecretRequestJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func TokenizerCreateSecretRequestJSONClientModelToTF(in *TokenizerCreateSecretRequestJSONClientModel) (TokenizerCreateSecretRequestTFModel, error) {
+	out := TokenizerCreateSecretRequestTFModel{}
+	var err error
+	out.Secret, err = func(val *PolicySecretJSONClientModel) (types.Object, error) {
+		attrTypes := PolicySecretAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := PolicySecretJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert PolicySecretTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.Secret)
+	if err != nil {
+		return TokenizerCreateSecretRequestTFModel{}, ucerr.Errorf("failed to convert \"secret\" field: %+v", err)
 	}
 	return out, nil
 }
