@@ -55,7 +55,6 @@ yarn-debug.log*
 yarn-error.log*
 .npm
 .eslintcache
-.yarn
 .rollup.cache
 
 # Editor specific
