@@ -1,6 +1,6 @@
 module github.com/userclouds/terraform-provider-userclouds
 
-go 1.22.2
+go 1.23.1
 
 require (
 	github.com/hashicorp/terraform-plugin-docs v0.16.0
