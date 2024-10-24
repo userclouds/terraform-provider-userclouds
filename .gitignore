@@ -81,3 +81,6 @@ terragrunt_generated__*.tf
 
 # VS Code
 **__debug_bin**
+
+# rendered helm charts
+.k8s-manifests/
