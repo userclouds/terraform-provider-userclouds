@@ -1355,6 +1355,97 @@ func IdpCreatePurposeRequestJSONClientModelToTF(in *IdpCreatePurposeRequestJSONC
 	return out, nil
 }
 
+// IdpCreateUserSearchIndexRequestTFModel is a Terraform model struct for the IdpCreateUserSearchIndexRequestAttributes schema.
+type IdpCreateUserSearchIndexRequestTFModel struct {
+	Index types.Object `tfsdk:"index"`
+}
+
+// IdpCreateUserSearchIndexRequestJSONClientModel stores data for use with jsonclient for making API requests.
+type IdpCreateUserSearchIndexRequestJSONClientModel struct {
+	Index *SearchUserSearchIndexJSONClientModel `json:"index,omitempty"`
+}
+
+// IdpCreateUserSearchIndexRequestAttrTypes defines the attribute types for the IdpCreateUserSearchIndexRequestAttributes schema.
+var IdpCreateUserSearchIndexRequestAttrTypes = map[string]attr.Type{
+	"index": types.ObjectType{
+		AttrTypes: SearchUserSearchIndexAttrTypes,
+	},
+}
+
+// IdpCreateUserSearchIndexRequestAttributes defines the Terraform attributes schema.
+var IdpCreateUserSearchIndexRequestAttributes = map[string]schema.Attribute{
+	"index": schema.SingleNestedAttribute{
+		Attributes:          SearchUserSearchIndexAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// IdpCreateUserSearchIndexRequestTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func IdpCreateUserSearchIndexRequestTFModelToJSONClient(in *IdpCreateUserSearchIndexRequestTFModel) (*IdpCreateUserSearchIndexRequestJSONClientModel, error) {
+	out := IdpCreateUserSearchIndexRequestJSONClientModel{}
+	var err error
+	out.Index, err = func(val *types.Object) (*SearchUserSearchIndexJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := SearchUserSearchIndexTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return SearchUserSearchIndexTFModelToJSONClient(&tfModel)
+	}(&in.Index)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"index\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// IdpCreateUserSearchIndexRequestJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func IdpCreateUserSearchIndexRequestJSONClientModelToTF(in *IdpCreateUserSearchIndexRequestJSONClientModel) (IdpCreateUserSearchIndexRequestTFModel, error) {
+	out := IdpCreateUserSearchIndexRequestTFModel{}
+	var err error
+	out.Index, err = func(val *SearchUserSearchIndexJSONClientModel) (types.Object, error) {
+		attrTypes := SearchUserSearchIndexAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := SearchUserSearchIndexJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert SearchUserSearchIndexTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.Index)
+	if err != nil {
+		return IdpCreateUserSearchIndexRequestTFModel{}, ucerr.Errorf("failed to convert \"index\" field: %+v", err)
+	}
+	return out, nil
+}
+
 // IdpDurationUnitTFModel is a Terraform model struct for the IdpDurationUnitAttributes schema.
 type IdpDurationUnitTFModel struct {
 }
@@ -1973,6 +2064,939 @@ func PolicyClientContextTFModelToJSONClient(in *PolicyClientContextTFModel) (*Po
 // PolicyClientContextJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
 func PolicyClientContextJSONClientModelToTF(in *PolicyClientContextJSONClientModel) (PolicyClientContextTFModel, error) {
 	out := PolicyClientContextTFModel{}
+	return out, nil
+}
+
+// SearchIndexSettingsTFModel is a Terraform model struct for the SearchIndexSettingsAttributes schema.
+type SearchIndexSettingsTFModel struct {
+	Ngram types.Object `tfsdk:"ngram"`
+}
+
+// SearchIndexSettingsJSONClientModel stores data for use with jsonclient for making API requests.
+type SearchIndexSettingsJSONClientModel struct {
+	Ngram *SearchNgramIndexSettingsJSONClientModel `json:"ngram,omitempty"`
+}
+
+// SearchIndexSettingsAttrTypes defines the attribute types for the SearchIndexSettingsAttributes schema.
+var SearchIndexSettingsAttrTypes = map[string]attr.Type{
+	"ngram": types.ObjectType{
+		AttrTypes: SearchNgramIndexSettingsAttrTypes,
+	},
+}
+
+// SearchIndexSettingsAttributes defines the Terraform attributes schema.
+var SearchIndexSettingsAttributes = map[string]schema.Attribute{
+	"ngram": schema.SingleNestedAttribute{
+		Attributes:          SearchNgramIndexSettingsAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// SearchIndexSettingsTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func SearchIndexSettingsTFModelToJSONClient(in *SearchIndexSettingsTFModel) (*SearchIndexSettingsJSONClientModel, error) {
+	out := SearchIndexSettingsJSONClientModel{}
+	var err error
+	out.Ngram, err = func(val *types.Object) (*SearchNgramIndexSettingsJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := SearchNgramIndexSettingsTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return SearchNgramIndexSettingsTFModelToJSONClient(&tfModel)
+	}(&in.Ngram)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"ngram\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// SearchIndexSettingsJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func SearchIndexSettingsJSONClientModelToTF(in *SearchIndexSettingsJSONClientModel) (SearchIndexSettingsTFModel, error) {
+	out := SearchIndexSettingsTFModel{}
+	var err error
+	out.Ngram, err = func(val *SearchNgramIndexSettingsJSONClientModel) (types.Object, error) {
+		attrTypes := SearchNgramIndexSettingsAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := SearchNgramIndexSettingsJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert SearchNgramIndexSettingsTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.Ngram)
+	if err != nil {
+		return SearchIndexSettingsTFModel{}, ucerr.Errorf("failed to convert \"ngram\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// SearchIndexTypeTFModel is a Terraform model struct for the SearchIndexTypeAttributes schema.
+type SearchIndexTypeTFModel struct {
+}
+
+// SearchIndexTypeJSONClientModel stores data for use with jsonclient for making API requests.
+type SearchIndexTypeJSONClientModel struct {
+}
+
+// SearchIndexTypeAttrTypes defines the attribute types for the SearchIndexTypeAttributes schema.
+var SearchIndexTypeAttrTypes = map[string]attr.Type{}
+
+// SearchIndexTypeAttributes defines the Terraform attributes schema.
+var SearchIndexTypeAttributes = map[string]schema.Attribute{}
+
+// SearchIndexTypeTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func SearchIndexTypeTFModelToJSONClient(in *SearchIndexTypeTFModel) (*SearchIndexTypeJSONClientModel, error) {
+	out := SearchIndexTypeJSONClientModel{}
+	return &out, nil
+}
+
+// SearchIndexTypeJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func SearchIndexTypeJSONClientModelToTF(in *SearchIndexTypeJSONClientModel) (SearchIndexTypeTFModel, error) {
+	out := SearchIndexTypeTFModel{}
+	return out, nil
+}
+
+// SearchNgramIndexSettingsTFModel is a Terraform model struct for the SearchNgramIndexSettingsAttributes schema.
+type SearchNgramIndexSettingsTFModel struct {
+	MaxNgram types.Int64 `tfsdk:"max_ngram"`
+	MinNgram types.Int64 `tfsdk:"min_ngram"`
+}
+
+// SearchNgramIndexSettingsJSONClientModel stores data for use with jsonclient for making API requests.
+type SearchNgramIndexSettingsJSONClientModel struct {
+	MaxNgram *int64 `json:"max_ngram,omitempty"`
+	MinNgram *int64 `json:"min_ngram,omitempty"`
+}
+
+// SearchNgramIndexSettingsAttrTypes defines the attribute types for the SearchNgramIndexSettingsAttributes schema.
+var SearchNgramIndexSettingsAttrTypes = map[string]attr.Type{
+	"max_ngram": types.Int64Type,
+	"min_ngram": types.Int64Type,
+}
+
+// SearchNgramIndexSettingsAttributes defines the Terraform attributes schema.
+var SearchNgramIndexSettingsAttributes = map[string]schema.Attribute{
+	"max_ngram": schema.Int64Attribute{
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"min_ngram": schema.Int64Attribute{
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// SearchNgramIndexSettingsTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func SearchNgramIndexSettingsTFModelToJSONClient(in *SearchNgramIndexSettingsTFModel) (*SearchNgramIndexSettingsJSONClientModel, error) {
+	out := SearchNgramIndexSettingsJSONClientModel{}
+	var err error
+	out.MaxNgram, err = func(val *types.Int64) (*int64, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueInt64()
+		return &converted, nil
+	}(&in.MaxNgram)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"max_ngram\" field: %+v", err)
+	}
+	out.MinNgram, err = func(val *types.Int64) (*int64, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueInt64()
+		return &converted, nil
+	}(&in.MinNgram)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"min_ngram\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// SearchNgramIndexSettingsJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func SearchNgramIndexSettingsJSONClientModelToTF(in *SearchNgramIndexSettingsJSONClientModel) (SearchNgramIndexSettingsTFModel, error) {
+	out := SearchNgramIndexSettingsTFModel{}
+	var err error
+	out.MaxNgram, err = func(val *int64) (types.Int64, error) {
+		return types.Int64PointerValue(val), nil
+	}(in.MaxNgram)
+	if err != nil {
+		return SearchNgramIndexSettingsTFModel{}, ucerr.Errorf("failed to convert \"max_ngram\" field: %+v", err)
+	}
+	out.MinNgram, err = func(val *int64) (types.Int64, error) {
+		return types.Int64PointerValue(val), nil
+	}(in.MinNgram)
+	if err != nil {
+		return SearchNgramIndexSettingsTFModel{}, ucerr.Errorf("failed to convert \"min_ngram\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// SearchQueryTypeTFModel is a Terraform model struct for the SearchQueryTypeAttributes schema.
+type SearchQueryTypeTFModel struct {
+}
+
+// SearchQueryTypeJSONClientModel stores data for use with jsonclient for making API requests.
+type SearchQueryTypeJSONClientModel struct {
+}
+
+// SearchQueryTypeAttrTypes defines the attribute types for the SearchQueryTypeAttributes schema.
+var SearchQueryTypeAttrTypes = map[string]attr.Type{}
+
+// SearchQueryTypeAttributes defines the Terraform attributes schema.
+var SearchQueryTypeAttributes = map[string]schema.Attribute{}
+
+// SearchQueryTypeTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func SearchQueryTypeTFModelToJSONClient(in *SearchQueryTypeTFModel) (*SearchQueryTypeJSONClientModel, error) {
+	out := SearchQueryTypeJSONClientModel{}
+	return &out, nil
+}
+
+// SearchQueryTypeJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func SearchQueryTypeJSONClientModelToTF(in *SearchQueryTypeJSONClientModel) (SearchQueryTypeTFModel, error) {
+	out := SearchQueryTypeTFModel{}
+	return out, nil
+}
+
+// SearchUserSearchIndexTFModel is a Terraform model struct for the SearchUserSearchIndexAttributes schema.
+type SearchUserSearchIndexTFModel struct {
+	Accessors              types.List   `tfsdk:"accessors"`
+	Bootstrapped           types.String `tfsdk:"bootstrapped"`
+	ChangeFeedJobID        types.Int64  `tfsdk:"change_feed_job_id"`
+	ChangeFeedNameSuffix   types.String `tfsdk:"change_feed_name_suffix"`
+	Columns                types.List   `tfsdk:"columns"`
+	DataLifeCycleState     types.String `tfsdk:"data_life_cycle_state"`
+	Description            types.String `tfsdk:"description"`
+	Enabled                types.String `tfsdk:"enabled"`
+	ID                     types.String `tfsdk:"id"`
+	IndexNameSuffix        types.String `tfsdk:"index_name_suffix"`
+	LastBootstrappedUserID types.String `tfsdk:"last_bootstrapped_user_id"`
+	Name                   types.String `tfsdk:"name"`
+	Searchable             types.String `tfsdk:"searchable"`
+	Settings               types.Object `tfsdk:"settings"`
+	Type                   types.String `tfsdk:"type"`
+}
+
+// SearchUserSearchIndexJSONClientModel stores data for use with jsonclient for making API requests.
+type SearchUserSearchIndexJSONClientModel struct {
+	Accessors              *[]SearchUserSearchIndexAccessorJSONClientModel `json:"accessors,omitempty"`
+	Bootstrapped           *string                                         `json:"bootstrapped,omitempty"`
+	ChangeFeedJobID        *int64                                          `json:"change_feed_job_id,omitempty"`
+	ChangeFeedNameSuffix   *string                                         `json:"change_feed_name_suffix,omitempty"`
+	Columns                *[]UserstoreResourceIDJSONClientModel           `json:"columns,omitempty"`
+	DataLifeCycleState     *string                                         `json:"data_life_cycle_state,omitempty"`
+	Description            *string                                         `json:"description,omitempty"`
+	Enabled                *string                                         `json:"enabled,omitempty"`
+	ID                     *uuid.UUID                                      `json:"id,omitempty"`
+	IndexNameSuffix        *string                                         `json:"index_name_suffix,omitempty"`
+	LastBootstrappedUserID *uuid.UUID                                      `json:"last_bootstrapped_user_id,omitempty"`
+	Name                   *string                                         `json:"name,omitempty"`
+	Searchable             *string                                         `json:"searchable,omitempty"`
+	Settings               *SearchIndexSettingsJSONClientModel             `json:"settings,omitempty"`
+	Type                   *string                                         `json:"type,omitempty"`
+}
+
+// SearchUserSearchIndexAttrTypes defines the attribute types for the SearchUserSearchIndexAttributes schema.
+var SearchUserSearchIndexAttrTypes = map[string]attr.Type{
+	"accessors": types.ListType{
+		ElemType: types.ObjectType{
+			AttrTypes: SearchUserSearchIndexAccessorAttrTypes,
+		},
+	},
+	"bootstrapped":            types.StringType,
+	"change_feed_job_id":      types.Int64Type,
+	"change_feed_name_suffix": types.StringType,
+	"columns": types.ListType{
+		ElemType: types.StringType,
+	},
+	"data_life_cycle_state":     types.StringType,
+	"description":               types.StringType,
+	"enabled":                   types.StringType,
+	"id":                        types.StringType,
+	"index_name_suffix":         types.StringType,
+	"last_bootstrapped_user_id": types.StringType,
+	"name":                      types.StringType,
+	"searchable":                types.StringType,
+	"settings": types.ObjectType{
+		AttrTypes: SearchIndexSettingsAttrTypes,
+	},
+	"type": types.StringType,
+}
+
+// SearchUserSearchIndexAttributes defines the Terraform attributes schema.
+var SearchUserSearchIndexAttributes = map[string]schema.Attribute{
+	"accessors": schema.ListNestedAttribute{
+		NestedObject: schema.NestedAttributeObject{
+			Attributes: SearchUserSearchIndexAccessorAttributes,
+		},
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"bootstrapped": schema.StringAttribute{
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"change_feed_job_id": schema.Int64Attribute{
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"change_feed_name_suffix": schema.StringAttribute{
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"columns": schema.ListAttribute{
+		ElementType:         types.StringType,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"data_life_cycle_state": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.OneOf([]string{"", "live", "postdelete", "predelete", "softdeleted"}...),
+		},
+		Computed:            true,
+		Description:         "Valid values: `live`, `postdelete`, `predelete`, `softdeleted`",
+		MarkdownDescription: "Valid values: `live`, `postdelete`, `predelete`, `softdeleted`",
+		Optional:            true,
+	},
+	"description": schema.StringAttribute{
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"enabled": schema.StringAttribute{
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"id": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.RegexMatches(
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
+			),
+		},
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+		PlanModifiers: []planmodifier.String{
+			stringplanmodifier.UseStateForUnknown(),
+		},
+	},
+	"index_name_suffix": schema.StringAttribute{
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"last_bootstrapped_user_id": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.RegexMatches(
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
+			),
+		},
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"name": schema.StringAttribute{
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"searchable": schema.StringAttribute{
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"settings": schema.SingleNestedAttribute{
+		Attributes:          SearchIndexSettingsAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"type": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.OneOf([]string{"deprecated", "ngram"}...),
+		},
+		Computed:            true,
+		Description:         "Valid values: `deprecated`, `ngram`",
+		MarkdownDescription: "Valid values: `deprecated`, `ngram`",
+		Optional:            true,
+	},
+}
+
+// SearchUserSearchIndexTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func SearchUserSearchIndexTFModelToJSONClient(in *SearchUserSearchIndexTFModel) (*SearchUserSearchIndexJSONClientModel, error) {
+	out := SearchUserSearchIndexJSONClientModel{}
+	var err error
+	out.Accessors, err = func(val *types.List) (*[]SearchUserSearchIndexAccessorJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		var out = []SearchUserSearchIndexAccessorJSONClientModel{}
+		for _, elem := range val.Elements() {
+			elemTyped, ok := elem.(types.Object)
+			if !ok {
+				return nil, ucerr.Errorf("unexpected type %s in list", elem.Type(context.Background()).String())
+			}
+			converted, err := func(val *types.Object) (*SearchUserSearchIndexAccessorJSONClientModel, error) {
+				if val == nil || val.IsNull() || val.IsUnknown() {
+					return nil, nil
+				}
+
+				attrs := val.Attributes()
+
+				tfModel := SearchUserSearchIndexAccessorTFModel{}
+				reflected := reflect.ValueOf(&tfModel)
+				tfsdkNamesToFieldNames := map[string]string{}
+				for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+					tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+				}
+				for k, v := range attrs {
+					reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+				}
+				return SearchUserSearchIndexAccessorTFModelToJSONClient(&tfModel)
+			}(&elemTyped)
+			if err != nil {
+				return nil, ucerr.Wrap(err)
+			}
+			out = append(out, *converted)
+		}
+		return &out, nil
+	}(&in.Accessors)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"accessors\" field: %+v", err)
+	}
+	out.Bootstrapped, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.Bootstrapped)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"bootstrapped\" field: %+v", err)
+	}
+	out.ChangeFeedJobID, err = func(val *types.Int64) (*int64, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueInt64()
+		return &converted, nil
+	}(&in.ChangeFeedJobID)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"change_feed_job_id\" field: %+v", err)
+	}
+	out.ChangeFeedNameSuffix, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.ChangeFeedNameSuffix)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"change_feed_name_suffix\" field: %+v", err)
+	}
+	out.Columns, err = func(val *types.List) (*[]UserstoreResourceIDJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		var out = []UserstoreResourceIDJSONClientModel{}
+		for _, elem := range val.Elements() {
+			elemTyped, ok := elem.(types.String)
+			if !ok {
+				return nil, ucerr.Errorf("unexpected type %s in list", elem.Type(context.Background()).String())
+			}
+			converted, err := func(val *types.String) (*UserstoreResourceIDJSONClientModel, error) {
+				if val.IsNull() || val.IsUnknown() {
+					return nil, nil
+				}
+				converted, err := uuid.FromString(val.ValueString())
+				if err != nil {
+					return nil, ucerr.Errorf("failed to parse uuid: %v", err)
+				}
+				s := UserstoreResourceIDJSONClientModel{
+					ID: &converted,
+				}
+				return &s, nil
+			}(&elemTyped)
+			if err != nil {
+				return nil, ucerr.Wrap(err)
+			}
+			out = append(out, *converted)
+		}
+		return &out, nil
+	}(&in.Columns)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"columns\" field: %+v", err)
+	}
+	out.DataLifeCycleState, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.DataLifeCycleState)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"data_life_cycle_state\" field: %+v", err)
+	}
+	out.Description, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.Description)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"description\" field: %+v", err)
+	}
+	out.Enabled, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.Enabled)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"enabled\" field: %+v", err)
+	}
+	out.ID, err = func(val *types.String) (*uuid.UUID, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted, err := uuid.FromString(val.ValueString())
+		if err != nil {
+			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
+		}
+		return &converted, nil
+	}(&in.ID)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
+	}
+	out.IndexNameSuffix, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.IndexNameSuffix)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"index_name_suffix\" field: %+v", err)
+	}
+	out.LastBootstrappedUserID, err = func(val *types.String) (*uuid.UUID, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted, err := uuid.FromString(val.ValueString())
+		if err != nil {
+			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
+		}
+		return &converted, nil
+	}(&in.LastBootstrappedUserID)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"last_bootstrapped_user_id\" field: %+v", err)
+	}
+	out.Name, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.Name)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
+	}
+	out.Searchable, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.Searchable)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"searchable\" field: %+v", err)
+	}
+	out.Settings, err = func(val *types.Object) (*SearchIndexSettingsJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := SearchIndexSettingsTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return SearchIndexSettingsTFModelToJSONClient(&tfModel)
+	}(&in.Settings)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"settings\" field: %+v", err)
+	}
+	out.Type, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.Type)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// SearchUserSearchIndexJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func SearchUserSearchIndexJSONClientModelToTF(in *SearchUserSearchIndexJSONClientModel) (SearchUserSearchIndexTFModel, error) {
+	out := SearchUserSearchIndexTFModel{}
+	var err error
+	out.Accessors, err = func(val *[]SearchUserSearchIndexAccessorJSONClientModel) (types.List, error) {
+		childAttrType := types.ObjectType{
+			AttrTypes: SearchUserSearchIndexAccessorAttrTypes,
+		}
+		if val == nil {
+			return types.ListNull(childAttrType), nil
+		}
+		var out []attr.Value
+		for _, elem := range *val {
+			converted, err := func(val *SearchUserSearchIndexAccessorJSONClientModel) (types.Object, error) {
+				attrTypes := SearchUserSearchIndexAccessorAttrTypes
+
+				if val == nil {
+					return types.ObjectNull(attrTypes), nil
+				}
+
+				tfModel, err := SearchUserSearchIndexAccessorJSONClientModelToTF(val)
+				if err != nil {
+					return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+				}
+
+				v := reflect.ValueOf(tfModel)
+
+				attrVals := map[string]attr.Value{}
+				for i := 0; i < v.NumField(); i++ {
+					attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+				}
+
+				objVal, diag := types.ObjectValue(attrTypes, attrVals)
+				if diag.ErrorsCount() > 0 {
+					return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert SearchUserSearchIndexAccessorTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+				}
+				return objVal, nil
+			}(&elem)
+			if err != nil {
+				return types.ListNull(childAttrType), ucerr.Wrap(err)
+			}
+			out = append(out, converted)
+		}
+		return types.ListValueMust(childAttrType, out), nil
+	}(in.Accessors)
+	if err != nil {
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"accessors\" field: %+v", err)
+	}
+	out.Bootstrapped, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.Bootstrapped)
+	if err != nil {
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"bootstrapped\" field: %+v", err)
+	}
+	out.ChangeFeedJobID, err = func(val *int64) (types.Int64, error) {
+		return types.Int64PointerValue(val), nil
+	}(in.ChangeFeedJobID)
+	if err != nil {
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"change_feed_job_id\" field: %+v", err)
+	}
+	out.ChangeFeedNameSuffix, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.ChangeFeedNameSuffix)
+	if err != nil {
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"change_feed_name_suffix\" field: %+v", err)
+	}
+	out.Columns, err = func(val *[]UserstoreResourceIDJSONClientModel) (types.List, error) {
+		childAttrType := types.StringType
+		if val == nil {
+			return types.ListNull(childAttrType), nil
+		}
+		var out []attr.Value
+		for _, elem := range *val {
+			converted, err := func(val *UserstoreResourceIDJSONClientModel) (types.String, error) {
+				if val == nil {
+					return types.StringNull(), nil
+				}
+				// We should only need to convert jsonclient models to TF models when receiving API
+				// responses, and API responses should always have the ID set.
+				// Sometimes we receive nil UUIDs here because of how the server
+				// serializes empty values, so we should only freak out if we see a
+				// name provided but not an ID.
+				if val.Name != nil && *val.Name != "" && (val.ID == nil || val.ID.IsNil()) {
+					return types.StringNull(), ucerr.Errorf("got nil ID field in UserstoreResourceID. this is an issue with the UserClouds Terraform provider")
+				}
+				if val.ID == nil || val.ID.IsNil() {
+					return types.StringNull(), nil
+				}
+				return types.StringValue(val.ID.String()), nil
+			}(&elem)
+			if err != nil {
+				return types.ListNull(childAttrType), ucerr.Wrap(err)
+			}
+			out = append(out, converted)
+		}
+		return types.ListValueMust(childAttrType, out), nil
+	}(in.Columns)
+	if err != nil {
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"columns\" field: %+v", err)
+	}
+	out.DataLifeCycleState, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.DataLifeCycleState)
+	if err != nil {
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"data_life_cycle_state\" field: %+v", err)
+	}
+	out.Description, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.Description)
+	if err != nil {
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"description\" field: %+v", err)
+	}
+	out.Enabled, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.Enabled)
+	if err != nil {
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"enabled\" field: %+v", err)
+	}
+	out.ID, err = func(val *uuid.UUID) (types.String, error) {
+		if val == nil {
+			return types.StringNull(), nil
+		}
+		return types.StringValue(val.String()), nil
+	}(in.ID)
+	if err != nil {
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"id\" field: %+v", err)
+	}
+	out.IndexNameSuffix, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.IndexNameSuffix)
+	if err != nil {
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"index_name_suffix\" field: %+v", err)
+	}
+	out.LastBootstrappedUserID, err = func(val *uuid.UUID) (types.String, error) {
+		if val == nil {
+			return types.StringNull(), nil
+		}
+		return types.StringValue(val.String()), nil
+	}(in.LastBootstrappedUserID)
+	if err != nil {
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"last_bootstrapped_user_id\" field: %+v", err)
+	}
+	out.Name, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.Name)
+	if err != nil {
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"name\" field: %+v", err)
+	}
+	out.Searchable, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.Searchable)
+	if err != nil {
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"searchable\" field: %+v", err)
+	}
+	out.Settings, err = func(val *SearchIndexSettingsJSONClientModel) (types.Object, error) {
+		attrTypes := SearchIndexSettingsAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := SearchIndexSettingsJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert SearchIndexSettingsTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.Settings)
+	if err != nil {
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"settings\" field: %+v", err)
+	}
+	out.Type, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.Type)
+	if err != nil {
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"type\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// SearchUserSearchIndexAccessorTFModel is a Terraform model struct for the SearchUserSearchIndexAccessorAttributes schema.
+type SearchUserSearchIndexAccessorTFModel struct {
+	Accessor  types.String `tfsdk:"accessor"`
+	QueryType types.String `tfsdk:"query_type"`
+}
+
+// SearchUserSearchIndexAccessorJSONClientModel stores data for use with jsonclient for making API requests.
+type SearchUserSearchIndexAccessorJSONClientModel struct {
+	Accessor  *UserstoreResourceIDJSONClientModel `json:"accessor,omitempty"`
+	QueryType *string                             `json:"query_type,omitempty"`
+}
+
+// SearchUserSearchIndexAccessorAttrTypes defines the attribute types for the SearchUserSearchIndexAccessorAttributes schema.
+var SearchUserSearchIndexAccessorAttrTypes = map[string]attr.Type{
+	"accessor":   types.StringType,
+	"query_type": types.StringType,
+}
+
+// SearchUserSearchIndexAccessorAttributes defines the Terraform attributes schema.
+var SearchUserSearchIndexAccessorAttributes = map[string]schema.Attribute{
+	"accessor": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.RegexMatches(
+				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
+				"invalid UUID format",
+			),
+		},
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+	"query_type": schema.StringAttribute{
+		Validators: []validator.String{
+			stringvalidator.OneOf([]string{"term", "wildcard"}...),
+		},
+		Computed:            true,
+		Description:         "Valid values: `term`, `wildcard`",
+		MarkdownDescription: "Valid values: `term`, `wildcard`",
+		Optional:            true,
+	},
+}
+
+// SearchUserSearchIndexAccessorTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func SearchUserSearchIndexAccessorTFModelToJSONClient(in *SearchUserSearchIndexAccessorTFModel) (*SearchUserSearchIndexAccessorJSONClientModel, error) {
+	out := SearchUserSearchIndexAccessorJSONClientModel{}
+	var err error
+	out.Accessor, err = func(val *types.String) (*UserstoreResourceIDJSONClientModel, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted, err := uuid.FromString(val.ValueString())
+		if err != nil {
+			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
+		}
+		s := UserstoreResourceIDJSONClientModel{
+			ID: &converted,
+		}
+		return &s, nil
+	}(&in.Accessor)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"accessor\" field: %+v", err)
+	}
+	out.QueryType, err = func(val *types.String) (*string, error) {
+		if val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+		converted := val.ValueString()
+		return &converted, nil
+	}(&in.QueryType)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"query_type\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// SearchUserSearchIndexAccessorJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func SearchUserSearchIndexAccessorJSONClientModelToTF(in *SearchUserSearchIndexAccessorJSONClientModel) (SearchUserSearchIndexAccessorTFModel, error) {
+	out := SearchUserSearchIndexAccessorTFModel{}
+	var err error
+	out.Accessor, err = func(val *UserstoreResourceIDJSONClientModel) (types.String, error) {
+		if val == nil {
+			return types.StringNull(), nil
+		}
+		// We should only need to convert jsonclient models to TF models when receiving API
+		// responses, and API responses should always have the ID set.
+		// Sometimes we receive nil UUIDs here because of how the server
+		// serializes empty values, so we should only freak out if we see a
+		// name provided but not an ID.
+		if val.Name != nil && *val.Name != "" && (val.ID == nil || val.ID.IsNil()) {
+			return types.StringNull(), ucerr.Errorf("got nil ID field in UserstoreResourceID. this is an issue with the UserClouds Terraform provider")
+		}
+		if val.ID == nil || val.ID.IsNil() {
+			return types.StringNull(), nil
+		}
+		return types.StringValue(val.ID.String()), nil
+	}(in.Accessor)
+	if err != nil {
+		return SearchUserSearchIndexAccessorTFModel{}, ucerr.Errorf("failed to convert \"accessor\" field: %+v", err)
+	}
+	out.QueryType, err = func(val *string) (types.String, error) {
+		return types.StringPointerValue(val), nil
+	}(in.QueryType)
+	if err != nil {
+		return SearchUserSearchIndexAccessorTFModel{}, ucerr.Errorf("failed to convert \"query_type\" field: %+v", err)
+	}
 	return out, nil
 }
 
@@ -6513,6 +7537,97 @@ func UserstoreUpdatePurposeRequestJSONClientModelToTF(in *UserstoreUpdatePurpose
 	}(in.Purpose)
 	if err != nil {
 		return UserstoreUpdatePurposeRequestTFModel{}, ucerr.Errorf("failed to convert \"purpose\" field: %+v", err)
+	}
+	return out, nil
+}
+
+// UserstoreUpdateUserSearchIndexRequestTFModel is a Terraform model struct for the UserstoreUpdateUserSearchIndexRequestAttributes schema.
+type UserstoreUpdateUserSearchIndexRequestTFModel struct {
+	Index types.Object `tfsdk:"index"`
+}
+
+// UserstoreUpdateUserSearchIndexRequestJSONClientModel stores data for use with jsonclient for making API requests.
+type UserstoreUpdateUserSearchIndexRequestJSONClientModel struct {
+	Index *SearchUserSearchIndexJSONClientModel `json:"index,omitempty"`
+}
+
+// UserstoreUpdateUserSearchIndexRequestAttrTypes defines the attribute types for the UserstoreUpdateUserSearchIndexRequestAttributes schema.
+var UserstoreUpdateUserSearchIndexRequestAttrTypes = map[string]attr.Type{
+	"index": types.ObjectType{
+		AttrTypes: SearchUserSearchIndexAttrTypes,
+	},
+}
+
+// UserstoreUpdateUserSearchIndexRequestAttributes defines the Terraform attributes schema.
+var UserstoreUpdateUserSearchIndexRequestAttributes = map[string]schema.Attribute{
+	"index": schema.SingleNestedAttribute{
+		Attributes:          SearchUserSearchIndexAttributes,
+		Computed:            true,
+		Description:         "",
+		MarkdownDescription: "",
+		Optional:            true,
+	},
+}
+
+// UserstoreUpdateUserSearchIndexRequestTFModelToJSONClient converts a Terraform model struct to a jsonclient model struct.
+func UserstoreUpdateUserSearchIndexRequestTFModelToJSONClient(in *UserstoreUpdateUserSearchIndexRequestTFModel) (*UserstoreUpdateUserSearchIndexRequestJSONClientModel, error) {
+	out := UserstoreUpdateUserSearchIndexRequestJSONClientModel{}
+	var err error
+	out.Index, err = func(val *types.Object) (*SearchUserSearchIndexJSONClientModel, error) {
+		if val == nil || val.IsNull() || val.IsUnknown() {
+			return nil, nil
+		}
+
+		attrs := val.Attributes()
+
+		tfModel := SearchUserSearchIndexTFModel{}
+		reflected := reflect.ValueOf(&tfModel)
+		tfsdkNamesToFieldNames := map[string]string{}
+		for i := 0; i < reflect.Indirect(reflected).NumField(); i++ {
+			tfsdkNamesToFieldNames[reflect.Indirect(reflected).Type().Field(i).Tag.Get("tfsdk")] = reflect.Indirect(reflected).Type().Field(i).Name
+		}
+		for k, v := range attrs {
+			reflect.Indirect(reflected).FieldByName(tfsdkNamesToFieldNames[k]).Set(reflect.ValueOf(v))
+		}
+		return SearchUserSearchIndexTFModelToJSONClient(&tfModel)
+	}(&in.Index)
+	if err != nil {
+		return nil, ucerr.Errorf("failed to convert \"index\" field: %+v", err)
+	}
+	return &out, nil
+}
+
+// UserstoreUpdateUserSearchIndexRequestJSONClientModelToTF converts a jsonclient model struct to a Terraform model struct.
+func UserstoreUpdateUserSearchIndexRequestJSONClientModelToTF(in *UserstoreUpdateUserSearchIndexRequestJSONClientModel) (UserstoreUpdateUserSearchIndexRequestTFModel, error) {
+	out := UserstoreUpdateUserSearchIndexRequestTFModel{}
+	var err error
+	out.Index, err = func(val *SearchUserSearchIndexJSONClientModel) (types.Object, error) {
+		attrTypes := SearchUserSearchIndexAttrTypes
+
+		if val == nil {
+			return types.ObjectNull(attrTypes), nil
+		}
+
+		tfModel, err := SearchUserSearchIndexJSONClientModelToTF(val)
+		if err != nil {
+			return types.ObjectNull(attrTypes), ucerr.Wrap(err)
+		}
+
+		v := reflect.ValueOf(tfModel)
+
+		attrVals := map[string]attr.Value{}
+		for i := 0; i < v.NumField(); i++ {
+			attrVals[v.Type().Field(i).Tag.Get("tfsdk")] = v.Field(i).Interface().(attr.Value)
+		}
+
+		objVal, diag := types.ObjectValue(attrTypes, attrVals)
+		if diag.ErrorsCount() > 0 {
+			return types.ObjectNull(attrTypes), ucerr.Errorf("failed to convert SearchUserSearchIndexTFModel to terraform basetypes.Object: %s", diag.Errors()[0].Detail())
+		}
+		return objVal, nil
+	}(in.Index)
+	if err != nil {
+		return UserstoreUpdateUserSearchIndexRequestTFModel{}, ucerr.Errorf("failed to convert \"index\" field: %+v", err)
 	}
 	return out, nil
 }

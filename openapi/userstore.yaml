@@ -1806,6 +1806,175 @@ paths:
       summary: Update SoftDeleted ColumnRetentionDuration for Purpose
       tags:
       - ColumnRetentionDurations
+  /userstore/config/searchindices:
+    get:
+      description: This endpoint returns a paginated list of all user search indices
+        in a tenant.
+      parameters:
+      - description: A cursor value after which the returned list will start
+        in: query
+        name: starting_after
+        schema:
+          description: A cursor value after which the returned list will start
+          nullable: true
+          type: string
+      - description: A cursor value before which the returned list will end
+        in: query
+        name: ending_before
+        schema:
+          description: A cursor value before which the returned list will end
+          nullable: true
+          type: string
+      - description: The maximum number of results to be returned per page
+        in: query
+        name: limit
+        schema:
+          description: The maximum number of results to be returned per page
+          nullable: true
+          type: string
+      - description: A filter clause to use in the pagination query
+        in: query
+        name: filter
+        schema:
+          description: A filter clause to use in the pagination query
+          nullable: true
+          type: string
+      - description: A comma-delimited list of field names to sort the returned results
+          by - the last field name must be 'id'
+        in: query
+        name: sort_key
+        schema:
+          description: A comma-delimited list of field names to sort the returned
+            results by - the last field name must be 'id'
+          nullable: true
+          type: string
+      - description: The order in which results should be sorted (ascending or descending)
+        in: query
+        name: sort_order
+        schema:
+          description: The order in which results should be sorted (ascending or descending)
+          nullable: true
+          type: string
+      - description: The version of the API to be called
+        in: query
+        name: version
+        schema:
+          description: The version of the API to be called
+          nullable: true
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdpListUserSearchIndicesResponse'
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: List User Search Indexes
+      tags:
+      - User Search Indices
+    post:
+      description: This endpoint creates a new user search index.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdpCreateUserSearchIndexRequest'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchUserSearchIndex'
+          description: Created
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+        "500":
+          description: Internal Server Error
+      summary: Create User Search Index
+      tags:
+      - User Search Indices
+  /userstore/config/searchindices/{id}:
+    delete:
+      description: This endpoint deletes a user search index by ID.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "409":
+          description: Conflict
+        "500":
+          description: Internal Server Error
+      summary: Delete User Search Index
+      tags:
+      - User Search Indices
+    get:
+      description: This endpoint gets a user search index's configuration by ID.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchUserSearchIndex'
+          description: OK
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Get User Search Index
+      tags:
+      - User Search Indices
+    put:
+      description: This endpoint updates a specified user search index.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UuidUUID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserstoreUpdateUserSearchIndexRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchUserSearchIndex'
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "409":
+          description: Conflict
+        "500":
+          description: Internal Server Error
+      summary: Update User Search Index
+      tags:
+      - User Search Indices
   /userstore/config/softdeletedretentiondurations:
     get:
       description: This endpoint gets the default SoftDeleted ColumnRetentionDuration
@@ -2009,6 +2178,11 @@ components:
         purpose:
           $ref: '#/components/schemas/UserstorePurpose'
       type: object
+    IdpCreateUserSearchIndexRequest:
+      properties:
+        index:
+          $ref: '#/components/schemas/SearchUserSearchIndex'
+      type: object
     IdpCreateUserWithMutatorRequest:
       properties:
         context:
@@ -2179,6 +2353,22 @@ components:
         prev:
           $ref: '#/components/schemas/PaginationCursor'
       type: object
+    IdpListUserSearchIndicesResponse:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/SearchUserSearchIndex'
+          nullable: true
+          type: array
+        has_next:
+          type: boolean
+        has_prev:
+          type: boolean
+        next:
+          type: string
+        prev:
+          $ref: '#/components/schemas/PaginationCursor'
+      type: object
     IdpRetentionDuration:
       properties:
         duration:
@@ -2210,6 +2400,77 @@ components:
     PaginationCursor: {}
     PolicyClientContext:
       additionalProperties: {}
+      type: object
+    SearchIndexSettings:
+      properties:
+        ngram:
+          $ref: '#/components/schemas/SearchNgramIndexSettings'
+      type: object
+    SearchIndexType:
+      enum:
+      - deprecated
+      - ngram
+      type: string
+    SearchNgramIndexSettings:
+      properties:
+        max_ngram:
+          type: integer
+        min_ngram:
+          type: integer
+      type: object
+    SearchQueryType:
+      enum:
+      - term
+      - wildcard
+      type: string
+    SearchUserSearchIndex:
+      properties:
+        accessors:
+          items:
+            $ref: '#/components/schemas/SearchUserSearchIndexAccessor'
+          nullable: true
+          type: array
+        bootstrapped:
+          format: date-time
+          type: string
+        change_feed_job_id:
+          type: integer
+        change_feed_name_suffix:
+          type: string
+        columns:
+          items:
+            $ref: '#/components/schemas/UserstoreResourceID'
+          nullable: true
+          type: array
+        data_life_cycle_state:
+          $ref: '#/components/schemas/UserstoreDataLifeCycleState'
+        description:
+          type: string
+        enabled:
+          format: date-time
+          type: string
+        id:
+          $ref: '#/components/schemas/UuidUUID'
+        index_name_suffix:
+          type: string
+        last_bootstrapped_user_id:
+          $ref: '#/components/schemas/UuidUUID'
+        name:
+          type: string
+        searchable:
+          format: date-time
+          type: string
+        settings:
+          $ref: '#/components/schemas/SearchIndexSettings'
+        type:
+          $ref: '#/components/schemas/SearchIndexType'
+      type: object
+    SearchUserSearchIndexAccessor:
+      properties:
+        accessor:
+          $ref: '#/components/schemas/UserstoreResourceID'
+        query_type:
+          $ref: '#/components/schemas/SearchQueryType'
       type: object
     UserstoreAccessor:
       properties:
@@ -2596,6 +2857,11 @@ components:
       properties:
         purpose:
           $ref: '#/components/schemas/UserstorePurpose'
+      type: object
+    UserstoreUpdateUserSearchIndexRequest:
+      properties:
+        index:
+          $ref: '#/components/schemas/SearchUserSearchIndex'
       type: object
     UserstoreUserSelectorConfig:
       properties:
