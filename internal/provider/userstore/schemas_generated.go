@@ -2292,40 +2292,40 @@ func SearchQueryTypeJSONClientModelToTF(in *SearchQueryTypeJSONClientModel) (Sea
 
 // SearchUserSearchIndexTFModel is a Terraform model struct for the SearchUserSearchIndexAttributes schema.
 type SearchUserSearchIndexTFModel struct {
-	Accessors              types.List   `tfsdk:"accessors"`
-	Bootstrapped           types.String `tfsdk:"bootstrapped"`
-	ChangeFeedJobID        types.Int64  `tfsdk:"change_feed_job_id"`
-	ChangeFeedNameSuffix   types.String `tfsdk:"change_feed_name_suffix"`
-	Columns                types.List   `tfsdk:"columns"`
-	DataLifeCycleState     types.String `tfsdk:"data_life_cycle_state"`
-	Description            types.String `tfsdk:"description"`
-	Enabled                types.String `tfsdk:"enabled"`
-	ID                     types.String `tfsdk:"id"`
-	IndexNameSuffix        types.String `tfsdk:"index_name_suffix"`
-	LastBootstrappedUserID types.String `tfsdk:"last_bootstrapped_user_id"`
-	Name                   types.String `tfsdk:"name"`
-	Searchable             types.String `tfsdk:"searchable"`
-	Settings               types.Object `tfsdk:"settings"`
-	Type                   types.String `tfsdk:"type"`
+	Accessors               types.List   `tfsdk:"accessors"`
+	Bootstrapped            types.String `tfsdk:"bootstrapped"`
+	ChangeFeedJobID         types.Int64  `tfsdk:"change_feed_job_id"`
+	ChangeFeedNameSuffix    types.String `tfsdk:"change_feed_name_suffix"`
+	Columns                 types.List   `tfsdk:"columns"`
+	DataLifeCycleState      types.String `tfsdk:"data_life_cycle_state"`
+	Description             types.String `tfsdk:"description"`
+	Enabled                 types.String `tfsdk:"enabled"`
+	ID                      types.String `tfsdk:"id"`
+	IndexNameSuffix         types.String `tfsdk:"index_name_suffix"`
+	LastBootstrappedValueID types.String `tfsdk:"last_bootstrapped_value_id"`
+	Name                    types.String `tfsdk:"name"`
+	Searchable              types.String `tfsdk:"searchable"`
+	Settings                types.Object `tfsdk:"settings"`
+	Type                    types.String `tfsdk:"type"`
 }
 
 // SearchUserSearchIndexJSONClientModel stores data for use with jsonclient for making API requests.
 type SearchUserSearchIndexJSONClientModel struct {
-	Accessors              *[]SearchUserSearchIndexAccessorJSONClientModel `json:"accessors,omitempty"`
-	Bootstrapped           *string                                         `json:"bootstrapped,omitempty"`
-	ChangeFeedJobID        *int64                                          `json:"change_feed_job_id,omitempty"`
-	ChangeFeedNameSuffix   *string                                         `json:"change_feed_name_suffix,omitempty"`
-	Columns                *[]UserstoreResourceIDJSONClientModel           `json:"columns,omitempty"`
-	DataLifeCycleState     *string                                         `json:"data_life_cycle_state,omitempty"`
-	Description            *string                                         `json:"description,omitempty"`
-	Enabled                *string                                         `json:"enabled,omitempty"`
-	ID                     *uuid.UUID                                      `json:"id,omitempty"`
-	IndexNameSuffix        *string                                         `json:"index_name_suffix,omitempty"`
-	LastBootstrappedUserID *uuid.UUID                                      `json:"last_bootstrapped_user_id,omitempty"`
-	Name                   *string                                         `json:"name,omitempty"`
-	Searchable             *string                                         `json:"searchable,omitempty"`
-	Settings               *SearchIndexSettingsJSONClientModel             `json:"settings,omitempty"`
-	Type                   *string                                         `json:"type,omitempty"`
+	Accessors               *[]SearchUserSearchIndexAccessorJSONClientModel `json:"accessors,omitempty"`
+	Bootstrapped            *string                                         `json:"bootstrapped,omitempty"`
+	ChangeFeedJobID         *int64                                          `json:"change_feed_job_id,omitempty"`
+	ChangeFeedNameSuffix    *string                                         `json:"change_feed_name_suffix,omitempty"`
+	Columns                 *[]UserstoreResourceIDJSONClientModel           `json:"columns,omitempty"`
+	DataLifeCycleState      *string                                         `json:"data_life_cycle_state,omitempty"`
+	Description             *string                                         `json:"description,omitempty"`
+	Enabled                 *string                                         `json:"enabled,omitempty"`
+	ID                      *uuid.UUID                                      `json:"id,omitempty"`
+	IndexNameSuffix         *string                                         `json:"index_name_suffix,omitempty"`
+	LastBootstrappedValueID *uuid.UUID                                      `json:"last_bootstrapped_value_id,omitempty"`
+	Name                    *string                                         `json:"name,omitempty"`
+	Searchable              *string                                         `json:"searchable,omitempty"`
+	Settings                *SearchIndexSettingsJSONClientModel             `json:"settings,omitempty"`
+	Type                    *string                                         `json:"type,omitempty"`
 }
 
 // SearchUserSearchIndexAttrTypes defines the attribute types for the SearchUserSearchIndexAttributes schema.
@@ -2341,14 +2341,14 @@ var SearchUserSearchIndexAttrTypes = map[string]attr.Type{
 	"columns": types.ListType{
 		ElemType: types.StringType,
 	},
-	"data_life_cycle_state":     types.StringType,
-	"description":               types.StringType,
-	"enabled":                   types.StringType,
-	"id":                        types.StringType,
-	"index_name_suffix":         types.StringType,
-	"last_bootstrapped_user_id": types.StringType,
-	"name":                      types.StringType,
-	"searchable":                types.StringType,
+	"data_life_cycle_state":      types.StringType,
+	"description":                types.StringType,
+	"enabled":                    types.StringType,
+	"id":                         types.StringType,
+	"index_name_suffix":          types.StringType,
+	"last_bootstrapped_value_id": types.StringType,
+	"name":                       types.StringType,
+	"searchable":                 types.StringType,
 	"settings": types.ObjectType{
 		AttrTypes: SearchIndexSettingsAttrTypes,
 	},
@@ -2433,7 +2433,7 @@ var SearchUserSearchIndexAttributes = map[string]schema.Attribute{
 		MarkdownDescription: "",
 		Optional:            true,
 	},
-	"last_bootstrapped_user_id": schema.StringAttribute{
+	"last_bootstrapped_value_id": schema.StringAttribute{
 		Validators: []validator.String{
 			stringvalidator.RegexMatches(
 				regexp.MustCompile("(?i)^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"),
@@ -2633,7 +2633,7 @@ func SearchUserSearchIndexTFModelToJSONClient(in *SearchUserSearchIndexTFModel) 
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"index_name_suffix\" field: %+v", err)
 	}
-	out.LastBootstrappedUserID, err = func(val *types.String) (*uuid.UUID, error) {
+	out.LastBootstrappedValueID, err = func(val *types.String) (*uuid.UUID, error) {
 		if val.IsNull() || val.IsUnknown() {
 			return nil, nil
 		}
@@ -2642,9 +2642,9 @@ func SearchUserSearchIndexTFModelToJSONClient(in *SearchUserSearchIndexTFModel) 
 			return nil, ucerr.Errorf("failed to parse uuid: %v", err)
 		}
 		return &converted, nil
-	}(&in.LastBootstrappedUserID)
+	}(&in.LastBootstrappedValueID)
 	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"last_bootstrapped_user_id\" field: %+v", err)
+		return nil, ucerr.Errorf("failed to convert \"last_bootstrapped_value_id\" field: %+v", err)
 	}
 	out.Name, err = func(val *types.String) (*string, error) {
 		if val.IsNull() || val.IsUnknown() {
@@ -2833,14 +2833,14 @@ func SearchUserSearchIndexJSONClientModelToTF(in *SearchUserSearchIndexJSONClien
 	if err != nil {
 		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"index_name_suffix\" field: %+v", err)
 	}
-	out.LastBootstrappedUserID, err = func(val *uuid.UUID) (types.String, error) {
+	out.LastBootstrappedValueID, err = func(val *uuid.UUID) (types.String, error) {
 		if val == nil {
 			return types.StringNull(), nil
 		}
 		return types.StringValue(val.String()), nil
-	}(in.LastBootstrappedUserID)
+	}(in.LastBootstrappedValueID)
 	if err != nil {
-		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"last_bootstrapped_user_id\" field: %+v", err)
+		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"last_bootstrapped_value_id\" field: %+v", err)
 	}
 	out.Name, err = func(val *string) (types.String, error) {
 		return types.StringPointerValue(val), nil

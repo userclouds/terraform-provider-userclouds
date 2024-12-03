@@ -2453,7 +2453,7 @@ components:
           $ref: '#/components/schemas/UuidUUID'
         index_name_suffix:
           type: string
-        last_bootstrapped_user_id:
+        last_bootstrapped_value_id:
           $ref: '#/components/schemas/UuidUUID'
         name:
           type: string
