@@ -9,13 +9,15 @@ concurrency:
       cancel-in-progress: true
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
       - name: Setup Go environment
         uses: ./.github/actions/go-setup
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
       - name: Codegen
         run: |
           make codegen
