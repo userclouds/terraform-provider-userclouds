@@ -2294,8 +2294,6 @@ func SearchQueryTypeJSONClientModelToTF(in *SearchQueryTypeJSONClientModel) (Sea
 type SearchUserSearchIndexTFModel struct {
 	Accessors               types.List   `tfsdk:"accessors"`
 	Bootstrapped            types.String `tfsdk:"bootstrapped"`
-	ChangeFeedJobID         types.Int64  `tfsdk:"change_feed_job_id"`
-	ChangeFeedNameSuffix    types.String `tfsdk:"change_feed_name_suffix"`
 	Columns                 types.List   `tfsdk:"columns"`
 	DataLifeCycleState      types.String `tfsdk:"data_life_cycle_state"`
 	Description             types.String `tfsdk:"description"`
@@ -2313,8 +2311,6 @@ type SearchUserSearchIndexTFModel struct {
 type SearchUserSearchIndexJSONClientModel struct {
 	Accessors               *[]SearchUserSearchIndexAccessorJSONClientModel `json:"accessors,omitempty"`
 	Bootstrapped            *string                                         `json:"bootstrapped,omitempty"`
-	ChangeFeedJobID         *int64                                          `json:"change_feed_job_id,omitempty"`
-	ChangeFeedNameSuffix    *string                                         `json:"change_feed_name_suffix,omitempty"`
 	Columns                 *[]UserstoreResourceIDJSONClientModel           `json:"columns,omitempty"`
 	DataLifeCycleState      *string                                         `json:"data_life_cycle_state,omitempty"`
 	Description             *string                                         `json:"description,omitempty"`
@@ -2335,9 +2331,7 @@ var SearchUserSearchIndexAttrTypes = map[string]attr.Type{
 			AttrTypes: SearchUserSearchIndexAccessorAttrTypes,
 		},
 	},
-	"bootstrapped":            types.StringType,
-	"change_feed_job_id":      types.Int64Type,
-	"change_feed_name_suffix": types.StringType,
+	"bootstrapped": types.StringType,
 	"columns": types.ListType{
 		ElemType: types.StringType,
 	},
@@ -2367,18 +2361,6 @@ var SearchUserSearchIndexAttributes = map[string]schema.Attribute{
 		Optional:            true,
 	},
 	"bootstrapped": schema.StringAttribute{
-		Computed:            true,
-		Description:         "",
-		MarkdownDescription: "",
-		Optional:            true,
-	},
-	"change_feed_job_id": schema.Int64Attribute{
-		Computed:            true,
-		Description:         "",
-		MarkdownDescription: "",
-		Optional:            true,
-	},
-	"change_feed_name_suffix": schema.StringAttribute{
 		Computed:            true,
 		Description:         "",
 		MarkdownDescription: "",
@@ -2526,26 +2508,6 @@ func SearchUserSearchIndexTFModelToJSONClient(in *SearchUserSearchIndexTFModel) 
 	}(&in.Bootstrapped)
 	if err != nil {
 		return nil, ucerr.Errorf("failed to convert \"bootstrapped\" field: %+v", err)
-	}
-	out.ChangeFeedJobID, err = func(val *types.Int64) (*int64, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueInt64()
-		return &converted, nil
-	}(&in.ChangeFeedJobID)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"change_feed_job_id\" field: %+v", err)
-	}
-	out.ChangeFeedNameSuffix, err = func(val *types.String) (*string, error) {
-		if val.IsNull() || val.IsUnknown() {
-			return nil, nil
-		}
-		converted := val.ValueString()
-		return &converted, nil
-	}(&in.ChangeFeedNameSuffix)
-	if err != nil {
-		return nil, ucerr.Errorf("failed to convert \"change_feed_name_suffix\" field: %+v", err)
 	}
 	out.Columns, err = func(val *types.List) (*[]UserstoreResourceIDJSONClientModel, error) {
 		if val == nil || val.IsNull() || val.IsUnknown() {
@@ -2753,18 +2715,6 @@ func SearchUserSearchIndexJSONClientModelToTF(in *SearchUserSearchIndexJSONClien
 	}(in.Bootstrapped)
 	if err != nil {
 		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"bootstrapped\" field: %+v", err)
-	}
-	out.ChangeFeedJobID, err = func(val *int64) (types.Int64, error) {
-		return types.Int64PointerValue(val), nil
-	}(in.ChangeFeedJobID)
-	if err != nil {
-		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"change_feed_job_id\" field: %+v", err)
-	}
-	out.ChangeFeedNameSuffix, err = func(val *string) (types.String, error) {
-		return types.StringPointerValue(val), nil
-	}(in.ChangeFeedNameSuffix)
-	if err != nil {
-		return SearchUserSearchIndexTFModel{}, ucerr.Errorf("failed to convert \"change_feed_name_suffix\" field: %+v", err)
 	}
 	out.Columns, err = func(val *[]UserstoreResourceIDJSONClientModel) (types.List, error) {
 		childAttrType := types.StringType
