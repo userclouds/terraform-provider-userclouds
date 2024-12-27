@@ -2433,10 +2433,6 @@ components:
         bootstrapped:
           format: date-time
           type: string
-        change_feed_job_id:
-          type: integer
-        change_feed_name_suffix:
-          type: string
         columns:
           items:
             $ref: '#/components/schemas/UserstoreResourceID'
