@@ -2239,6 +2239,8 @@ components:
           $ref: '#/components/schemas/PolicyClientContext'
         mutator_id:
           $ref: '#/components/schemas/UuidUUID'
+        region:
+          type: string
         row_data:
           additionalProperties:
             $ref: '#/components/schemas/IdpValueAndPurposes'
@@ -2449,8 +2451,11 @@ components:
           $ref: '#/components/schemas/UuidUUID'
         index_name_suffix:
           type: string
-        last_bootstrapped_value_id:
-          $ref: '#/components/schemas/UuidUUID'
+        last_regional_bootstrapped_value_ids:
+          additionalProperties:
+            $ref: '#/components/schemas/UuidUUID'
+          nullable: true
+          type: object
         name:
           type: string
         searchable:
@@ -2719,6 +2724,8 @@ components:
           $ref: '#/components/schemas/PolicyClientContext'
         debug:
           type: boolean
+        region:
+          type: string
         selector_values:
           $ref: '#/components/schemas/UserstoreUserSelectorValues'
       type: object
