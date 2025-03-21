@@ -2718,6 +2718,8 @@ components:
       type: string
     UserstoreExecuteAccessorHandlerRequest:
       properties:
+        access_primary_db_only:
+          type: boolean
         accessor_id:
           $ref: '#/components/schemas/UuidUUID'
         context:
