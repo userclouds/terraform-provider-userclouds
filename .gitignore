@@ -84,3 +84,5 @@ terragrunt_generated__*.tf
 
 # rendered helm charts
 .k8s-manifests/
+
+**/.yarn/*
