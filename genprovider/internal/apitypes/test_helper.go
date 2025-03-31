@@ -203,11 +203,11 @@ func runTestProgram(t *testing.T, d data) {
 	if err := temp.Execute(buf, d); err != nil {
 		t.Fatalf("error executing template: %v", err)
 	}
-	bytes := buf.Bytes()
+	bs := buf.Bytes()
 
-	formatted, err := format.Source(bytes)
+	formatted, err := format.Source(bs)
 	if err != nil {
-		t.Fatalf("error formatting source: %v\n\n%s", err, string(bytes))
+		t.Fatalf("error formatting source: %v\n\n%s", err, string(bs))
 	}
 
 	outPath := dname + "/sampleprogram.go"
