@@ -90,7 +90,7 @@ type << .TFModelStructName >> struct {
 // << .JSONClientModelStructName >> stores data for use with jsonclient for making API requests.
 type << .JSONClientModelStructName >> struct {
 	<<- range $i, $field := .Fields >>
-	<< $field.StructName >> *<< $field.Type.JSONClientModelType >> ` + "`json:\"<< $field.JSONKey >>,omitempty\"`" + `
+	<< $field.StructName >> *<< $field.Type.JSONClientModelType >> ` + "`json:\"<< $field.JSONKey >>,omitempty\" yaml:\"<< $field.JSONKey >>,omitempty\"`" + `
 	<<- end >>
 }
 
