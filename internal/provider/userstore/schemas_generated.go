@@ -39,8 +39,8 @@ type IdpColumnConsentedPurposesTFModel struct {
 
 // IdpColumnConsentedPurposesJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpColumnConsentedPurposesJSONClientModel struct {
-	Column            *UserstoreResourceIDJSONClientModel   `json:"column,omitempty"`
-	ConsentedPurposes *[]UserstoreResourceIDJSONClientModel `json:"consented_purposes,omitempty"`
+	Column            *UserstoreResourceIDJSONClientModel   `json:"column,omitempty" yaml:"column,omitempty"`
+	ConsentedPurposes *[]UserstoreResourceIDJSONClientModel `json:"consented_purposes,omitempty" yaml:"consented_purposes,omitempty"`
 }
 
 // IdpColumnConsentedPurposesAttrTypes defines the attribute types for the IdpColumnConsentedPurposesAttributes schema.
@@ -206,15 +206,15 @@ type IdpColumnRetentionDurationTFModel struct {
 
 // IdpColumnRetentionDurationJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpColumnRetentionDurationJSONClientModel struct {
-	ColumnID        *uuid.UUID                           `json:"column_id,omitempty"`
-	DefaultDuration *IdpRetentionDurationJSONClientModel `json:"default_duration,omitempty"`
-	Duration        *IdpRetentionDurationJSONClientModel `json:"duration,omitempty"`
-	DurationType    *string                              `json:"duration_type,omitempty"`
-	ID              *uuid.UUID                           `json:"id,omitempty"`
-	PurposeID       *uuid.UUID                           `json:"purpose_id,omitempty"`
-	PurposeName     *string                              `json:"purpose_name,omitempty"`
-	UseDefault      *bool                                `json:"use_default,omitempty"`
-	Version         *int64                               `json:"version,omitempty"`
+	ColumnID        *uuid.UUID                           `json:"column_id,omitempty" yaml:"column_id,omitempty"`
+	DefaultDuration *IdpRetentionDurationJSONClientModel `json:"default_duration,omitempty" yaml:"default_duration,omitempty"`
+	Duration        *IdpRetentionDurationJSONClientModel `json:"duration,omitempty" yaml:"duration,omitempty"`
+	DurationType    *string                              `json:"duration_type,omitempty" yaml:"duration_type,omitempty"`
+	ID              *uuid.UUID                           `json:"id,omitempty" yaml:"id,omitempty"`
+	PurposeID       *uuid.UUID                           `json:"purpose_id,omitempty" yaml:"purpose_id,omitempty"`
+	PurposeName     *string                              `json:"purpose_name,omitempty" yaml:"purpose_name,omitempty"`
+	UseDefault      *bool                                `json:"use_default,omitempty" yaml:"use_default,omitempty"`
+	Version         *int64                               `json:"version,omitempty" yaml:"version,omitempty"`
 }
 
 // IdpColumnRetentionDurationAttrTypes defines the attribute types for the IdpColumnRetentionDurationAttributes schema.
@@ -567,8 +567,8 @@ type IdpColumnRetentionDurationResponseTFModel struct {
 
 // IdpColumnRetentionDurationResponseJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpColumnRetentionDurationResponseJSONClientModel struct {
-	MaxDuration       *IdpRetentionDurationJSONClientModel       `json:"max_duration,omitempty"`
-	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+	MaxDuration       *IdpRetentionDurationJSONClientModel       `json:"max_duration,omitempty" yaml:"max_duration,omitempty"`
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty" yaml:"retention_duration,omitempty"`
 }
 
 // IdpColumnRetentionDurationResponseAttrTypes defines the attribute types for the IdpColumnRetentionDurationResponseAttributes schema.
@@ -719,8 +719,8 @@ type IdpColumnRetentionDurationsResponseTFModel struct {
 
 // IdpColumnRetentionDurationsResponseJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpColumnRetentionDurationsResponseJSONClientModel struct {
-	MaxDuration        *IdpRetentionDurationJSONClientModel         `json:"max_duration,omitempty"`
-	RetentionDurations *[]IdpColumnRetentionDurationJSONClientModel `json:"retention_durations,omitempty"`
+	MaxDuration        *IdpRetentionDurationJSONClientModel         `json:"max_duration,omitempty" yaml:"max_duration,omitempty"`
+	RetentionDurations *[]IdpColumnRetentionDurationJSONClientModel `json:"retention_durations,omitempty" yaml:"retention_durations,omitempty"`
 }
 
 // IdpColumnRetentionDurationsResponseAttrTypes defines the attribute types for the IdpColumnRetentionDurationsResponseAttributes schema.
@@ -907,7 +907,7 @@ type IdpCreateAccessorRequestTFModel struct {
 
 // IdpCreateAccessorRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpCreateAccessorRequestJSONClientModel struct {
-	Accessor *UserstoreAccessorJSONClientModel `json:"accessor,omitempty"`
+	Accessor *UserstoreAccessorJSONClientModel `json:"accessor,omitempty" yaml:"accessor,omitempty"`
 }
 
 // IdpCreateAccessorRequestAttrTypes defines the attribute types for the IdpCreateAccessorRequestAttributes schema.
@@ -998,7 +998,7 @@ type IdpCreateColumnRequestTFModel struct {
 
 // IdpCreateColumnRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpCreateColumnRequestJSONClientModel struct {
-	Column *UserstoreColumnJSONClientModel `json:"column,omitempty"`
+	Column *UserstoreColumnJSONClientModel `json:"column,omitempty" yaml:"column,omitempty"`
 }
 
 // IdpCreateColumnRequestAttrTypes defines the attribute types for the IdpCreateColumnRequestAttributes schema.
@@ -1089,7 +1089,7 @@ type IdpCreateDataTypeRequestTFModel struct {
 
 // IdpCreateDataTypeRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpCreateDataTypeRequestJSONClientModel struct {
-	DataType *UserstoreColumnDataTypeJSONClientModel `json:"data_type,omitempty"`
+	DataType *UserstoreColumnDataTypeJSONClientModel `json:"data_type,omitempty" yaml:"data_type,omitempty"`
 }
 
 // IdpCreateDataTypeRequestAttrTypes defines the attribute types for the IdpCreateDataTypeRequestAttributes schema.
@@ -1180,7 +1180,7 @@ type IdpCreateMutatorRequestTFModel struct {
 
 // IdpCreateMutatorRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpCreateMutatorRequestJSONClientModel struct {
-	Mutator *UserstoreMutatorJSONClientModel `json:"mutator,omitempty"`
+	Mutator *UserstoreMutatorJSONClientModel `json:"mutator,omitempty" yaml:"mutator,omitempty"`
 }
 
 // IdpCreateMutatorRequestAttrTypes defines the attribute types for the IdpCreateMutatorRequestAttributes schema.
@@ -1271,7 +1271,7 @@ type IdpCreatePurposeRequestTFModel struct {
 
 // IdpCreatePurposeRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpCreatePurposeRequestJSONClientModel struct {
-	Purpose *UserstorePurposeJSONClientModel `json:"purpose,omitempty"`
+	Purpose *UserstorePurposeJSONClientModel `json:"purpose,omitempty" yaml:"purpose,omitempty"`
 }
 
 // IdpCreatePurposeRequestAttrTypes defines the attribute types for the IdpCreatePurposeRequestAttributes schema.
@@ -1362,7 +1362,7 @@ type IdpCreateUserSearchIndexRequestTFModel struct {
 
 // IdpCreateUserSearchIndexRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpCreateUserSearchIndexRequestJSONClientModel struct {
-	Index *SearchUserSearchIndexJSONClientModel `json:"index,omitempty"`
+	Index *SearchUserSearchIndexJSONClientModel `json:"index,omitempty" yaml:"index,omitempty"`
 }
 
 // IdpCreateUserSearchIndexRequestAttrTypes defines the attribute types for the IdpCreateUserSearchIndexRequestAttributes schema.
@@ -1479,7 +1479,7 @@ type IdpExecuteMutatorResponseTFModel struct {
 
 // IdpExecuteMutatorResponseJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpExecuteMutatorResponseJSONClientModel struct {
-	UserIDs *[]uuid.UUID `json:"user_ids,omitempty"`
+	UserIDs *[]uuid.UUID `json:"user_ids,omitempty" yaml:"user_ids,omitempty"`
 }
 
 // IdpExecuteMutatorResponseAttrTypes defines the attribute types for the IdpExecuteMutatorResponseAttributes schema.
@@ -1575,8 +1575,8 @@ type IdpGetConsentedPurposesForUserRequestTFModel struct {
 
 // IdpGetConsentedPurposesForUserRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpGetConsentedPurposesForUserRequestJSONClientModel struct {
-	Columns *[]UserstoreResourceIDJSONClientModel `json:"columns,omitempty"`
-	UserID  *uuid.UUID                            `json:"user_id,omitempty"`
+	Columns *[]UserstoreResourceIDJSONClientModel `json:"columns,omitempty" yaml:"columns,omitempty"`
+	UserID  *uuid.UUID                            `json:"user_id,omitempty" yaml:"user_id,omitempty"`
 }
 
 // IdpGetConsentedPurposesForUserRequestAttrTypes defines the attribute types for the IdpGetConsentedPurposesForUserRequestAttributes schema.
@@ -1720,7 +1720,7 @@ type IdpGetConsentedPurposesForUserResponseTFModel struct {
 
 // IdpGetConsentedPurposesForUserResponseJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpGetConsentedPurposesForUserResponseJSONClientModel struct {
-	Data *[]IdpColumnConsentedPurposesJSONClientModel `json:"data,omitempty"`
+	Data *[]IdpColumnConsentedPurposesJSONClientModel `json:"data,omitempty" yaml:"data,omitempty"`
 }
 
 // IdpGetConsentedPurposesForUserResponseAttrTypes defines the attribute types for the IdpGetConsentedPurposesForUserResponseAttributes schema.
@@ -1849,8 +1849,8 @@ type IdpRetentionDurationTFModel struct {
 
 // IdpRetentionDurationJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpRetentionDurationJSONClientModel struct {
-	Duration *int64  `json:"duration,omitempty"`
-	Unit     *string `json:"unit,omitempty"`
+	Duration *int64  `json:"duration,omitempty" yaml:"duration,omitempty"`
+	Unit     *string `json:"unit,omitempty" yaml:"unit,omitempty"`
 }
 
 // IdpRetentionDurationAttrTypes defines the attribute types for the IdpRetentionDurationAttributes schema.
@@ -1931,7 +1931,7 @@ type IdpUpdateColumnRetentionDurationRequestTFModel struct {
 
 // IdpUpdateColumnRetentionDurationRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type IdpUpdateColumnRetentionDurationRequestJSONClientModel struct {
-	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty" yaml:"retention_duration,omitempty"`
 }
 
 // IdpUpdateColumnRetentionDurationRequestAttrTypes defines the attribute types for the IdpUpdateColumnRetentionDurationRequestAttributes schema.
@@ -2074,7 +2074,7 @@ type SearchIndexSettingsTFModel struct {
 
 // SearchIndexSettingsJSONClientModel stores data for use with jsonclient for making API requests.
 type SearchIndexSettingsJSONClientModel struct {
-	Ngram *SearchNgramIndexSettingsJSONClientModel `json:"ngram,omitempty"`
+	Ngram *SearchNgramIndexSettingsJSONClientModel `json:"ngram,omitempty" yaml:"ngram,omitempty"`
 }
 
 // SearchIndexSettingsAttrTypes defines the attribute types for the SearchIndexSettingsAttributes schema.
@@ -2192,8 +2192,8 @@ type SearchNgramIndexSettingsTFModel struct {
 
 // SearchNgramIndexSettingsJSONClientModel stores data for use with jsonclient for making API requests.
 type SearchNgramIndexSettingsJSONClientModel struct {
-	MaxNgram *int64 `json:"max_ngram,omitempty"`
-	MinNgram *int64 `json:"min_ngram,omitempty"`
+	MaxNgram *int64 `json:"max_ngram,omitempty" yaml:"max_ngram,omitempty"`
+	MinNgram *int64 `json:"min_ngram,omitempty" yaml:"min_ngram,omitempty"`
 }
 
 // SearchNgramIndexSettingsAttrTypes defines the attribute types for the SearchNgramIndexSettingsAttributes schema.
@@ -2309,19 +2309,19 @@ type SearchUserSearchIndexTFModel struct {
 
 // SearchUserSearchIndexJSONClientModel stores data for use with jsonclient for making API requests.
 type SearchUserSearchIndexJSONClientModel struct {
-	Accessors                        *[]SearchUserSearchIndexAccessorJSONClientModel `json:"accessors,omitempty"`
-	Bootstrapped                     *string                                         `json:"bootstrapped,omitempty"`
-	Columns                          *[]UserstoreResourceIDJSONClientModel           `json:"columns,omitempty"`
-	DataLifeCycleState               *string                                         `json:"data_life_cycle_state,omitempty"`
-	Description                      *string                                         `json:"description,omitempty"`
-	Enabled                          *string                                         `json:"enabled,omitempty"`
-	ID                               *uuid.UUID                                      `json:"id,omitempty"`
-	IndexNameSuffix                  *string                                         `json:"index_name_suffix,omitempty"`
-	LastRegionalBootstrappedValueIDs *map[string]uuid.UUID                           `json:"last_regional_bootstrapped_value_ids,omitempty"`
-	Name                             *string                                         `json:"name,omitempty"`
-	Searchable                       *string                                         `json:"searchable,omitempty"`
-	Settings                         *SearchIndexSettingsJSONClientModel             `json:"settings,omitempty"`
-	Type                             *string                                         `json:"type,omitempty"`
+	Accessors                        *[]SearchUserSearchIndexAccessorJSONClientModel `json:"accessors,omitempty" yaml:"accessors,omitempty"`
+	Bootstrapped                     *string                                         `json:"bootstrapped,omitempty" yaml:"bootstrapped,omitempty"`
+	Columns                          *[]UserstoreResourceIDJSONClientModel           `json:"columns,omitempty" yaml:"columns,omitempty"`
+	DataLifeCycleState               *string                                         `json:"data_life_cycle_state,omitempty" yaml:"data_life_cycle_state,omitempty"`
+	Description                      *string                                         `json:"description,omitempty" yaml:"description,omitempty"`
+	Enabled                          *string                                         `json:"enabled,omitempty" yaml:"enabled,omitempty"`
+	ID                               *uuid.UUID                                      `json:"id,omitempty" yaml:"id,omitempty"`
+	IndexNameSuffix                  *string                                         `json:"index_name_suffix,omitempty" yaml:"index_name_suffix,omitempty"`
+	LastRegionalBootstrappedValueIDs *map[string]uuid.UUID                           `json:"last_regional_bootstrapped_value_ids,omitempty" yaml:"last_regional_bootstrapped_value_ids,omitempty"`
+	Name                             *string                                         `json:"name,omitempty" yaml:"name,omitempty"`
+	Searchable                       *string                                         `json:"searchable,omitempty" yaml:"searchable,omitempty"`
+	Settings                         *SearchIndexSettingsJSONClientModel             `json:"settings,omitempty" yaml:"settings,omitempty"`
+	Type                             *string                                         `json:"type,omitempty" yaml:"type,omitempty"`
 }
 
 // SearchUserSearchIndexAttrTypes defines the attribute types for the SearchUserSearchIndexAttributes schema.
@@ -2877,8 +2877,8 @@ type SearchUserSearchIndexAccessorTFModel struct {
 
 // SearchUserSearchIndexAccessorJSONClientModel stores data for use with jsonclient for making API requests.
 type SearchUserSearchIndexAccessorJSONClientModel struct {
-	Accessor  *UserstoreResourceIDJSONClientModel `json:"accessor,omitempty"`
-	QueryType *string                             `json:"query_type,omitempty"`
+	Accessor  *UserstoreResourceIDJSONClientModel `json:"accessor,omitempty" yaml:"accessor,omitempty"`
+	QueryType *string                             `json:"query_type,omitempty" yaml:"query_type,omitempty"`
 }
 
 // SearchUserSearchIndexAccessorAttrTypes defines the attribute types for the SearchUserSearchIndexAccessorAttributes schema.
@@ -2998,20 +2998,20 @@ type UserstoreAccessorTFModel struct {
 
 // UserstoreAccessorJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreAccessorJSONClientModel struct {
-	AccessPolicy                      *UserstoreResourceIDJSONClientModel           `json:"access_policy,omitempty"`
-	AreColumnAccessPoliciesOverridden *bool                                         `json:"are_column_access_policies_overridden,omitempty"`
-	Columns                           *[]UserstoreColumnOutputConfigJSONClientModel `json:"columns,omitempty"`
-	DataLifeCycleState                *string                                       `json:"data_life_cycle_state,omitempty"`
-	Description                       *string                                       `json:"description,omitempty"`
-	ID                                *uuid.UUID                                    `json:"id,omitempty"`
-	IsAuditLogged                     *bool                                         `json:"is_audit_logged,omitempty"`
-	IsAutogenerated                   *bool                                         `json:"is_autogenerated,omitempty"`
-	Name                              *string                                       `json:"name,omitempty"`
-	Purposes                          *[]UserstoreResourceIDJSONClientModel         `json:"purposes,omitempty"`
-	SelectorConfig                    *UserstoreUserSelectorConfigJSONClientModel   `json:"selector_config,omitempty"`
-	TokenAccessPolicy                 *UserstoreResourceIDJSONClientModel           `json:"token_access_policy,omitempty"`
-	UseSearchIndex                    *bool                                         `json:"use_search_index,omitempty"`
-	Version                           *int64                                        `json:"version,omitempty"`
+	AccessPolicy                      *UserstoreResourceIDJSONClientModel           `json:"access_policy,omitempty" yaml:"access_policy,omitempty"`
+	AreColumnAccessPoliciesOverridden *bool                                         `json:"are_column_access_policies_overridden,omitempty" yaml:"are_column_access_policies_overridden,omitempty"`
+	Columns                           *[]UserstoreColumnOutputConfigJSONClientModel `json:"columns,omitempty" yaml:"columns,omitempty"`
+	DataLifeCycleState                *string                                       `json:"data_life_cycle_state,omitempty" yaml:"data_life_cycle_state,omitempty"`
+	Description                       *string                                       `json:"description,omitempty" yaml:"description,omitempty"`
+	ID                                *uuid.UUID                                    `json:"id,omitempty" yaml:"id,omitempty"`
+	IsAuditLogged                     *bool                                         `json:"is_audit_logged,omitempty" yaml:"is_audit_logged,omitempty"`
+	IsAutogenerated                   *bool                                         `json:"is_autogenerated,omitempty" yaml:"is_autogenerated,omitempty"`
+	Name                              *string                                       `json:"name,omitempty" yaml:"name,omitempty"`
+	Purposes                          *[]UserstoreResourceIDJSONClientModel         `json:"purposes,omitempty" yaml:"purposes,omitempty"`
+	SelectorConfig                    *UserstoreUserSelectorConfigJSONClientModel   `json:"selector_config,omitempty" yaml:"selector_config,omitempty"`
+	TokenAccessPolicy                 *UserstoreResourceIDJSONClientModel           `json:"token_access_policy,omitempty" yaml:"token_access_policy,omitempty"`
+	UseSearchIndex                    *bool                                         `json:"use_search_index,omitempty" yaml:"use_search_index,omitempty"`
+	Version                           *int64                                        `json:"version,omitempty" yaml:"version,omitempty"`
 }
 
 // UserstoreAccessorAttrTypes defines the attribute types for the UserstoreAccessorAttributes schema.
@@ -3607,19 +3607,19 @@ type UserstoreColumnTFModel struct {
 
 // UserstoreColumnJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreColumnJSONClientModel struct {
-	AccessPolicy             *UserstoreResourceIDJSONClientModel        `json:"access_policy,omitempty"`
-	Constraints              *UserstoreColumnConstraintsJSONClientModel `json:"constraints,omitempty"`
-	DataType                 *UserstoreResourceIDJSONClientModel        `json:"data_type,omitempty"`
-	DefaultTokenAccessPolicy *UserstoreResourceIDJSONClientModel        `json:"default_token_access_policy,omitempty"`
-	DefaultTransformer       *UserstoreResourceIDJSONClientModel        `json:"default_transformer,omitempty"`
-	DefaultValue             *string                                    `json:"default_value,omitempty"`
-	ID                       *uuid.UUID                                 `json:"id,omitempty"`
-	IndexType                *string                                    `json:"index_type,omitempty"`
-	IsArray                  *bool                                      `json:"is_array,omitempty"`
-	Name                     *string                                    `json:"name,omitempty"`
-	SearchIndexed            *bool                                      `json:"search_indexed,omitempty"`
-	Table                    *string                                    `json:"table,omitempty"`
-	Type                     *string                                    `json:"type,omitempty"`
+	AccessPolicy             *UserstoreResourceIDJSONClientModel        `json:"access_policy,omitempty" yaml:"access_policy,omitempty"`
+	Constraints              *UserstoreColumnConstraintsJSONClientModel `json:"constraints,omitempty" yaml:"constraints,omitempty"`
+	DataType                 *UserstoreResourceIDJSONClientModel        `json:"data_type,omitempty" yaml:"data_type,omitempty"`
+	DefaultTokenAccessPolicy *UserstoreResourceIDJSONClientModel        `json:"default_token_access_policy,omitempty" yaml:"default_token_access_policy,omitempty"`
+	DefaultTransformer       *UserstoreResourceIDJSONClientModel        `json:"default_transformer,omitempty" yaml:"default_transformer,omitempty"`
+	DefaultValue             *string                                    `json:"default_value,omitempty" yaml:"default_value,omitempty"`
+	ID                       *uuid.UUID                                 `json:"id,omitempty" yaml:"id,omitempty"`
+	IndexType                *string                                    `json:"index_type,omitempty" yaml:"index_type,omitempty"`
+	IsArray                  *bool                                      `json:"is_array,omitempty" yaml:"is_array,omitempty"`
+	Name                     *string                                    `json:"name,omitempty" yaml:"name,omitempty"`
+	SearchIndexed            *bool                                      `json:"search_indexed,omitempty" yaml:"search_indexed,omitempty"`
+	Table                    *string                                    `json:"table,omitempty" yaml:"table,omitempty"`
+	Type                     *string                                    `json:"type,omitempty" yaml:"type,omitempty"`
 }
 
 // UserstoreColumnAttrTypes defines the attribute types for the UserstoreColumnAttributes schema.
@@ -4114,11 +4114,11 @@ type UserstoreColumnConstraintsTFModel struct {
 
 // UserstoreColumnConstraintsJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreColumnConstraintsJSONClientModel struct {
-	Fields            *[]UserstoreColumnFieldJSONClientModel `json:"fields,omitempty"`
-	ImmutableRequired *bool                                  `json:"immutable_required,omitempty"`
-	PartialUpdates    *bool                                  `json:"partial_updates,omitempty"`
-	UniqueIDRequired  *bool                                  `json:"unique_id_required,omitempty"`
-	UniqueRequired    *bool                                  `json:"unique_required,omitempty"`
+	Fields            *[]UserstoreColumnFieldJSONClientModel `json:"fields,omitempty" yaml:"fields,omitempty"`
+	ImmutableRequired *bool                                  `json:"immutable_required,omitempty" yaml:"immutable_required,omitempty"`
+	PartialUpdates    *bool                                  `json:"partial_updates,omitempty" yaml:"partial_updates,omitempty"`
+	UniqueIDRequired  *bool                                  `json:"unique_id_required,omitempty" yaml:"unique_id_required,omitempty"`
+	UniqueRequired    *bool                                  `json:"unique_required,omitempty" yaml:"unique_required,omitempty"`
 }
 
 // UserstoreColumnConstraintsAttrTypes defines the attribute types for the UserstoreColumnConstraintsAttributes schema.
@@ -4343,12 +4343,12 @@ type UserstoreColumnDataTypeTFModel struct {
 
 // UserstoreColumnDataTypeJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreColumnDataTypeJSONClientModel struct {
-	CompositeAttributes  *UserstoreCompositeAttributesJSONClientModel `json:"composite_attributes,omitempty"`
-	Description          *string                                      `json:"description,omitempty"`
-	ID                   *uuid.UUID                                   `json:"id,omitempty"`
-	IsCompositeFieldType *bool                                        `json:"is_composite_field_type,omitempty"`
-	IsNative             *bool                                        `json:"is_native,omitempty"`
-	Name                 *string                                      `json:"name,omitempty"`
+	CompositeAttributes  *UserstoreCompositeAttributesJSONClientModel `json:"composite_attributes,omitempty" yaml:"composite_attributes,omitempty"`
+	Description          *string                                      `json:"description,omitempty" yaml:"description,omitempty"`
+	ID                   *uuid.UUID                                   `json:"id,omitempty" yaml:"id,omitempty"`
+	IsCompositeFieldType *bool                                        `json:"is_composite_field_type,omitempty" yaml:"is_composite_field_type,omitempty"`
+	IsNative             *bool                                        `json:"is_native,omitempty" yaml:"is_native,omitempty"`
+	Name                 *string                                      `json:"name,omitempty" yaml:"name,omitempty"`
 }
 
 // UserstoreColumnDataTypeAttrTypes defines the attribute types for the UserstoreColumnDataTypeAttributes schema.
@@ -4572,12 +4572,12 @@ type UserstoreColumnFieldTFModel struct {
 
 // UserstoreColumnFieldJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreColumnFieldJSONClientModel struct {
-	CamelCaseName       *string `json:"camel_case_name,omitempty"`
-	IgnoreForUniqueness *bool   `json:"ignore_for_uniqueness,omitempty"`
-	Name                *string `json:"name,omitempty"`
-	Required            *bool   `json:"required,omitempty"`
-	StructName          *string `json:"struct_name,omitempty"`
-	Type                *string `json:"type,omitempty"`
+	CamelCaseName       *string `json:"camel_case_name,omitempty" yaml:"camel_case_name,omitempty"`
+	IgnoreForUniqueness *bool   `json:"ignore_for_uniqueness,omitempty" yaml:"ignore_for_uniqueness,omitempty"`
+	Name                *string `json:"name,omitempty" yaml:"name,omitempty"`
+	Required            *bool   `json:"required,omitempty" yaml:"required,omitempty"`
+	StructName          *string `json:"struct_name,omitempty" yaml:"struct_name,omitempty"`
+	Type                *string `json:"type,omitempty" yaml:"type,omitempty"`
 }
 
 // UserstoreColumnFieldAttrTypes defines the attribute types for the UserstoreColumnFieldAttributes schema.
@@ -4773,9 +4773,9 @@ type UserstoreColumnInputConfigTFModel struct {
 
 // UserstoreColumnInputConfigJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreColumnInputConfigJSONClientModel struct {
-	Column     *UserstoreResourceIDJSONClientModel `json:"column,omitempty"`
-	Normalizer *UserstoreResourceIDJSONClientModel `json:"normalizer,omitempty"`
-	Validator  *UserstoreResourceIDJSONClientModel `json:"validator,omitempty"`
+	Column     *UserstoreResourceIDJSONClientModel `json:"column,omitempty" yaml:"column,omitempty"`
+	Normalizer *UserstoreResourceIDJSONClientModel `json:"normalizer,omitempty" yaml:"normalizer,omitempty"`
+	Validator  *UserstoreResourceIDJSONClientModel `json:"validator,omitempty" yaml:"validator,omitempty"`
 }
 
 // UserstoreColumnInputConfigAttrTypes defines the attribute types for the UserstoreColumnInputConfigAttributes schema.
@@ -4956,9 +4956,9 @@ type UserstoreColumnOutputConfigTFModel struct {
 
 // UserstoreColumnOutputConfigJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreColumnOutputConfigJSONClientModel struct {
-	Column            *UserstoreResourceIDJSONClientModel `json:"column,omitempty"`
-	TokenAccessPolicy *UserstoreResourceIDJSONClientModel `json:"token_access_policy,omitempty"`
-	Transformer       *UserstoreResourceIDJSONClientModel `json:"transformer,omitempty"`
+	Column            *UserstoreResourceIDJSONClientModel `json:"column,omitempty" yaml:"column,omitempty"`
+	TokenAccessPolicy *UserstoreResourceIDJSONClientModel `json:"token_access_policy,omitempty" yaml:"token_access_policy,omitempty"`
+	Transformer       *UserstoreResourceIDJSONClientModel `json:"transformer,omitempty" yaml:"transformer,omitempty"`
 }
 
 // UserstoreColumnOutputConfigAttrTypes defines the attribute types for the UserstoreColumnOutputConfigAttributes schema.
@@ -5138,8 +5138,8 @@ type UserstoreCompositeAttributesTFModel struct {
 
 // UserstoreCompositeAttributesJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreCompositeAttributesJSONClientModel struct {
-	Fields    *[]UserstoreCompositeFieldJSONClientModel `json:"fields,omitempty"`
-	IncludeID *bool                                     `json:"include_id,omitempty"`
+	Fields    *[]UserstoreCompositeFieldJSONClientModel `json:"fields,omitempty" yaml:"fields,omitempty"`
+	IncludeID *bool                                     `json:"include_id,omitempty" yaml:"include_id,omitempty"`
 }
 
 // UserstoreCompositeAttributesAttrTypes defines the attribute types for the UserstoreCompositeAttributesAttributes schema.
@@ -5295,12 +5295,12 @@ type UserstoreCompositeFieldTFModel struct {
 
 // UserstoreCompositeFieldJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreCompositeFieldJSONClientModel struct {
-	CamelCaseName       *string                             `json:"camel_case_name,omitempty"`
-	DataType            *UserstoreResourceIDJSONClientModel `json:"data_type,omitempty"`
-	IgnoreForUniqueness *bool                               `json:"ignore_for_uniqueness,omitempty"`
-	Name                *string                             `json:"name,omitempty"`
-	Required            *bool                               `json:"required,omitempty"`
-	StructName          *string                             `json:"struct_name,omitempty"`
+	CamelCaseName       *string                             `json:"camel_case_name,omitempty" yaml:"camel_case_name,omitempty"`
+	DataType            *UserstoreResourceIDJSONClientModel `json:"data_type,omitempty" yaml:"data_type,omitempty"`
+	IgnoreForUniqueness *bool                               `json:"ignore_for_uniqueness,omitempty" yaml:"ignore_for_uniqueness,omitempty"`
+	Name                *string                             `json:"name,omitempty" yaml:"name,omitempty"`
+	Required            *bool                               `json:"required,omitempty" yaml:"required,omitempty"`
+	StructName          *string                             `json:"struct_name,omitempty" yaml:"struct_name,omitempty"`
 }
 
 // UserstoreCompositeFieldAttrTypes defines the attribute types for the UserstoreCompositeFieldAttributes schema.
@@ -5526,13 +5526,13 @@ type UserstoreMutatorTFModel struct {
 
 // UserstoreMutatorJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreMutatorJSONClientModel struct {
-	AccessPolicy   *UserstoreResourceIDJSONClientModel          `json:"access_policy,omitempty"`
-	Columns        *[]UserstoreColumnInputConfigJSONClientModel `json:"columns,omitempty"`
-	Description    *string                                      `json:"description,omitempty"`
-	ID             *uuid.UUID                                   `json:"id,omitempty"`
-	Name           *string                                      `json:"name,omitempty"`
-	SelectorConfig *UserstoreUserSelectorConfigJSONClientModel  `json:"selector_config,omitempty"`
-	Version        *int64                                       `json:"version,omitempty"`
+	AccessPolicy   *UserstoreResourceIDJSONClientModel          `json:"access_policy,omitempty" yaml:"access_policy,omitempty"`
+	Columns        *[]UserstoreColumnInputConfigJSONClientModel `json:"columns,omitempty" yaml:"columns,omitempty"`
+	Description    *string                                      `json:"description,omitempty" yaml:"description,omitempty"`
+	ID             *uuid.UUID                                   `json:"id,omitempty" yaml:"id,omitempty"`
+	Name           *string                                      `json:"name,omitempty" yaml:"name,omitempty"`
+	SelectorConfig *UserstoreUserSelectorConfigJSONClientModel  `json:"selector_config,omitempty" yaml:"selector_config,omitempty"`
+	Version        *int64                                       `json:"version,omitempty" yaml:"version,omitempty"`
 }
 
 // UserstoreMutatorAttrTypes defines the attribute types for the UserstoreMutatorAttributes schema.
@@ -5875,9 +5875,9 @@ type UserstorePurposeTFModel struct {
 
 // UserstorePurposeJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstorePurposeJSONClientModel struct {
-	Description *string    `json:"description,omitempty"`
-	ID          *uuid.UUID `json:"id,omitempty"`
-	Name        *string    `json:"name,omitempty"`
+	Description *string    `json:"description,omitempty" yaml:"description,omitempty"`
+	ID          *uuid.UUID `json:"id,omitempty" yaml:"id,omitempty"`
+	Name        *string    `json:"name,omitempty" yaml:"name,omitempty"`
 }
 
 // UserstorePurposeAttrTypes defines the attribute types for the UserstorePurposeAttributes schema.
@@ -5993,8 +5993,8 @@ type UserstoreResourceIDTFModel struct {
 
 // UserstoreResourceIDJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreResourceIDJSONClientModel struct {
-	ID   *uuid.UUID `json:"id,omitempty"`
-	Name *string    `json:"name,omitempty"`
+	ID   *uuid.UUID `json:"id,omitempty" yaml:"id,omitempty"`
+	Name *string    `json:"name,omitempty" yaml:"name,omitempty"`
 }
 
 // UserstoreResourceIDAttrTypes defines the attribute types for the UserstoreResourceIDAttributes schema.
@@ -6087,7 +6087,7 @@ type UserstoreUpdateAccessorRequestTFModel struct {
 
 // UserstoreUpdateAccessorRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdateAccessorRequestJSONClientModel struct {
-	Accessor *UserstoreAccessorJSONClientModel `json:"accessor,omitempty"`
+	Accessor *UserstoreAccessorJSONClientModel `json:"accessor,omitempty" yaml:"accessor,omitempty"`
 }
 
 // UserstoreUpdateAccessorRequestAttrTypes defines the attribute types for the UserstoreUpdateAccessorRequestAttributes schema.
@@ -6178,7 +6178,7 @@ type UserstoreUpdateColumnRequestTFModel struct {
 
 // UserstoreUpdateColumnRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdateColumnRequestJSONClientModel struct {
-	Column *UserstoreColumnJSONClientModel `json:"column,omitempty"`
+	Column *UserstoreColumnJSONClientModel `json:"column,omitempty" yaml:"column,omitempty"`
 }
 
 // UserstoreUpdateColumnRequestAttrTypes defines the attribute types for the UserstoreUpdateColumnRequestAttributes schema.
@@ -6269,7 +6269,7 @@ type UserstoreUpdateColumnRetentionDurationRequestTFModel struct {
 
 // UserstoreUpdateColumnRetentionDurationRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdateColumnRetentionDurationRequestJSONClientModel struct {
-	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty" yaml:"retention_duration,omitempty"`
 }
 
 // UserstoreUpdateColumnRetentionDurationRequestAttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestAttributes schema.
@@ -6360,7 +6360,7 @@ type UserstoreUpdateColumnRetentionDurationRequestType2TFModel struct {
 
 // UserstoreUpdateColumnRetentionDurationRequestType2JSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdateColumnRetentionDurationRequestType2JSONClientModel struct {
-	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty" yaml:"retention_duration,omitempty"`
 }
 
 // UserstoreUpdateColumnRetentionDurationRequestType2AttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestType2Attributes schema.
@@ -6451,7 +6451,7 @@ type UserstoreUpdateColumnRetentionDurationRequestType3TFModel struct {
 
 // UserstoreUpdateColumnRetentionDurationRequestType3JSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdateColumnRetentionDurationRequestType3JSONClientModel struct {
-	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty" yaml:"retention_duration,omitempty"`
 }
 
 // UserstoreUpdateColumnRetentionDurationRequestType3AttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestType3Attributes schema.
@@ -6542,7 +6542,7 @@ type UserstoreUpdateColumnRetentionDurationRequestType4TFModel struct {
 
 // UserstoreUpdateColumnRetentionDurationRequestType4JSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdateColumnRetentionDurationRequestType4JSONClientModel struct {
-	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty" yaml:"retention_duration,omitempty"`
 }
 
 // UserstoreUpdateColumnRetentionDurationRequestType4AttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestType4Attributes schema.
@@ -6633,7 +6633,7 @@ type UserstoreUpdateColumnRetentionDurationRequestType5TFModel struct {
 
 // UserstoreUpdateColumnRetentionDurationRequestType5JSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdateColumnRetentionDurationRequestType5JSONClientModel struct {
-	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty" yaml:"retention_duration,omitempty"`
 }
 
 // UserstoreUpdateColumnRetentionDurationRequestType5AttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestType5Attributes schema.
@@ -6724,7 +6724,7 @@ type UserstoreUpdateColumnRetentionDurationRequestType6TFModel struct {
 
 // UserstoreUpdateColumnRetentionDurationRequestType6JSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdateColumnRetentionDurationRequestType6JSONClientModel struct {
-	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty" yaml:"retention_duration,omitempty"`
 }
 
 // UserstoreUpdateColumnRetentionDurationRequestType6AttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestType6Attributes schema.
@@ -6815,7 +6815,7 @@ type UserstoreUpdateColumnRetentionDurationRequestType7TFModel struct {
 
 // UserstoreUpdateColumnRetentionDurationRequestType7JSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdateColumnRetentionDurationRequestType7JSONClientModel struct {
-	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty" yaml:"retention_duration,omitempty"`
 }
 
 // UserstoreUpdateColumnRetentionDurationRequestType7AttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestType7Attributes schema.
@@ -6906,7 +6906,7 @@ type UserstoreUpdateColumnRetentionDurationRequestType8TFModel struct {
 
 // UserstoreUpdateColumnRetentionDurationRequestType8JSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdateColumnRetentionDurationRequestType8JSONClientModel struct {
-	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty"`
+	RetentionDuration *IdpColumnRetentionDurationJSONClientModel `json:"retention_duration,omitempty" yaml:"retention_duration,omitempty"`
 }
 
 // UserstoreUpdateColumnRetentionDurationRequestType8AttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationRequestType8Attributes schema.
@@ -6997,7 +6997,7 @@ type UserstoreUpdateColumnRetentionDurationsRequestTFModel struct {
 
 // UserstoreUpdateColumnRetentionDurationsRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdateColumnRetentionDurationsRequestJSONClientModel struct {
-	RetentionDurations *[]IdpColumnRetentionDurationJSONClientModel `json:"retention_durations,omitempty"`
+	RetentionDurations *[]IdpColumnRetentionDurationJSONClientModel `json:"retention_durations,omitempty" yaml:"retention_durations,omitempty"`
 }
 
 // UserstoreUpdateColumnRetentionDurationsRequestAttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationsRequestAttributes schema.
@@ -7125,7 +7125,7 @@ type UserstoreUpdateColumnRetentionDurationsRequestType2TFModel struct {
 
 // UserstoreUpdateColumnRetentionDurationsRequestType2JSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdateColumnRetentionDurationsRequestType2JSONClientModel struct {
-	RetentionDurations *[]IdpColumnRetentionDurationJSONClientModel `json:"retention_durations,omitempty"`
+	RetentionDurations *[]IdpColumnRetentionDurationJSONClientModel `json:"retention_durations,omitempty" yaml:"retention_durations,omitempty"`
 }
 
 // UserstoreUpdateColumnRetentionDurationsRequestType2AttrTypes defines the attribute types for the UserstoreUpdateColumnRetentionDurationsRequestType2Attributes schema.
@@ -7253,7 +7253,7 @@ type UserstoreUpdateDataTypeRequestTFModel struct {
 
 // UserstoreUpdateDataTypeRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdateDataTypeRequestJSONClientModel struct {
-	DataType *UserstoreColumnDataTypeJSONClientModel `json:"data_type,omitempty"`
+	DataType *UserstoreColumnDataTypeJSONClientModel `json:"data_type,omitempty" yaml:"data_type,omitempty"`
 }
 
 // UserstoreUpdateDataTypeRequestAttrTypes defines the attribute types for the UserstoreUpdateDataTypeRequestAttributes schema.
@@ -7344,7 +7344,7 @@ type UserstoreUpdateMutatorRequestTFModel struct {
 
 // UserstoreUpdateMutatorRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdateMutatorRequestJSONClientModel struct {
-	Mutator *UserstoreMutatorJSONClientModel `json:"mutator,omitempty"`
+	Mutator *UserstoreMutatorJSONClientModel `json:"mutator,omitempty" yaml:"mutator,omitempty"`
 }
 
 // UserstoreUpdateMutatorRequestAttrTypes defines the attribute types for the UserstoreUpdateMutatorRequestAttributes schema.
@@ -7435,7 +7435,7 @@ type UserstoreUpdatePurposeRequestTFModel struct {
 
 // UserstoreUpdatePurposeRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdatePurposeRequestJSONClientModel struct {
-	Purpose *UserstorePurposeJSONClientModel `json:"purpose,omitempty"`
+	Purpose *UserstorePurposeJSONClientModel `json:"purpose,omitempty" yaml:"purpose,omitempty"`
 }
 
 // UserstoreUpdatePurposeRequestAttrTypes defines the attribute types for the UserstoreUpdatePurposeRequestAttributes schema.
@@ -7526,7 +7526,7 @@ type UserstoreUpdateUserSearchIndexRequestTFModel struct {
 
 // UserstoreUpdateUserSearchIndexRequestJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUpdateUserSearchIndexRequestJSONClientModel struct {
-	Index *SearchUserSearchIndexJSONClientModel `json:"index,omitempty"`
+	Index *SearchUserSearchIndexJSONClientModel `json:"index,omitempty" yaml:"index,omitempty"`
 }
 
 // UserstoreUpdateUserSearchIndexRequestAttrTypes defines the attribute types for the UserstoreUpdateUserSearchIndexRequestAttributes schema.
@@ -7617,7 +7617,7 @@ type UserstoreUserSelectorConfigTFModel struct {
 
 // UserstoreUserSelectorConfigJSONClientModel stores data for use with jsonclient for making API requests.
 type UserstoreUserSelectorConfigJSONClientModel struct {
-	WhereClause *string `json:"where_clause,omitempty"`
+	WhereClause *string `json:"where_clause,omitempty" yaml:"where_clause,omitempty"`
 }
 
 // UserstoreUserSelectorConfigAttrTypes defines the attribute types for the UserstoreUserSelectorConfigAttributes schema.
