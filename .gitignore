@@ -6,14 +6,8 @@ heap_profiler/
 goroutine_dump
 console/consoleui/cucumber-report.json
 
-# Used in our CI.
-bin/golint
-bin/berglas
-bin/cockroach
-bin/goimports
-bin/shellcheck
-bin/shfmt
-bin/staticcheck
+# Where we build our binaries and 3rd party binaries to.
+bin/
 
 # Used in our CLI.
 bypass_*
@@ -43,10 +37,6 @@ fastlane/test_output
 # CockroachDB
 lib/
 
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
 
 # Node/React/JS/TS stuff
 node_modules/
