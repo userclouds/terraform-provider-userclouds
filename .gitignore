@@ -6,8 +6,13 @@ heap_profiler/
 goroutine_dump
 console/consoleui/cucumber-report.json
 
-# Where we build our binaries and 3rd party binaries to.
-bin/
+# Used in our CI.
+bin/golint
+bin/berglas
+bin/goimports
+bin/shellcheck
+bin/shfmt
+bin/staticcheck
 
 # Used in our CLI.
 bypass_*
