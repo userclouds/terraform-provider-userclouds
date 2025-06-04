@@ -47,8 +47,8 @@ func (r *UserstoreMutatorResource) Metadata(ctx context.Context, req resource.Me
 // Schema describes the resource schema.
 func (r *UserstoreMutatorResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description:         "Manages a User Store mutator. For more details, refer to the mutators documentation: https://docs.userclouds.com/docs/mutators-write-apis",
-		MarkdownDescription: "Manages a User Store mutator. For more details, refer to the [mutators documentation](https://docs.userclouds.com/docs/mutators-write-apis).",
+		Description:         "Manages a User Store mutator. For more details, refer to the mutators documentation: https://docs.userclouds.com/docs/guides/definitions/mutators-write-apis/",
+		MarkdownDescription: "Manages a User Store mutator. For more details, refer to the [mutators documentation](https://docs.userclouds.com/docs/guides/definitions/mutators-write-apis/).",
 		Attributes:          UserstoreMutatorAttributes,
 	}
 }

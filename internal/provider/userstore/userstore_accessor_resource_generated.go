@@ -47,8 +47,8 @@ func (r *UserstoreAccessorResource) Metadata(ctx context.Context, req resource.M
 // Schema describes the resource schema.
 func (r *UserstoreAccessorResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description:         "Manages a User Store accessor. For more details, refer to the accessors documentation: https://docs.userclouds.com/docs/accessors-read-apis",
-		MarkdownDescription: "Manages a User Store accessor. For more details, refer to the [accessors documentation](https://docs.userclouds.com/docs/accessors-read-apis).",
+		Description:         "Manages a User Store accessor. For more details, refer to the accessors documentation: https://docs.userclouds.com/docs/guides/definitions/accessors-read-apis/",
+		MarkdownDescription: "Manages a User Store accessor. For more details, refer to the [accessors documentation](https://docs.userclouds.com/docs/guides/definitions/accessors-read-apis/).",
 		Attributes:          UserstoreAccessorAttributes,
 	}
 }

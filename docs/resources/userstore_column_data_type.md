@@ -3,12 +3,12 @@
 page_title: "userclouds_userstore_column_data_type Resource - terraform-provider-userclouds"
 subcategory: ""
 description: |-
-  Manages a User Store column data type. For more details, refer to the User Store documentation https://docs.userclouds.com/docs/introduction.
+  Manages a User Store column data type. For more details, refer to the User Store documentation https://docs.userclouds.com/docs.
 ---
 
 # userclouds_userstore_column_data_type (Resource)
 
-Manages a User Store column data type. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs/introduction).
+Manages a User Store column data type. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs).
 
 
 

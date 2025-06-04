@@ -3,12 +3,12 @@
 page_title: "userclouds_userstore_column_soft_deleted_retention_duration Resource - terraform-provider-userclouds"
 subcategory: ""
 description: |-
-  Manages a soft-deleted retention duration setting for a User Store column. For more details, refer to the User Store documentation https://docs.userclouds.com/docs/introduction.
+  Manages a soft-deleted retention duration setting for a User Store column. For more details, refer to the User Store documentation https://docs.userclouds.com/docs.
 ---
 
 # userclouds_userstore_column_soft_deleted_retention_duration (Resource)
 
-Manages a soft-deleted retention duration setting for a User Store column. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs/introduction).
+Manages a soft-deleted retention duration setting for a User Store column. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs).
 
 
 

@@ -47,8 +47,8 @@ func (r *UserstoreColumnSoftDeletedRetentionDurationResource) Metadata(ctx conte
 // Schema describes the resource schema.
 func (r *UserstoreColumnSoftDeletedRetentionDurationResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description:         "Manages a soft-deleted retention duration setting for a User Store column. For more details, refer to the User Store documentation: https://docs.userclouds.com/docs/introduction",
-		MarkdownDescription: "Manages a soft-deleted retention duration setting for a User Store column. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs/introduction).",
+		Description:         "Manages a soft-deleted retention duration setting for a User Store column. For more details, refer to the User Store documentation: https://docs.userclouds.com/docs",
+		MarkdownDescription: "Manages a soft-deleted retention duration setting for a User Store column. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs).",
 		Attributes:          IdpColumnRetentionDurationAttributes,
 	}
 }

@@ -47,8 +47,8 @@ func (r *UserstoreColumnDataTypeResource) Metadata(ctx context.Context, req reso
 // Schema describes the resource schema.
 func (r *UserstoreColumnDataTypeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description:         "Manages a User Store column data type. For more details, refer to the User Store documentation: https://docs.userclouds.com/docs/introduction",
-		MarkdownDescription: "Manages a User Store column data type. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs/introduction).",
+		Description:         "Manages a User Store column data type. For more details, refer to the User Store documentation: https://docs.userclouds.com/docs",
+		MarkdownDescription: "Manages a User Store column data type. For more details, refer to the [User Store documentation](https://docs.userclouds.com/docs).",
 		Attributes:          UserstoreColumnDataTypeAttributes,
 	}
 }
