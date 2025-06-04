@@ -3,12 +3,12 @@
 page_title: "userclouds_userstore_accessor Resource - terraform-provider-userclouds"
 subcategory: ""
 description: |-
-  Manages a User Store accessor. For more details, refer to the accessors documentation https://docs.userclouds.com/docs/accessors-read-apis.
+  Manages a User Store accessor. For more details, refer to the accessors documentation https://docs.userclouds.com/docs/guides/definitions/accessors-read-apis/.
 ---
 
 # userclouds_userstore_accessor (Resource)
 
-Manages a User Store accessor. For more details, refer to the [accessors documentation](https://docs.userclouds.com/docs/accessors-read-apis).
+Manages a User Store accessor. For more details, refer to the [accessors documentation](https://docs.userclouds.com/docs/guides/definitions/accessors-read-apis/).
 
 
 

@@ -3,12 +3,12 @@
 page_title: "userclouds_userstore_purpose Resource - terraform-provider-userclouds"
 subcategory: ""
 description: |-
-  Manages a User Store purpose. For more details, refer to the purposes documentation https://docs.userclouds.com/docs/purpose-and-consent.
+  Manages a User Store purpose. For more details, refer to the purposes documentation https://docs.userclouds.com/docs/guides/definitions/purpose-and-consent/.
 ---
 
 # userclouds_userstore_purpose (Resource)
 
-Manages a User Store purpose. For more details, refer to the [purposes documentation](https://docs.userclouds.com/docs/purpose-and-consent).
+Manages a User Store purpose. For more details, refer to the [purposes documentation](https://docs.userclouds.com/docs/guides/definitions/purpose-and-consent/).
 
 
 

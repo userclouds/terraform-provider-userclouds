@@ -3,12 +3,12 @@
 page_title: "userclouds_access_policy_template Resource - terraform-provider-userclouds"
 subcategory: ""
 description: |-
-  Manages a Tokenizer access policy template. For more details, refer to the Tokenizer how-to guide https://docs.userclouds.com/docs/create-an-access-policy-copy.
+  Manages a Tokenizer access policy template. For more details, refer to the Tokenizer how-to guide https://docs.userclouds.com/docs/guides/how-to-guides/create-an-access-policy/.
 ---
 
 # userclouds_access_policy_template (Resource)
 
-Manages a Tokenizer access policy template. For more details, refer to the [Tokenizer how-to guide](https://docs.userclouds.com/docs/create-an-access-policy-copy).
+Manages a Tokenizer access policy template. For more details, refer to the [Tokenizer how-to guide](https://docs.userclouds.com/docs/guides/how-to-guides/create-an-access-policy/).
 
 
 

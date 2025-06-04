@@ -3,12 +3,12 @@
 page_title: "userclouds_access_policy Resource - terraform-provider-userclouds"
 subcategory: ""
 description: |-
-  Manages a Tokenizer access policy. For more details, refer to the access policy documentation https://docs.userclouds.com/docs/token-access-policies.
+  Manages a Tokenizer access policy. For more details, refer to the access policy documentation https://docs.userclouds.com/docs/guides/definitions/token-access-policies/.
 ---
 
 # userclouds_access_policy (Resource)
 
-Manages a Tokenizer access policy. For more details, refer to the [access policy documentation](https://docs.userclouds.com/docs/token-access-policies).
+Manages a Tokenizer access policy. For more details, refer to the [access policy documentation](https://docs.userclouds.com/docs/guides/definitions/token-access-policies/).
 
 
 
